@@ -1,4 +1,4 @@
-package org.vfs.core.core;
+package org.vfs.core.api.operation;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -10,6 +10,8 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vfs.core.api.FileManager;
+import org.vfs.core.api.PathName;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

@@ -1,10 +1,12 @@
-package org.vfs.core.core;
+package org.vfs.core.api.operation;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vfs.core.api.FileManager;
+import org.vfs.core.api.PathName;
 
 import java.io.File;
 import java.io.IOException;

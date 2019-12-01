@@ -1,5 +1,8 @@
-package org.vfs.core.core;
+package org.vfs.core.api.operation;
 
+import org.vfs.core.api.AbstractOperation;
+import org.vfs.core.api.FileManager;
+import org.vfs.core.api.PathName;
 import org.vfs.core.util.DirectoryStreamPathName;
 
 import java.io.*;

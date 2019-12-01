@@ -1,4 +1,7 @@
-package org.vfs.core.core;
+package org.vfs.core.api;
+
+import org.vfs.core.api.FileManager;
+import org.vfs.core.api.PathName;
 
 import java.nio.file.Path;
 import java.util.Optional;

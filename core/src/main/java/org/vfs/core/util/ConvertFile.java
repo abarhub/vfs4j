@@ -2,7 +2,7 @@ package org.vfs.core.util;
 
 import org.vfs.core.config.Parameter;
 import org.vfs.core.config.VFSConfig;
-import org.vfs.core.core.PathName;
+import org.vfs.core.api.PathName;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

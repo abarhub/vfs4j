@@ -1,5 +1,8 @@
-package org.vfs.core.core;
+package org.vfs.core.api.operation;
 
+import org.vfs.core.api.AbstractOperation;
+import org.vfs.core.api.FileManager;
+import org.vfs.core.api.PathName;
 import org.vfs.core.exception.VFSInvalidPathException;
 import org.vfs.core.util.ValidationUtils;
 
@@ -12,7 +15,6 @@ import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.attribute.FileAttribute;
-import java.util.NoSuchElementException;
 import java.util.function.Supplier;
 
 public class Command extends AbstractOperation {

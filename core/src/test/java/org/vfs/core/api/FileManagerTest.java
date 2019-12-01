@@ -1,4 +1,4 @@
-package org.vfs.core.core;
+package org.vfs.core.api;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;

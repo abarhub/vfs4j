@@ -1,7 +1,11 @@
-package org.vfs.core.core;
+package org.vfs.core.api;
 
 import org.vfs.core.config.Parameter;
 import org.vfs.core.config.VFSConfig;
+import org.vfs.core.api.operation.Command;
+import org.vfs.core.api.operation.Open;
+import org.vfs.core.api.operation.Query;
+import org.vfs.core.api.operation.Search;
 import org.vfs.core.util.ConvertFile;
 import org.vfs.core.util.ValidationUtils;
 

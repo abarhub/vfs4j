@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vfs.core.config.VFSConfig;
-import org.vfs.core.core.PathName;
+import org.vfs.core.api.PathName;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

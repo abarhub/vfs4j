@@ -1,11 +1,10 @@
-package org.vfs.core.core;
+package org.vfs.core.api;
 
 import org.vfs.core.util.ValidationUtils;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
-import java.util.StringJoiner;
 
 public class PathName {
 

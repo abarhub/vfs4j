@@ -1,4 +1,4 @@
-package org.vfs.core.core;
+package org.vfs.core.api;
 
 import org.vfs.core.exception.VFSException;
 
