@@ -16,6 +16,7 @@ public class FileManager {
     private Query query;
     private Open open;
     private Search search;
+    private Attribute attribute;
     private ConvertFile convertFile;
 
     public FileManager() {
@@ -25,6 +26,7 @@ public class FileManager {
         query=new SimpleQuery(this);
         open=new SimpleOpen(this);
         search=new SimpleSearch(this);
+        attribute=new SimpleAttribute(this);
     }
 
     public FileManager(FileManagerBuilder fileManagerBuilder) {
@@ -34,6 +36,7 @@ public class FileManager {
         query=new SimpleQuery(this);
         open=new SimpleOpen(this);
         search=new SimpleSearch(this);
+        attribute=new SimpleAttribute(this);
     }
 
     public void addPath(String name, Path path){
@@ -77,5 +80,9 @@ public class FileManager {
 
     public Search getSearch() {
         return search;
+    }
+
+    public Attribute getAttribute() {
+        return attribute;
     }
 }
