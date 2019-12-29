@@ -21,16 +21,16 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SearchTest {
+class SimpleSearchTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SearchTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleSearchTest.class);
     public static final String PATH1 = "path1";
 
     private FileManager fileManager;
 
     private Path directory;
 
-    private Search search;
+    private SimpleSearch simpleSearch;
 
     @BeforeEach
     void setUp(@TempDir Path tempDir) throws IOException {
@@ -46,7 +46,7 @@ class SearchTest {
         fileManager=new FileManager();
         fileManager.addPath(PATH1,temp);
 
-        search=new Search(fileManager);
+        simpleSearch =new SimpleSearch(fileManager);
     }
 
     @Test
@@ -63,7 +63,7 @@ class SearchTest {
         }
 
         // methode testée
-        try(Stream<PathName> res=search.list(getPathName(filename))) {
+        try(Stream<PathName> res= simpleSearch.list(getPathName(filename))) {
 
             // vérifications
             assertNotNull(res);
@@ -89,7 +89,7 @@ class SearchTest {
         }
 
         // methode testée
-        try(Stream<PathName> res=search.walk(getPathName(filename),5)) {
+        try(Stream<PathName> res= simpleSearch.walk(getPathName(filename),5)) {
 
             // vérifications
             assertNotNull(res);
@@ -115,7 +115,7 @@ class SearchTest {
         }
 
         // methode testée
-        try(Stream<PathName> res=search.walk(getPathName(filename))) {
+        try(Stream<PathName> res= simpleSearch.walk(getPathName(filename))) {
 
             // vérifications
             assertNotNull(res);
@@ -141,7 +141,7 @@ class SearchTest {
         }
 
         // methode testée
-        try(Stream<PathName> res=search.find(getPathName(filename),10,(x,y)->true)) {
+        try(Stream<PathName> res= simpleSearch.find(getPathName(filename),10,(x, y)->true)) {
 
             // vérifications
             assertNotNull(res);

@@ -1,11 +1,8 @@
 package org.vfs.core.api;
 
+import org.vfs.core.api.operation.*;
 import org.vfs.core.config.Parameter;
 import org.vfs.core.config.VFSConfig;
-import org.vfs.core.api.operation.Command;
-import org.vfs.core.api.operation.Open;
-import org.vfs.core.api.operation.Query;
-import org.vfs.core.api.operation.Search;
 import org.vfs.core.util.ConvertFile;
 import org.vfs.core.util.ValidationUtils;
 
@@ -23,20 +20,20 @@ public class FileManager {
 
     public FileManager() {
         vfsConfig=new VFSConfig();
-        command=new Command(this);
+        command=new SimpleCommand(this);
         convertFile=new ConvertFile(vfsConfig);
-        query=new Query(this);
-        open=new Open(this);
-        search=new Search(this);
+        query=new SimpleQuery(this);
+        open=new SimpleOpen(this);
+        search=new SimpleSearch(this);
     }
 
     public FileManager(FileManagerBuilder fileManagerBuilder) {
         vfsConfig=fileManagerBuilder.build();
-        command=new Command(this);
+        command=new SimpleCommand(this);
         convertFile=new ConvertFile(vfsConfig);
-        query=new Query(this);
-        open=new Open(this);
-        search=new Search(this);
+        query=new SimpleQuery(this);
+        open=new SimpleOpen(this);
+        search=new SimpleSearch(this);
     }
 
     public void addPath(String name, Path path){

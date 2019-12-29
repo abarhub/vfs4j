@@ -24,16 +24,16 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class QueryTest {
+class SimpleQueryTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(QueryTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleQueryTest.class);
     public static final String PATH1 = "path1";
 
     private FileManager fileManager;
 
     private Path directory;
 
-    private Query query;
+    private SimpleQuery simpleQuery;
 
     @BeforeEach
     void setUp(@TempDir Path tempDir) throws IOException {
@@ -49,7 +49,7 @@ class QueryTest {
         fileManager=new FileManager();
         fileManager.addPath(PATH1,temp);
 
-        query=new Query(fileManager);
+        simpleQuery =new SimpleQuery(fileManager);
     }
 
     @Test
@@ -61,7 +61,7 @@ class QueryTest {
         assertTrue(Files.exists(file));
 
         // methode testée
-        boolean res=query.exists(getPathName(filename));
+        boolean res= simpleQuery.exists(getPathName(filename));
 
         // vérifications
         assertTrue(res);
@@ -75,7 +75,7 @@ class QueryTest {
         assertFalse(Files.exists(file));
 
         // methode testée
-        boolean res=query.exists(getPathName(filename));
+        boolean res= simpleQuery.exists(getPathName(filename));
 
         // vérifications
         assertFalse(res);
@@ -90,7 +90,7 @@ class QueryTest {
         assertTrue(Files.isDirectory(file));
 
         // methode testée
-        boolean res=query.isDirectory(getPathName(filename));
+        boolean res= simpleQuery.isDirectory(getPathName(filename));
 
         // vérifications
         assertTrue(res);
@@ -105,7 +105,7 @@ class QueryTest {
         assertFalse(Files.isDirectory(file));
 
         // methode testée
-        boolean res=query.isDirectory(getPathName(filename));
+        boolean res= simpleQuery.isDirectory(getPathName(filename));
 
         // vérifications
         assertFalse(res);
@@ -120,7 +120,7 @@ class QueryTest {
         assertTrue(Files.isRegularFile(file));
 
         // methode testée
-        boolean res=query.isRegularFile(getPathName(filename));
+        boolean res= simpleQuery.isRegularFile(getPathName(filename));
 
         // vérifications
         assertTrue(res);
@@ -135,7 +135,7 @@ class QueryTest {
         assertFalse(Files.isRegularFile(file));
 
         // methode testée
-        boolean res=query.isRegularFile(getPathName(filename));
+        boolean res= simpleQuery.isRegularFile(getPathName(filename));
 
         // vérifications
         assertFalse(res);
@@ -164,7 +164,7 @@ class QueryTest {
         assertEquals(resultat, Files.isSameFile(file, file2));
 
         // methode testée
-        boolean res=query.isSameFile(getPathName(filename), getPathName(filename2));
+        boolean res= simpleQuery.isSameFile(getPathName(filename), getPathName(filename2));
 
         // vérifications
         assertEquals(resultat, res);
@@ -183,7 +183,7 @@ class QueryTest {
         assertTrue(Files.isSymbolicLink(file));
 
         // methode testée
-        boolean res=query.isSymbolicLink(getPathName(filename));
+        boolean res= simpleQuery.isSymbolicLink(getPathName(filename));
 
         // vérifications
         assertTrue(res);
@@ -199,7 +199,7 @@ class QueryTest {
         assertFalse(Files.isSymbolicLink(file));
 
         // methode testée
-        boolean res=query.isSymbolicLink(getPathName(filename));
+        boolean res= simpleQuery.isSymbolicLink(getPathName(filename));
 
         // vérifications
         assertFalse(res);
@@ -214,7 +214,7 @@ class QueryTest {
         Files.write(file, lignes, StandardCharsets.UTF_8);
 
         // methode testée
-        try(Stream<String> res=query.lines(getPathName(filename))) {
+        try(Stream<String> res= simpleQuery.lines(getPathName(filename))) {
 
             // vérifications
             assertNotNull(res);
@@ -232,7 +232,7 @@ class QueryTest {
         Files.write(file, lignes, StandardCharsets.UTF_8);
 
         // methode testée
-        try(Stream<String> res=query.lines(getPathName(filename), StandardCharsets.UTF_8)) {
+        try(Stream<String> res= simpleQuery.lines(getPathName(filename), StandardCharsets.UTF_8)) {
 
             // vérifications
             assertNotNull(res);
@@ -249,7 +249,7 @@ class QueryTest {
         assertTrue(Files.notExists(file));
 
         // methode testée
-        boolean res=query.notExists(getPathName(filename));
+        boolean res= simpleQuery.notExists(getPathName(filename));
 
         // vérifications
         assertTrue(res);
@@ -264,7 +264,7 @@ class QueryTest {
         assertFalse(Files.notExists(file));
 
         // methode testée
-        boolean res=query.notExists(getPathName(filename));
+        boolean res= simpleQuery.notExists(getPathName(filename));
 
         // vérifications
         assertFalse(res);
@@ -279,7 +279,7 @@ class QueryTest {
         Files.write(file, contenu.getBytes(StandardCharsets.UTF_8));
 
         // methode testée
-        byte[] res=query.readAllBytes(getPathName(filename));
+        byte[] res= simpleQuery.readAllBytes(getPathName(filename));
 
         // vérifications
         assertArrayEquals(contenu.getBytes(StandardCharsets.UTF_8), res);
@@ -294,7 +294,7 @@ class QueryTest {
         Files.write(file, lignes, StandardCharsets.UTF_8);
 
         // methode testée
-        List<String> res=query.readAllLines(getPathName(filename));
+        List<String> res= simpleQuery.readAllLines(getPathName(filename));
 
         // vérifications
         assertEquals(lignes, res);
@@ -309,7 +309,7 @@ class QueryTest {
         Files.write(file, lignes, StandardCharsets.UTF_8);
 
         // methode testée
-        List<String> res=query.readAllLines(getPathName(filename), StandardCharsets.UTF_8);
+        List<String> res= simpleQuery.readAllLines(getPathName(filename), StandardCharsets.UTF_8);
 
         // vérifications
         assertEquals(lignes, res);
@@ -324,7 +324,7 @@ class QueryTest {
         Files.write(file, contenu.getBytes(StandardCharsets.UTF_8));
 
         // methode testée
-        long res=query.size(getPathName(filename));
+        long res= simpleQuery.size(getPathName(filename));
 
         // vérifications
         assertEquals(contenu.length(), res);

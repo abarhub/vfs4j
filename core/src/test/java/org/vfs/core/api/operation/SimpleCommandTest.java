@@ -22,16 +22,16 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CommandTest {
+class SimpleCommandTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommandTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleCommandTest.class);
     public static final String PATH1 = "path1";
 
     private FileManager fileManager;
 
     private Path directory;
 
-    private Command command;
+    private SimpleCommand command;
 
     @BeforeEach
     void setUp(@TempDir Path tempDir) throws IOException {
@@ -45,7 +45,7 @@ class CommandTest {
         fileManager=new FileManager();
         fileManager.addPath(PATH1,temp);
 
-        command=new Command(fileManager);
+        command=new SimpleCommand(fileManager);
     }
 
     @Test

@@ -23,9 +23,9 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AttributeTest {
+class SimpleAttributeTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AttributeTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleAttributeTest.class);
     public static final String PATH1 = "path1";
     public static final String LAST_MODIFIED_TIME_ATTRIBUTE = "lastModifiedTime";
 
@@ -33,7 +33,7 @@ class AttributeTest {
 
     private Path directory;
 
-    private Attribute attribute;
+    private SimpleAttribute attribute;
 
     @BeforeEach
     void setUp(@TempDir Path tempDir) throws IOException {
@@ -49,7 +49,7 @@ class AttributeTest {
         fileManager=new FileManager();
         fileManager.addPath(PATH1,temp);
 
-        attribute=new Attribute(fileManager);
+        attribute=new SimpleAttribute(fileManager);
     }
 
     @Test
