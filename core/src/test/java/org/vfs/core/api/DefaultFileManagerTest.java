@@ -35,8 +35,8 @@ class DefaultFileManagerTest {
         Files.createDirectory(path01);
         Files.createDirectory(path02);
         Properties properties=new Properties();
-        properties.put("vfs."+dir1+".path",path1);
-        properties.put("vfs."+dir2+".path",path2);
+        properties.put("vfs.paths."+dir1+".path",path1);
+        properties.put("vfs.paths."+dir2+".path",path2);
         Path configFile=directory.resolve("vfs.properties");
         try(Writer writer=Files.newBufferedWriter(configFile)) {
             properties.store(writer, "");
@@ -67,8 +67,8 @@ class DefaultFileManagerTest {
         Files.createDirectory(path01);
         Files.createDirectory(path02);
         Properties properties=new Properties();
-        properties.put("vfs."+dir1+".path",path1);
-        properties.put("vfs."+dir2+".path",path2);
+        properties.put("vfs.paths."+dir1+".path",path1);
+        properties.put("vfs.paths."+dir2+".path",path2);
         Path configFile=directory.resolve("vfs.properties");
         try(Writer writer=Files.newBufferedWriter(configFile)) {
             properties.store(writer, "");
