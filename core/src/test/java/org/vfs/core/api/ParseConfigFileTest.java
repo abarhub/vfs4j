@@ -21,8 +21,8 @@ class ParseConfigFileTest {
         final String dir2 = "dir2";
         final String path2 = "dir2";
         Properties properties=new Properties();
-        properties.put("vfs.dir1.path",path1);
-        properties.put("vfs.dir2.path",path2);
+        properties.put("vfs.paths.dir1.path",path1);
+        properties.put("vfs.paths.dir2.path",path2);
         ParseConfigFile parseConfigFile=new ParseConfigFile();
 
         // methode testée

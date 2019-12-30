@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 public class ParseConfigFile {
 
     public static final String PREFIX = "vfs.";
+    public static final String PREFIX_PATHS = PREFIX+"paths.";
     public static final String SUFFIX_PATH = ".path";
     public static final String VALIDE_NAME = "[a-zA-Z][a-zA-Z0-9]*";
 
@@ -19,9 +20,9 @@ public class ParseConfigFile {
         Set<Object> keys=properties.keySet();
         Map<String, String> map=new HashMap<>();
         for(Object o:keys){
-            if(o !=null&&o instanceof String){
+            if(o instanceof String){
                 Object o2=properties.get(o);
-                if(o2!=null&&o2 instanceof String){
+                if(o2 instanceof String){
                     String key= (String) o;
                     String value= (String) o2;
                     map.put(key, value);
@@ -31,8 +32,8 @@ public class ParseConfigFile {
         // détermination des noms
         List<String> liste=map.keySet()
                 .stream()
-                .filter(x -> x.startsWith(PREFIX))
-                .map(x -> x.substring(PREFIX.length()))
+                .filter(x -> x.startsWith(PREFIX_PATHS))
+                .map(x -> x.substring(PREFIX_PATHS.length()))
                 .filter(x -> x.endsWith(SUFFIX_PATH))
                 .map(x -> x.substring(0, x.indexOf(SUFFIX_PATH)))
                 .filter(x -> !x.trim().isEmpty())
@@ -42,7 +43,7 @@ public class ParseConfigFile {
 
         // ajout des paths dans fileManagerBuilder
         for(String nom:liste){
-            String key= PREFIX +nom+ SUFFIX_PATH;
+            String key= PREFIX_PATHS +nom+ SUFFIX_PATH;
             if(map.containsKey(key)){
                 String value=map.get(key);
                 if(value==null||value.trim().isEmpty()){
