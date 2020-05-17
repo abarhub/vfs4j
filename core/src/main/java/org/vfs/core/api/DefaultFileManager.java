@@ -1,5 +1,6 @@
 package org.vfs.core.api;
 
+import org.slf4j.Logger;
 import org.vfs.core.exception.VFSException;
 import org.vfs.core.util.VFSLoggerFactory;
 
@@ -10,7 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 public class DefaultFileManager {
 
