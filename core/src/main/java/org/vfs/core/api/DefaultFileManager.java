@@ -1,8 +1,7 @@
 package org.vfs.core.api;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.vfs.core.exception.VFSException;
+import org.vfs.core.util.VFSLoggerFactory;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,13 +9,14 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Properties;
+import java.util.logging.Logger;
 
 public class DefaultFileManager {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultFileManager.class);
+    private static final Logger LOGGER = VFSLoggerFactory.getLogger(DefaultFileManager.class);
 
-    private static FileManager fileManager= createFileManager();
+    private static FileManager fileManager = createFileManager();
 
     protected static FileManager createFileManager() {
         FileManagerBuilder fileManagerBuilder;
@@ -25,21 +25,21 @@ public class DefaultFileManager {
 
         Properties properties = getProperties();
 
-        if(properties!=null&&!properties.isEmpty()){
+        if (properties != null && !properties.isEmpty()) {
             // construction de la map des propriétés (on enlève ce qui n'est pas de type string)
-            ParseConfigFile parseConfigFile=new ParseConfigFile();
-            fileManagerBuilder=parseConfigFile.parse(properties);
+            ParseConfigFile parseConfigFile = new ParseConfigFile();
+            fileManagerBuilder = parseConfigFile.parse(properties);
         } else {
-            fileManagerBuilder=new FileManagerBuilder();
+            fileManagerBuilder = new FileManagerBuilder();
         }
 
         return new FileManager(fileManagerBuilder);
     }
 
     private static Properties getProperties() {
-        Properties properties=null;
+        Properties properties = null;
 
-        if(properties==null) {
+        if (properties == null) {
             // lecture du fichier de configuration dans la propriété VFS_CONFIG
             String vfsConfigPath = System.getProperty("VFS_CONFIG");
             if (vfsConfigPath != null && !vfsConfigPath.trim().isEmpty()) {
@@ -57,10 +57,10 @@ public class DefaultFileManager {
             }
         }
 
-        if(properties==null) {
+        if (properties == null) {
             // lecture du fichier de configuration dans le classpath
             try (InputStream is = DefaultFileManager.class.getResourceAsStream("/vfs.properties")) {
-                if(is!=null) {
+                if (is != null) {
                     properties = new Properties();
                     properties.load(is);
                 }
@@ -74,7 +74,7 @@ public class DefaultFileManager {
         return properties;
     }
 
-    public static FileManager get(){
+    public static FileManager get() {
         return fileManager;
     }
 

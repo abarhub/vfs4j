@@ -14,6 +14,7 @@ public class ParseConfigFile {
     public static final String SUFFIX_PATH = ".path";
     public static final String VALIDE_NAME = "[a-zA-Z][a-zA-Z0-9]*";
 
+    // construction de la map des propriétés (on enlève ce qui n'est pas de type string)
     public FileManagerBuilder parse(Properties properties){
         FileManagerBuilder fileManagerBuilder=new FileManagerBuilder();
 
