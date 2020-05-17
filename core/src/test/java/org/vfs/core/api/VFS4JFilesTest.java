@@ -8,8 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.vfs.core.api.operation.*;
 
 import java.io.IOException;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
 import java.nio.file.LinkOption;
 import java.nio.file.attribute.*;
 import java.util.HashMap;
@@ -18,7 +16,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 class VFS4JFilesTest {
@@ -320,23 +319,77 @@ class VFS4JFilesTest {
     }
 
     @Test
-    void createFile() {
+    void createFile() throws IOException {
+        LOGGER.info("createFile");
+        PathName pathName = getPathName();
+
+        final FileAttribute fileAttribute = mock(FileAttribute.class);
+
+        // methode testée
+        VFS4JFiles.createFile(pathName, fileAttribute);
+
+        // vérification
+        verify(fileManager.getCommand()).createFile(pathName, fileAttribute);
+        verifyNoMoreInteractions(fileManager.getAttribute());
     }
 
     @Test
-    void createDirectory() {
+    void createDirectory() throws IOException {
+        LOGGER.info("createDirectory");
+        PathName pathName = getPathName();
+
+        final FileAttribute fileAttribute = mock(FileAttribute.class);
+
+        // methode testée
+        VFS4JFiles.createDirectory(pathName, fileAttribute);
+
+        // vérification
+        verify(fileManager.getCommand()).createDirectory(pathName, fileAttribute);
+        verifyNoMoreInteractions(fileManager.getAttribute());
     }
 
     @Test
-    void createDirectories() {
+    void createDirectories() throws IOException {
+        LOGGER.info("createDirectories");
+        PathName pathName = getPathName();
+
+        final FileAttribute fileAttribute = mock(FileAttribute.class);
+
+        // methode testée
+        VFS4JFiles.createDirectories(pathName, fileAttribute);
+
+        // vérification
+        verify(fileManager.getCommand()).createDirectories(pathName, fileAttribute);
+        verifyNoMoreInteractions(fileManager.getAttribute());
     }
 
     @Test
-    void delete() {
+    void delete() throws IOException {
+        LOGGER.info("delete");
+        PathName pathName = getPathName();
+
+        // methode testée
+        VFS4JFiles.delete(pathName);
+
+        // vérification
+        verify(fileManager.getCommand()).delete(pathName);
+        verifyNoMoreInteractions(fileManager.getAttribute());
     }
 
     @Test
-    void deleteIfExists() {
+    void deleteIfExists() throws IOException {
+        LOGGER.info("deleteIfExists");
+        PathName pathName = getPathName();
+
+        when(fileManager.getCommand().deleteIfExists(pathName)).thenReturn(true);
+
+        // methode testée
+        boolean res = VFS4JFiles.deleteIfExists(pathName);
+
+        // vérification
+        assertTrue(res);
+        verify(fileManager.getCommand()).deleteIfExists(pathName);
+        verifyNoMoreInteractions(fileManager.getAttribute());
     }
 
     @Test
