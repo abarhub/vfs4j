@@ -25,3 +25,6 @@ hs_err_pid*
 core/core.iml
 core/target/
 /parent.iml
+/tests/simple/target/
+/tests/vfs-tests-parent.iml
+/tests/simple/vfs-tests.iml

@@ -3,6 +3,7 @@ package org.vfs.core.util;
 import org.vfs.core.config.Parameter;
 import org.vfs.core.config.VFSConfig;
 import org.vfs.core.api.PathName;
+import org.vfs.core.exception.VFSInvalideParameterException;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,7 +22,9 @@ public class ConvertFile {
     public Path getRealFile(PathName file){
         ValidationUtils.checkNotNull(file,"Path is null");
         Parameter p=vfsConfig.getPath(file.getName());
-        ValidationUtils.checkNotNull(p,"PathName doesn't exist");
+        if(p==null){
+            throw new VFSInvalideParameterException("PathName '"+file.getName()+"' doesn't exist");
+        }
         Path path;
         if(file.getPath()==null||file.getPath().isEmpty()){
             path=p.getPath();
