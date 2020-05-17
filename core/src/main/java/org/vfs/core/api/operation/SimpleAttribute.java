@@ -3,7 +3,7 @@ package org.vfs.core.api.operation;
 import org.vfs.core.api.AbstractOperation;
 import org.vfs.core.api.FileManager;
 import org.vfs.core.api.PathName;
-import org.vfs.core.exception.VFSInvalidPathException;
+import org.vfs.core.exception.VFS4JInvalidPathException;
 import org.vfs.core.util.ValidationUtils;
 
 import java.io.IOException;
@@ -137,7 +137,7 @@ public class SimpleAttribute extends AbstractOperation implements Attribute {
         return Files.readAttributes(p, type, options);
     }
 
-    private Supplier<VFSInvalidPathException> throwInvalidePath(Path path) {
-        return () -> new VFSInvalidPathException("Invalide Path", path);
+    private Supplier<VFS4JInvalidPathException> throwInvalidePath(Path path) {
+        return () -> new VFS4JInvalidPathException("Invalide Path", path);
     }
 }

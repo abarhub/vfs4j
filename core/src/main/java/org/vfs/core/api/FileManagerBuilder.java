@@ -1,7 +1,7 @@
 package org.vfs.core.api;
 
-import org.vfs.core.config.Parameter;
-import org.vfs.core.config.VFSConfig;
+import org.vfs.core.config.PathParameter;
+import org.vfs.core.config.VFS4JConfig;
 import org.vfs.core.util.ValidationUtils;
 
 import java.nio.file.Path;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class FileManagerBuilder {
 
-    private final Map<String, Parameter> listeConfig;
+    private final Map<String, PathParameter> listeConfig;
 
     public FileManagerBuilder() {
         listeConfig=new HashMap<>();
@@ -19,12 +19,12 @@ public class FileManagerBuilder {
     public FileManagerBuilder addPath(String name, Path path, boolean readonly){
         ValidationUtils.checkNotEmpty(name,"Name is empty");
         ValidationUtils.checkNotNull(path,"Path is null");
-        listeConfig.put(name,new Parameter(path,readonly));
+        listeConfig.put(name,new PathParameter(path,readonly));
         return this;
     }
 
-    public VFSConfig build(){
-        return new VFSConfig(listeConfig);
+    public VFS4JConfig build(){
+        return new VFS4JConfig(listeConfig);
     }
 
 

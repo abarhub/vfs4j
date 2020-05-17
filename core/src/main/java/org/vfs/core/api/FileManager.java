@@ -1,8 +1,8 @@
 package org.vfs.core.api;
 
 import org.vfs.core.api.operation.*;
-import org.vfs.core.config.Parameter;
-import org.vfs.core.config.VFSConfig;
+import org.vfs.core.config.PathParameter;
+import org.vfs.core.config.VFS4JConfig;
 import org.vfs.core.util.ConvertFile;
 import org.vfs.core.util.ValidationUtils;
 
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class FileManager {
 
-    private VFSConfig vfsConfig;
+    private VFS4JConfig vfs4JConfig;
     private Command command;
     private Query query;
     private Open open;
@@ -20,9 +20,9 @@ public class FileManager {
     private ConvertFile convertFile;
 
     public FileManager() {
-        vfsConfig=new VFSConfig();
+        vfs4JConfig =new VFS4JConfig();
         command=new SimpleCommand(this);
-        convertFile=new ConvertFile(vfsConfig);
+        convertFile=new ConvertFile(vfs4JConfig);
         query=new SimpleQuery(this);
         open=new SimpleOpen(this);
         search=new SimpleSearch(this);
@@ -30,9 +30,9 @@ public class FileManager {
     }
 
     public FileManager(FileManagerBuilder fileManagerBuilder) {
-        vfsConfig=fileManagerBuilder.build();
+        vfs4JConfig =fileManagerBuilder.build();
         command=new SimpleCommand(this);
-        convertFile=new ConvertFile(vfsConfig);
+        convertFile=new ConvertFile(vfs4JConfig);
         query=new SimpleQuery(this);
         open=new SimpleOpen(this);
         search=new SimpleSearch(this);
@@ -42,18 +42,18 @@ public class FileManager {
     public void addPath(String name, Path path){
         ValidationUtils.checkNotEmpty(name,"Name is empty");
         ValidationUtils.checkNotNull(path,"Path is null");
-        vfsConfig.addPath(name,path,false);
+        vfs4JConfig.addPath(name,path,false);
     }
 
     public void addPathRealOnly(String name, Path path){
         ValidationUtils.checkNotEmpty(name,"Name is empty");
         ValidationUtils.checkNotNull(path,"Path is null");
-        vfsConfig.addPath(name,path,true);
+        vfs4JConfig.addPath(name,path,true);
     }
 
-    public Parameter getPath(String name){
+    public PathParameter getPath(String name){
         ValidationUtils.checkNotEmpty(name,"Name is empty");
-        return vfsConfig.getPath(name);
+        return vfs4JConfig.getPath(name);
     }
 
     protected Path getRealFile(PathName file) {

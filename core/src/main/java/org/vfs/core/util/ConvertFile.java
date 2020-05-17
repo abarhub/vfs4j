@@ -1,9 +1,9 @@
 package org.vfs.core.util;
 
-import org.vfs.core.config.Parameter;
-import org.vfs.core.config.VFSConfig;
+import org.vfs.core.config.PathParameter;
+import org.vfs.core.config.VFS4JConfig;
 import org.vfs.core.api.PathName;
-import org.vfs.core.exception.VFSInvalideParameterException;
+import org.vfs.core.exception.VFS4JInvalideParameterException;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,18 +12,18 @@ import java.util.Optional;
 
 public class ConvertFile {
 
-    private final VFSConfig vfsConfig;
+    private final VFS4JConfig vfs4JConfig;
 
-    public ConvertFile(VFSConfig vfsConfig) {
-        ValidationUtils.checkNotNull(vfsConfig,"vfsConfig is null");
-        this.vfsConfig = vfsConfig;
+    public ConvertFile(VFS4JConfig vfs4JConfig) {
+        ValidationUtils.checkNotNull(vfs4JConfig,"vfsConfig is null");
+        this.vfs4JConfig = vfs4JConfig;
     }
 
     public Path getRealFile(PathName file){
         ValidationUtils.checkNotNull(file,"Path is null");
-        Parameter p=vfsConfig.getPath(file.getName());
+        PathParameter p= vfs4JConfig.getPath(file.getName());
         if(p==null){
-            throw new VFSInvalideParameterException("PathName '"+file.getName()+"' doesn't exist");
+            throw new VFS4JInvalideParameterException("PathName '"+file.getName()+"' doesn't exist");
         }
         Path path;
         if(file.getPath()==null||file.getPath().isEmpty()){
@@ -57,14 +57,14 @@ public class ConvertFile {
 
     public Optional<PathName> convertFromRealPath(Path file) {
         ValidationUtils.checkNotNull(file,"Path is null");
-        List<String> nameList=vfsConfig.getNames();
+        List<String> nameList= vfs4JConfig.getNames();
         if(nameList!=null&&!nameList.isEmpty()){
             Path trouve=null;
             PathName pathNameTrouve=null;
             Path fileNormalized=file.normalize();
             for(String name:nameList){
-                Parameter parameter=vfsConfig.getPath(name);
-                Path path = parameter.getPath();
+                PathParameter pathParameter = vfs4JConfig.getPath(name);
+                Path path = pathParameter.getPath();
                 if(fileNormalized.startsWith(path)){
                     if(trouve==null){
                         trouve=path;

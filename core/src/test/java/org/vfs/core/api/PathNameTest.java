@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.vfs.core.exception.VFSInvalideParameterException;
+import org.vfs.core.exception.VFS4JInvalideParameterException;
 
 import java.util.stream.Stream;
 
@@ -68,7 +68,7 @@ class PathNameTest {
 
             fail("Erreur");
 
-        }catch(VFSInvalideParameterException e){
+        }catch(VFS4JInvalideParameterException e){
             assertEquals(messageError,e.getMessage());
         }
     }

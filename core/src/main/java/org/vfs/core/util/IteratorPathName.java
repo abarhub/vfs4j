@@ -1,6 +1,6 @@
 package org.vfs.core.util;
 
-import org.vfs.core.exception.VFSException;
+import org.vfs.core.exception.VFS4JException;
 import org.vfs.core.api.FileManager;
 import org.vfs.core.api.PathName;
 
@@ -27,6 +27,6 @@ public class IteratorPathName implements Iterator<PathName> {
     public PathName next() {
         Path path = pathIterator.next();
         Optional<PathName> pathNameOpt = fileManager.convertFromRealPath(path);
-        return pathNameOpt.orElseThrow(() -> new VFSException("Invalid path"));
+        return pathNameOpt.orElseThrow(() -> new VFS4JException("Invalid path"));
     }
 }

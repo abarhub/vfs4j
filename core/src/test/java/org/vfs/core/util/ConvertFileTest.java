@@ -7,7 +7,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vfs.core.config.VFSConfig;
+import org.vfs.core.config.VFS4JConfig;
 import org.vfs.core.api.PathName;
 
 import java.nio.file.Path;
@@ -25,10 +25,10 @@ class ConvertFileTest {
     @DisplayName("getRealFile sur un fichier")
     public void getRealFile_test1() {
         LOGGER.info("getRealFile_test1");
-        VFSConfig vfsConfig;
-        vfsConfig=new VFSConfig();
-        vfsConfig.addPath("nom", Paths.get("/tmp/test"),false);
-        ConvertFile convertFile=new ConvertFile(vfsConfig);
+        VFS4JConfig vfs4JConfig;
+        vfs4JConfig =new VFS4JConfig();
+        vfs4JConfig.addPath("nom", Paths.get("/tmp/test"),false);
+        ConvertFile convertFile=new ConvertFile(vfs4JConfig);
 
         // methode testée
         Path path=convertFile.getRealFile(new PathName("nom","fichier.txt"));
@@ -42,10 +42,10 @@ class ConvertFileTest {
     @DisplayName("getRealFile sur un fichier dans un répertoire")
     public void getRealFile_test2() {
         LOGGER.info("getRealFile_test2");
-        VFSConfig vfsConfig;
-        vfsConfig=new VFSConfig();
-        vfsConfig.addPath("nom", Paths.get("/tmp/test"),false);
-        ConvertFile convertFile=new ConvertFile(vfsConfig);
+        VFS4JConfig vfs4JConfig;
+        vfs4JConfig =new VFS4JConfig();
+        vfs4JConfig.addPath("nom", Paths.get("/tmp/test"),false);
+        ConvertFile convertFile=new ConvertFile(vfs4JConfig);
 
         // methode testée
         Path path=convertFile.getRealFile(new PathName("nom","doc/fichier2.txt"));
@@ -70,10 +70,10 @@ class ConvertFileTest {
     @DisplayName("getRealFile sur un fichier dans un répertoire")
     public void getRealFile_test3(final String nameRef,final String pathRoot,final String path,final String pathRef) {
         LOGGER.info("getRealFile_test3({},{},{},{})",nameRef, pathRoot, path, pathRef);
-        VFSConfig vfsConfig;
-        vfsConfig=new VFSConfig();
-        vfsConfig.addPath(nameRef, Paths.get(pathRoot),false);
-        ConvertFile convertFile=new ConvertFile(vfsConfig);
+        VFS4JConfig vfs4JConfig;
+        vfs4JConfig =new VFS4JConfig();
+        vfs4JConfig.addPath(nameRef, Paths.get(pathRoot),false);
+        ConvertFile convertFile=new ConvertFile(vfs4JConfig);
 
         // methode testée
         Path pathRes=convertFile.getRealFile(new PathName(nameRef,path));
@@ -126,9 +126,9 @@ class ConvertFileTest {
     @ParameterizedTest
     @MethodSource("convertFromRealPath_test")
     @DisplayName("convertFromRealPath pour vérifier la convertion d'un chemin reel vers un PathName")
-    public void convertFromRealPath(Optional<PathName> pathRef, String path, VFSConfig vfsConfig){
-        LOGGER.info("convertFromRealPath({},{},{})",pathRef, path, vfsConfig);
-        ConvertFile convertFile=new ConvertFile(vfsConfig);
+    public void convertFromRealPath(Optional<PathName> pathRef, String path, VFS4JConfig vfs4JConfig){
+        LOGGER.info("convertFromRealPath({},{},{})",pathRef, path, vfs4JConfig);
+        ConvertFile convertFile=new ConvertFile(vfs4JConfig);
 
         // methode testée
         Optional<PathName> pathRes=convertFile.convertFromRealPath(Paths.get(path));
@@ -140,9 +140,9 @@ class ConvertFileTest {
 
     // methodes utilitaires
 
-    private static VFSConfig createVFSConfig(String... parameters){
-        VFSConfig vfsConfig;
-        vfsConfig=new VFSConfig();
+    private static VFS4JConfig createVFSConfig(String... parameters){
+        VFS4JConfig vfs4JConfig;
+        vfs4JConfig =new VFS4JConfig();
         if(parameters!=null&&parameters.length>0){
             assertEquals(0, parameters.length%2);
             for(int i=0;i<parameters.length;i+=2){
@@ -150,10 +150,10 @@ class ConvertFileTest {
                 String pathRoot=parameters[i+1];
                 assertNotNull(nameRef);
                 assertNotNull(pathRoot);
-                vfsConfig.addPath(nameRef, Paths.get(pathRoot),false);
+                vfs4JConfig.addPath(nameRef, Paths.get(pathRoot),false);
             }
         }
-        return vfsConfig;
+        return vfs4JConfig;
     }
 
     private static PathName createPathName(String name, String path){

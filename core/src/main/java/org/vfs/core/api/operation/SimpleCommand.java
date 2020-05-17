@@ -3,7 +3,7 @@ package org.vfs.core.api.operation;
 import org.vfs.core.api.AbstractOperation;
 import org.vfs.core.api.FileManager;
 import org.vfs.core.api.PathName;
-import org.vfs.core.exception.VFSInvalidPathException;
+import org.vfs.core.exception.VFS4JInvalidPathException;
 import org.vfs.core.util.ValidationUtils;
 
 import java.io.IOException;
@@ -133,7 +133,7 @@ public class SimpleCommand extends AbstractOperation implements Command {
         return convertFromRealPath(path).orElseThrow(throwInvalidePath(path));
     }
 
-    private Supplier<VFSInvalidPathException> throwInvalidePath(Path pathRes) {
-        return () -> new VFSInvalidPathException("Invalide Path", pathRes);
+    private Supplier<VFS4JInvalidPathException> throwInvalidePath(Path pathRes) {
+        return () -> new VFS4JInvalidPathException("Invalide Path", pathRes);
     }
 }

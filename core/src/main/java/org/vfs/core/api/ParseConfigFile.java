@@ -1,17 +1,16 @@
 package org.vfs.core.api;
 
 import org.slf4j.Logger;
-import org.vfs.core.exception.VFSException;
-import org.vfs.core.util.VFSLoggerFactory;
+import org.vfs.core.exception.VFS4JException;
+import org.vfs.core.util.VFS4JLoggerFactory;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ParseConfigFile {
 
-    private static final Logger LOGGER = VFSLoggerFactory.getLogger(ParseConfigFile.class);
+    private static final Logger LOGGER = VFS4JLoggerFactory.getLogger(ParseConfigFile.class);
 
     public static final String PREFIX = "vfs.";
     public static final String PREFIX_PATHS = PREFIX+"paths.";
@@ -61,7 +60,7 @@ public class ParseConfigFile {
             if(map.containsKey(key)){
                 String value=map.get(key);
                 if(value==null||value.trim().isEmpty()){
-                    throw new VFSException("Path for '"+key+"' is empty");
+                    throw new VFS4JException("Path for '"+key+"' is empty");
                 } else {
                     Path p= Paths.get(value);
                     fileManagerBuilder.addPath(nom, p, false);

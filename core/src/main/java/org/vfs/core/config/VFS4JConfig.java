@@ -5,25 +5,25 @@ import org.vfs.core.util.ValidationUtils;
 import java.nio.file.Path;
 import java.util.*;
 
-public class VFSConfig {
+public class VFS4JConfig {
 
-    private final Map<String,Parameter> listeConfig;
+    private final Map<String, PathParameter> listeConfig;
 
-    public VFSConfig() {
+    public VFS4JConfig() {
         listeConfig=new HashMap<>();
     }
 
-    public VFSConfig(Map<String,Parameter> listeConfig) {
+    public VFS4JConfig(Map<String, PathParameter> listeConfig) {
         this.listeConfig=new HashMap<>(listeConfig);
     }
 
     public void addPath(String name, Path path,boolean readonly){
         ValidationUtils.checkNotEmpty(name,"Name is empty");
         ValidationUtils.checkNotNull(path,"Path is null");
-        listeConfig.put(name,new Parameter(path,readonly));
+        listeConfig.put(name,new PathParameter(path,readonly));
     }
 
-    public Parameter getPath(String name){
+    public PathParameter getPath(String name){
         ValidationUtils.checkNotEmpty(name,"Name is empty");
         return listeConfig.get(name);
     }
@@ -36,7 +36,7 @@ public class VFSConfig {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", VFSConfig.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", VFS4JConfig.class.getSimpleName() + "[", "]")
                 .add("listeConfig=" + listeConfig)
                 .toString();
     }

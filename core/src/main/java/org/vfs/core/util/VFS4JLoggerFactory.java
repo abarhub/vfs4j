@@ -3,7 +3,7 @@ package org.vfs.core.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class VFSLoggerFactory {
+public class VFS4JLoggerFactory {
 
     public static <T> Logger getLogger(Class<T> tClass) {
         ValidationUtils.checkNotNull(tClass, "Null Class");

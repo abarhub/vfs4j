@@ -1,8 +1,8 @@
 package org.vfs.core.api;
 
 import org.junit.jupiter.api.Test;
-import org.vfs.core.config.Parameter;
-import org.vfs.core.config.VFSConfig;
+import org.vfs.core.config.PathParameter;
+import org.vfs.core.config.VFS4JConfig;
 
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -30,20 +30,20 @@ class ParseConfigFileTest {
 
         // vérifications
         assertNotNull(res);
-        VFSConfig res2 = res.build();
+        VFS4JConfig res2 = res.build();
         assertNotNull(res2);
         List<String> liste=new ArrayList<>();
         liste.add(dir1);
         liste.add(dir2);
         assertEquals(new HashSet<>(liste),new HashSet<>(res2.getNames()));
-        Parameter parameter=res2.getPath(dir1);
-        assertNotNull(parameter);
-        assertEquals(Paths.get(path1), parameter.getPath());
-        assertFalse(parameter.isReadonly());
-        parameter=res2.getPath(dir2);
-        assertNotNull(parameter);
-        assertEquals(Paths.get(path2), parameter.getPath());
-        assertFalse(parameter.isReadonly());
+        PathParameter pathParameter =res2.getPath(dir1);
+        assertNotNull(pathParameter);
+        assertEquals(Paths.get(path1), pathParameter.getPath());
+        assertFalse(pathParameter.isReadonly());
+        pathParameter =res2.getPath(dir2);
+        assertNotNull(pathParameter);
+        assertEquals(Paths.get(path2), pathParameter.getPath());
+        assertFalse(pathParameter.isReadonly());
     }
 
 }

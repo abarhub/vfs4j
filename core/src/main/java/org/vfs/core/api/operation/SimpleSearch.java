@@ -3,7 +3,7 @@ package org.vfs.core.api.operation;
 import org.vfs.core.api.AbstractOperation;
 import org.vfs.core.api.FileManager;
 import org.vfs.core.api.PathName;
-import org.vfs.core.exception.VFSInvalidPathException;
+import org.vfs.core.exception.VFS4JInvalidPathException;
 import org.vfs.core.util.ValidationUtils;
 
 import java.io.IOException;
@@ -62,7 +62,7 @@ public class SimpleSearch extends AbstractOperation implements Search {
             if(p2.isPresent()){
                 return matcher.test(p2.get(),attr);
             } else {
-                throw new VFSInvalidPathException("Invalide Path", path);
+                throw new VFS4JInvalidPathException("Invalide Path", path);
             }
         };
         return Files.find(p, maxDepth,matcher2, options)
@@ -71,7 +71,7 @@ public class SimpleSearch extends AbstractOperation implements Search {
                         .orElseThrow(throwInvalidePath(x)));
     }
 
-    private Supplier<VFSInvalidPathException> throwInvalidePath(Path pathRes) {
-        return () -> new VFSInvalidPathException("Invalide Path", pathRes);
+    private Supplier<VFS4JInvalidPathException> throwInvalidePath(Path pathRes) {
+        return () -> new VFS4JInvalidPathException("Invalide Path", pathRes);
     }
 }

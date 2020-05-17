@@ -14,9 +14,9 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class VFSConfigTest {
+class VFS4JConfigTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(VFSConfigTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VFS4JConfigTest.class);
 
     private static Stream<Arguments> addPath_test1Parameter() {
         return Stream.of(
@@ -29,95 +29,95 @@ class VFSConfigTest {
     @MethodSource("addPath_test1Parameter")
     void addPath_test1(final String nom,final Path path,final boolean readOnly) {
         LOGGER.info("addPath_test1({}, {}, {})",nom,path,readOnly);
-        VFSConfig vfsConfig=new VFSConfig();
+        VFS4JConfig vfs4JConfig =new VFS4JConfig();
 
         // methode testée
-        vfsConfig.addPath(nom, path, readOnly);
+        vfs4JConfig.addPath(nom, path, readOnly);
 
         // vérifications
-        Parameter parameter=vfsConfig.getPath(nom);
-        assertNotNull(parameter);
-        assertEquals(path,parameter.getPath());
-        assertEquals(readOnly,parameter.isReadonly());
+        PathParameter pathParameter = vfs4JConfig.getPath(nom);
+        assertNotNull(pathParameter);
+        assertEquals(path, pathParameter.getPath());
+        assertEquals(readOnly, pathParameter.isReadonly());
     }
 
     @Test
     @DisplayName("getPath sur un nom qui existe (une seule configuration)")
     void getPath_test1() {
         LOGGER.info("addPath_test1");
-        VFSConfig vfsConfig=new VFSConfig();
+        VFS4JConfig vfs4JConfig =new VFS4JConfig();
 
         String nom="name1";
         Path path=Paths.get("/tmp/dddd");
         boolean readOnly=true;
 
-        vfsConfig.addPath(nom, path, readOnly);
+        vfs4JConfig.addPath(nom, path, readOnly);
 
         // methode testée
-        Parameter parameter = vfsConfig.getPath(nom);
+        PathParameter pathParameter = vfs4JConfig.getPath(nom);
 
         // vérifications
-        assertNotNull(parameter);
-        assertEquals(path,parameter.getPath());
-        assertEquals(readOnly,parameter.isReadonly());
+        assertNotNull(pathParameter);
+        assertEquals(path, pathParameter.getPath());
+        assertEquals(readOnly, pathParameter.isReadonly());
     }
 
     @Test
     @DisplayName("getPath sur un nom qui existe (deux configurations)")
     void getPath_test2() {
         LOGGER.info("addPath_test2");
-        VFSConfig vfsConfig=new VFSConfig();
+        VFS4JConfig vfs4JConfig =new VFS4JConfig();
 
         String nom="name1";
         Path path=Paths.get("/tmp/dddd");
         boolean readOnly=true;
 
-        vfsConfig.addPath(nom, path, readOnly);
+        vfs4JConfig.addPath(nom, path, readOnly);
 
         final String nom2 = "ggg";
         final Path path2 = Paths.get("/tmp/mmm");
         final boolean readonly2 = false;
-        vfsConfig.addPath(nom2, path2, readonly2);
+        vfs4JConfig.addPath(nom2, path2, readonly2);
 
         // methode testée
-        Parameter parameter = vfsConfig.getPath(nom2);
+        PathParameter pathParameter = vfs4JConfig.getPath(nom2);
 
         // vérifications
-        assertNotNull(parameter);
-        assertEquals(path2,parameter.getPath());
-        assertEquals(readonly2,parameter.isReadonly());
+        assertNotNull(pathParameter);
+        assertEquals(path2, pathParameter.getPath());
+        assertEquals(readonly2, pathParameter.isReadonly());
     }
 
     @Test
     @DisplayName("getPath sur un nom qui n'existe pas (une seule configuration)")
     void getPath_test3() {
         LOGGER.info("addPath_test3");
-        VFSConfig vfsConfig=new VFSConfig();
+        VFS4JConfig vfs4JConfig =new VFS4JConfig();
 
         String nom="name01";
         Path path=Paths.get("/tmp/nnn");
         boolean readOnly=true;
 
-        vfsConfig.addPath(nom, path, readOnly);
+        vfs4JConfig.addPath(nom, path, readOnly);
 
         // methode testée
-        Parameter parameter = vfsConfig.getPath("name02");
+        PathParameter pathParameter = vfs4JConfig.getPath("name02");
 
         // vérifications
-        assertNull(parameter);
+        assertNull(pathParameter);
     }
 
     @Test
     @DisplayName("getPath sur un nom qui n'existe pas (aucune configuration)")
     void getPath_test4() {
         LOGGER.info("addPath_test4");
-        VFSConfig vfsConfig=new VFSConfig();
+        VFS4JConfig vfs4JConfig =new VFS4JConfig();
 
         // methode testée
-        Parameter parameter = vfsConfig.getPath("name03");
+        PathParameter pathParameter = vfs4JConfig.getPath("name03");
 
         // vérifications
-        assertNull(parameter);
+        assertNull(pathParameter);
     }
 
     private static Stream<Arguments> getPath_test5Parameter() {
@@ -153,7 +153,7 @@ class VFSConfigTest {
             assertNull(pathRef);
         }
 
-        VFSConfig vfsConfig=new VFSConfig();
+        VFS4JConfig vfs4JConfig =new VFS4JConfig();
 
         for(int i=0;i<10;i++){
             int no=i+1;
@@ -162,19 +162,19 @@ class VFSConfigTest {
             Path path=Paths.get("/tmp/ccc"+no);
             boolean readOnly=(no%2==1);
 
-            vfsConfig.addPath(nom, path, readOnly);
+            vfs4JConfig.addPath(nom, path, readOnly);
         }
 
         // methode testée
-        Parameter parameter = vfsConfig.getPath(nameRef);
+        PathParameter pathParameter = vfs4JConfig.getPath(nameRef);
 
         // vérifications
         if(!existRef){
-            assertNull(parameter);
+            assertNull(pathParameter);
         } else {
-            assertNotNull(parameter);
-            assertEquals(pathRef, parameter.getPath());
-            assertEquals(readonlyRef, parameter.isReadonly());
+            assertNotNull(pathParameter);
+            assertEquals(pathRef, pathParameter.getPath());
+            assertEquals(readonlyRef, pathParameter.isReadonly());
         }
     }
 

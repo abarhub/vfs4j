@@ -1,7 +1,7 @@
 package org.vfs.core.util;
 
 import org.junit.jupiter.api.Test;
-import org.vfs.core.exception.VFSInvalideParameterException;
+import org.vfs.core.exception.VFS4JInvalideParameterException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +18,7 @@ class ValidationUtilsTest {
         try {
             ValidationUtils.checkNotNull(null, erreur);
             fail("Erreur");
-        }catch (VFSInvalideParameterException e){
+        }catch (VFS4JInvalideParameterException e){
             assertEquals(erreur,e.getMessage());
         }
     }
@@ -34,7 +34,7 @@ class ValidationUtilsTest {
         try {
             ValidationUtils.checkNotEmpty(null, erreur);
             fail("Erreur");
-        }catch (VFSInvalideParameterException e){
+        }catch (VFS4JInvalideParameterException e){
             assertEquals(erreur,e.getMessage());
         }
     }
@@ -45,7 +45,7 @@ class ValidationUtilsTest {
         try {
             ValidationUtils.checkNotEmpty("", erreur);
             fail("Erreur");
-        }catch (VFSInvalideParameterException e){
+        }catch (VFS4JInvalideParameterException e){
             assertEquals(erreur,e.getMessage());
         }
     }
@@ -61,7 +61,7 @@ class ValidationUtilsTest {
         try {
             ValidationUtils.checkParameter(false, erreur);
             fail("Erreur");
-        }catch (VFSInvalideParameterException e){
+        }catch (VFS4JInvalideParameterException e){
             assertEquals(erreur,e.getMessage());
         }
     }

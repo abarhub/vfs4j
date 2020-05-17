@@ -1,24 +1,24 @@
 package org.vfs.core.util;
 
-import org.vfs.core.exception.VFSInvalideParameterException;
+import org.vfs.core.exception.VFS4JInvalideParameterException;
 
 public class ValidationUtils {
 
     public static void checkNotNull(Object o,String msgError){
         if(o==null){
-            throw new VFSInvalideParameterException(msgError);
+            throw new VFS4JInvalideParameterException(msgError);
         }
     }
 
     public static void checkNotEmpty(String s,String msgError){
         if(s==null||s.length()==0){
-            throw new VFSInvalideParameterException(msgError);
+            throw new VFS4JInvalideParameterException(msgError);
         }
     }
 
     public static void checkParameter(boolean b,String msgError){
         if(!b){
-            throw new VFSInvalideParameterException(msgError);
+            throw new VFS4JInvalideParameterException(msgError);
         }
     }
 }

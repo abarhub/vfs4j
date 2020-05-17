@@ -3,7 +3,7 @@ package org.vfs.core.api;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import org.vfs.core.config.Parameter;
+import org.vfs.core.config.PathParameter;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -48,12 +48,12 @@ class DefaultFileManagerTest {
 
         // vérifications
         assertNotNull(fileManager);
-        Parameter parameter=fileManager.getPath(dir1);
-        assertNotNull(parameter);
-        assertEquals(path01, parameter.getPath());
-        parameter=fileManager.getPath(dir2);
-        assertNotNull(parameter);
-        assertEquals(path02, parameter.getPath());
+        PathParameter pathParameter =fileManager.getPath(dir1);
+        assertNotNull(pathParameter);
+        assertEquals(path01, pathParameter.getPath());
+        pathParameter =fileManager.getPath(dir2);
+        assertNotNull(pathParameter);
+        assertEquals(path02, pathParameter.getPath());
     }
 
     @Test
@@ -80,11 +80,11 @@ class DefaultFileManagerTest {
 
         // vérifications
         assertNotNull(fileManager);
-        Parameter parameter=fileManager.getPath(dir1);
-        assertNotNull(parameter);
-        assertEquals(path01, parameter.getPath());
-        parameter=fileManager.getPath(dir2);
-        assertNotNull(parameter);
-        assertEquals(path02, parameter.getPath());
+        PathParameter pathParameter =fileManager.getPath(dir1);
+        assertNotNull(pathParameter);
+        assertEquals(path01, pathParameter.getPath());
+        pathParameter =fileManager.getPath(dir2);
+        assertNotNull(pathParameter);
+        assertEquals(path02, pathParameter.getPath());
     }
 }

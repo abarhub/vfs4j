@@ -1,8 +1,8 @@
 package org.vfs.core.api;
 
 import org.slf4j.Logger;
-import org.vfs.core.exception.VFSException;
-import org.vfs.core.util.VFSLoggerFactory;
+import org.vfs.core.exception.VFS4JException;
+import org.vfs.core.util.VFS4JLoggerFactory;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.util.Properties;
 
 public class DefaultFileManager {
 
-    private static final Logger LOGGER = VFSLoggerFactory.getLogger(DefaultFileManager.class);
+    private static final Logger LOGGER = VFS4JLoggerFactory.getLogger(DefaultFileManager.class);
 
     private static FileManager fileManager = createFileManager();
 
@@ -53,10 +53,10 @@ public class DefaultFileManager {
                         properties = new Properties();
                         properties.load(in);
                     } catch (IOException e) {
-                        throw new VFSException("Error for reading file '" + vfsConfigPath + "'", e);
+                        throw new VFS4JException("Error for reading file '" + vfsConfigPath + "'", e);
                     }
                 } else {
-                    throw new VFSException("File '" + vfsConfigPath + "' not exists");
+                    throw new VFS4JException("File '" + vfsConfigPath + "' not exists");
                 }
             }
         }
@@ -72,7 +72,7 @@ public class DefaultFileManager {
                 properties = null;
                 LOGGER.info("File vfs.properties not found in classpath");
             } catch (IOException e) {
-                throw new VFSException("Error in reading file vfs.properties in classpath", e);
+                throw new VFS4JException("Error in reading file vfs.properties in classpath", e);
             }
         }
         return properties;
