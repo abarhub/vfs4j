@@ -21,7 +21,7 @@ public class DefaultFileManager {
     protected static FileManager createFileManager() {
         FileManagerBuilder fileManagerBuilder;
 
-        LOGGER.info("createFileManager");
+        LOGGER.info("Start initialization");
 
         Properties properties = getProperties();
 
@@ -33,7 +33,11 @@ public class DefaultFileManager {
             fileManagerBuilder = new FileManagerBuilder();
         }
 
-        return new FileManager(fileManagerBuilder);
+        FileManager fileManager=new FileManager(fileManagerBuilder);
+
+        LOGGER.info("End initialization");
+
+        return fileManager;
     }
 
     private static Properties getProperties() {
