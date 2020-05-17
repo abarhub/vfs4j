@@ -28,3 +28,4 @@ core/target/
 /tests/simple/target/
 /tests/vfs-tests-parent.iml
 /tests/simple/vfs-tests.iml
+/target/

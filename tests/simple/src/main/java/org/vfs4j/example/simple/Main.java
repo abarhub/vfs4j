@@ -14,6 +14,7 @@ public class Main {
 
         Exemple1 exemple1 = new Exemple1();
         exemple1.exemple1();
+        exemple1.exemple2();
 
         LOGGER.info("OK");
     }
