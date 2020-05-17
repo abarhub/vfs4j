@@ -11,11 +11,10 @@ import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.LinkOption;
-import java.nio.file.attribute.FileTime;
-import java.nio.file.attribute.PosixFilePermission;
-import java.nio.file.attribute.UserPrincipal;
-import java.nio.file.attribute.UserPrincipalLookupService;
+import java.nio.file.attribute.*;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -129,47 +128,195 @@ class VFS4JFilesTest {
     }
 
     @Test
-    void getAttribute() {
+    void getAttribute() throws IOException {
+        LOGGER.info("getAttribute");
+        PathName pathName = getPathName();
+
+        final String s = "abc";
+
+        when(fileManager.getAttribute().getAttribute(pathName, "attr1", LinkOption.NOFOLLOW_LINKS)).thenReturn(s);
+
+        // methode testée
+        Object res = VFS4JFiles.getAttribute(pathName, "attr1", LinkOption.NOFOLLOW_LINKS);
+
+        // vérification
+        assertEquals(s, res);
+        verify(fileManager.getAttribute()).getAttribute(pathName, "attr1", LinkOption.NOFOLLOW_LINKS);
+        verifyNoMoreInteractions(fileManager.getAttribute());
     }
 
     @Test
-    void getFileAttributeView() {
+    void getFileAttributeView() throws IOException {
+        LOGGER.info("getFileAttributeView");
+        PathName pathName = getPathName();
+
+        final BasicFileAttributeView basicFileAttributeView = mock(BasicFileAttributeView.class);
+
+        when(fileManager.getAttribute().getFileAttributeView(pathName, BasicFileAttributeView.class, LinkOption.NOFOLLOW_LINKS)).thenReturn(basicFileAttributeView);
+
+        // methode testée
+        BasicFileAttributeView res = VFS4JFiles.getFileAttributeView(pathName, BasicFileAttributeView.class, LinkOption.NOFOLLOW_LINKS);
+
+        // vérification
+        assertEquals(basicFileAttributeView, res);
+        verify(fileManager.getAttribute()).getFileAttributeView(pathName, BasicFileAttributeView.class, LinkOption.NOFOLLOW_LINKS);
+        verifyNoMoreInteractions(fileManager.getAttribute());
     }
 
     @Test
-    void getLastModifiedTime() {
+    void getLastModifiedTime() throws IOException {
+        LOGGER.info("getLastModifiedTime");
+        PathName pathName = getPathName();
+
+        final FileTime fileTime = FileTime.from(1L, TimeUnit.SECONDS);
+
+        when(fileManager.getAttribute().getLastModifiedTime(pathName, LinkOption.NOFOLLOW_LINKS)).thenReturn(fileTime);
+
+        // methode testée
+        FileTime res = VFS4JFiles.getLastModifiedTime(pathName, LinkOption.NOFOLLOW_LINKS);
+
+        // vérification
+        assertEquals(fileTime, res);
+        verify(fileManager.getAttribute()).getLastModifiedTime(pathName, LinkOption.NOFOLLOW_LINKS);
+        verifyNoMoreInteractions(fileManager.getAttribute());
     }
 
     @Test
-    void getOwner() {
+    void getOwner() throws IOException {
+        LOGGER.info("getOwner");
+        PathName pathName = getPathName();
+
+        final UserPrincipal userPrincipal = mock(UserPrincipal.class);
+
+        when(fileManager.getAttribute().getOwner(pathName, LinkOption.NOFOLLOW_LINKS)).thenReturn(userPrincipal);
+
+        // methode testée
+        UserPrincipal res = VFS4JFiles.getOwner(pathName, LinkOption.NOFOLLOW_LINKS);
+
+        // vérification
+        assertEquals(userPrincipal, res);
+        verify(fileManager.getAttribute()).getOwner(pathName, LinkOption.NOFOLLOW_LINKS);
+        verifyNoMoreInteractions(fileManager.getAttribute());
     }
 
     @Test
-    void getPosixFilePermissions() {
+    void getPosixFilePermissions() throws IOException {
+        LOGGER.info("getPosixFilePermissions");
+        PathName pathName = getPathName();
+
+        final Set<PosixFilePermission> posixFilePermissions = new HashSet<>();
+        posixFilePermissions.add(PosixFilePermission.OWNER_READ);
+
+        when(fileManager.getAttribute().getPosixFilePermissions(pathName, LinkOption.NOFOLLOW_LINKS)).thenReturn(posixFilePermissions);
+
+        // methode testée
+        Set<PosixFilePermission> res = VFS4JFiles.getPosixFilePermissions(pathName, LinkOption.NOFOLLOW_LINKS);
+
+        // vérification
+        assertEquals(posixFilePermissions, res);
+        verify(fileManager.getAttribute()).getPosixFilePermissions(pathName, LinkOption.NOFOLLOW_LINKS);
+        verifyNoMoreInteractions(fileManager.getAttribute());
     }
 
     @Test
-    void isExecutable() {
+    void isExecutable() throws IOException {
+        LOGGER.info("isExecutable");
+        PathName pathName = getPathName();
+
+        when(fileManager.getAttribute().isExecutable(pathName)).thenReturn(true);
+
+        // methode testée
+        boolean res = VFS4JFiles.isExecutable(pathName);
+
+        // vérification
+        assertEquals(true, res);
+        verify(fileManager.getAttribute()).isExecutable(pathName);
+        verifyNoMoreInteractions(fileManager.getAttribute());
     }
 
     @Test
-    void isReadable() {
+    void isReadable() throws IOException {
+        LOGGER.info("isReadable");
+        PathName pathName = getPathName();
+
+        when(fileManager.getAttribute().isReadable(pathName)).thenReturn(true);
+
+        // methode testée
+        boolean res = VFS4JFiles.isReadable(pathName);
+
+        // vérification
+        assertEquals(true, res);
+        verify(fileManager.getAttribute()).isReadable(pathName);
+        verifyNoMoreInteractions(fileManager.getAttribute());
     }
 
     @Test
-    void isHidden() {
+    void isHidden() throws IOException {
+        LOGGER.info("isHidden");
+        PathName pathName = getPathName();
+
+        when(fileManager.getAttribute().isHidden(pathName)).thenReturn(true);
+
+        // methode testée
+        boolean res = VFS4JFiles.isHidden(pathName);
+
+        // vérification
+        assertEquals(true, res);
+        verify(fileManager.getAttribute()).isHidden(pathName);
+        verifyNoMoreInteractions(fileManager.getAttribute());
     }
 
     @Test
     void isWritable() {
+        LOGGER.info("isWritable");
+        PathName pathName = getPathName();
+
+        when(fileManager.getAttribute().isWritable(pathName)).thenReturn(true);
+
+        // methode testée
+        boolean res = VFS4JFiles.isWritable(pathName);
+
+        // vérification
+        assertEquals(true, res);
+        verify(fileManager.getAttribute()).isWritable(pathName);
+        verifyNoMoreInteractions(fileManager.getAttribute());
     }
 
     @Test
-    void readAttributes() {
+    void readAttributes() throws IOException {
+        LOGGER.info("readAttributes");
+        PathName pathName = getPathName();
+
+        final Map<String, Object> map = new HashMap<>();
+        map.put("abc", 123);
+
+        when(fileManager.getAttribute().readAttributes(pathName, "attr1", LinkOption.NOFOLLOW_LINKS)).thenReturn(map);
+
+        // methode testée
+        Map<String, Object> res = VFS4JFiles.readAttributes(pathName, "attr1", LinkOption.NOFOLLOW_LINKS);
+
+        // vérification
+        assertEquals(map, res);
+        verify(fileManager.getAttribute()).readAttributes(pathName, "attr1", LinkOption.NOFOLLOW_LINKS);
+        verifyNoMoreInteractions(fileManager.getAttribute());
     }
 
     @Test
-    void testReadAttributes() {
+    void readAttributes2() throws IOException {
+        LOGGER.info("readAttributes2");
+        PathName pathName = getPathName();
+
+        final BasicFileAttributes basicFileAttributes = mock(BasicFileAttributes.class);
+
+        when(fileManager.getAttribute().readAttributes(pathName, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS)).thenReturn(basicFileAttributes);
+
+        // methode testée
+        BasicFileAttributes res = VFS4JFiles.readAttributes(pathName, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
+
+        // vérification
+        assertEquals(basicFileAttributes, res);
+        verify(fileManager.getAttribute()).readAttributes(pathName, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
+        verifyNoMoreInteractions(fileManager.getAttribute());
     }
 
     @Test
