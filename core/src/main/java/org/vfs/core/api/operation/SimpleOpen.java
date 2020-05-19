@@ -3,6 +3,7 @@ package org.vfs.core.api.operation;
 import org.vfs.core.api.AbstractOperation;
 import org.vfs.core.api.FileManager;
 import org.vfs.core.api.PathName;
+import org.vfs.core.exception.VFS4JInvalidPathException;
 import org.vfs.core.util.DirectoryStreamPathName;
 
 import java.io.*;
@@ -12,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.attribute.FileAttribute;
+import java.util.Optional;
 import java.util.Set;
 
 public class SimpleOpen extends AbstractOperation implements Open {
@@ -53,9 +55,17 @@ public class SimpleOpen extends AbstractOperation implements Open {
     }
 
     @Override
-    public DirectoryStream<PathName> newDirectoryStream(PathName pathName, DirectoryStream.Filter<? super Path> filter) throws IOException {
+    public DirectoryStream<PathName> newDirectoryStream(PathName pathName, DirectoryStream.Filter<? super PathName> filter) throws IOException {
         Path path=getRealFile(pathName);
-        final DirectoryStream<Path> directoryStream = Files.newDirectoryStream(path, filter);
+        DirectoryStream.Filter<? super Path> filter2=(p) -> {
+            Optional<PathName> res = convertFromRealPath(p);
+            if(res.isPresent()){
+                return filter.accept(res.get());
+            } else {
+                throw new VFS4JInvalidPathException("Path invalide",p);
+            }
+        };
+        final DirectoryStream<Path> directoryStream = Files.newDirectoryStream(path, filter2);
         return new DirectoryStreamPathName(directoryStream, getFileManager());
     }
 }

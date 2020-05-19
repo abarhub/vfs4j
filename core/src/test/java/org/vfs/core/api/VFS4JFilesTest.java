@@ -643,8 +643,7 @@ class VFS4JFilesTest {
         LOGGER.info("newDirectoryStream");
         PathName pathName = getPathName();
 
-        // TODO: problème avec le type generique de DirectoryStream.Filter (doit être PathName et pas Path)
-        DirectoryStream.Filter<Path> filter = mock(DirectoryStream.Filter.class);
+        DirectoryStream.Filter<PathName> filter = mock(DirectoryStream.Filter.class);
         DirectoryStream<PathName> directoryStream = mock(DirectoryStream.class);
 
         when(fileManager.getOpen().newDirectoryStream(pathName, filter)).thenReturn(directoryStream);

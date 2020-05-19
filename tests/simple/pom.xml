@@ -20,7 +20,7 @@
         <log4j.version>2.12.1</log4j.version>
         <slf4j.version>1.7.28</slf4j.version>
         <junit-jupiter.version>5.5.1</junit-jupiter.version>
-        <vfs4j-core.version>${parent.version}</vfs4j-core.version>
+        <vfs4j-core.version>${project.parent.version}</vfs4j-core.version>
         <guava.version>28.1-jre</guava.version>
         <commons-io.version>2.6</commons-io.version>
     </properties>
