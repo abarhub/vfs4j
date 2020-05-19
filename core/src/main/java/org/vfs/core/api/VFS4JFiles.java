@@ -155,6 +155,7 @@ public class VFS4JFiles {
         return getFileManager().getOpen().newByteChannel(pathName, options, attrs);
     }
 
+    // TODO: corriger le type generique du filter
     public static DirectoryStream<PathName> newDirectoryStream(PathName pathName, DirectoryStream.Filter<? super Path> filter) throws IOException {
         return getFileManager().getOpen().newDirectoryStream(pathName, filter);
     }

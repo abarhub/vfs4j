@@ -21,5 +21,6 @@ public interface Open {
 
     SeekableByteChannel newByteChannel(PathName pathName, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException;
 
+    // TODO: corriger le parametre générique du Filter
     DirectoryStream<PathName> newDirectoryStream(PathName pathName, DirectoryStream.Filter<? super Path> filter) throws IOException;
 }

@@ -7,17 +7,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vfs.core.api.operation.*;
 
-import java.io.IOException;
-import java.nio.file.LinkOption;
+import java.io.*;
+import java.nio.channels.SeekableByteChannel;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
 import java.nio.file.attribute.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiPredicate;
+import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class VFS4JFilesTest {
@@ -330,7 +330,7 @@ class VFS4JFilesTest {
 
         // vérification
         verify(fileManager.getCommand()).createFile(pathName, fileAttribute);
-        verifyNoMoreInteractions(fileManager.getAttribute());
+        verifyNoMoreInteractions(fileManager.getCommand());
     }
 
     @Test
@@ -345,7 +345,7 @@ class VFS4JFilesTest {
 
         // vérification
         verify(fileManager.getCommand()).createDirectory(pathName, fileAttribute);
-        verifyNoMoreInteractions(fileManager.getAttribute());
+        verifyNoMoreInteractions(fileManager.getCommand());
     }
 
     @Test
@@ -360,7 +360,7 @@ class VFS4JFilesTest {
 
         // vérification
         verify(fileManager.getCommand()).createDirectories(pathName, fileAttribute);
-        verifyNoMoreInteractions(fileManager.getAttribute());
+        verifyNoMoreInteractions(fileManager.getCommand());
     }
 
     @Test
@@ -373,7 +373,7 @@ class VFS4JFilesTest {
 
         // vérification
         verify(fileManager.getCommand()).delete(pathName);
-        verifyNoMoreInteractions(fileManager.getAttribute());
+        verifyNoMoreInteractions(fileManager.getCommand());
     }
 
     @Test
@@ -389,127 +389,565 @@ class VFS4JFilesTest {
         // vérification
         assertTrue(res);
         verify(fileManager.getCommand()).deleteIfExists(pathName);
-        verifyNoMoreInteractions(fileManager.getAttribute());
+        verifyNoMoreInteractions(fileManager.getCommand());
     }
 
     @Test
-    void createLink() {
+    void createLink() throws IOException {
+        LOGGER.info("createLink");
+        PathName pathName = getPathName();
+        PathName pathName2 = getPathName2();
+        PathName pathName3 = getPathName3();
+
+        when(fileManager.getCommand().createLink(pathName, pathName2)).thenReturn(pathName3);
+
+        // methode testée
+        PathName res = VFS4JFiles.createLink(pathName, pathName2);
+
+        // vérification
+        assertEquals(pathName3, res);
+        verify(fileManager.getCommand()).createLink(pathName, pathName2);
+        verifyNoMoreInteractions(fileManager.getCommand());
     }
 
     @Test
-    void createSymbolicLink() {
+    void createSymbolicLink() throws IOException {
+        LOGGER.info("createSymbolicLink");
+        PathName pathName = getPathName();
+        PathName pathName2 = getPathName2();
+        PathName pathName3 = getPathName3();
+
+        final FileAttribute fileAttribute = mock(FileAttribute.class);
+
+        when(fileManager.getCommand().createSymbolicLink(pathName, pathName2, fileAttribute)).thenReturn(pathName3);
+
+        // methode testée
+        PathName res = VFS4JFiles.createSymbolicLink(pathName, pathName2, fileAttribute);
+
+        // vérification
+        assertEquals(pathName3, res);
+        verify(fileManager.getCommand()).createSymbolicLink(pathName, pathName2, fileAttribute);
+        verifyNoMoreInteractions(fileManager.getCommand());
     }
 
     @Test
-    void copy() {
+    void copy() throws IOException {
+        LOGGER.info("copy");
+        PathName pathName2 = getPathName2();
+
+        final InputStream inputStream = new ByteArrayInputStream(getBytesArrays());
+
+        final long len = 5;
+
+        when(fileManager.getCommand().copy(inputStream, pathName2, StandardCopyOption.COPY_ATTRIBUTES)).thenReturn(len);
+
+        // methode testée
+        long res = VFS4JFiles.copy(inputStream, pathName2, StandardCopyOption.COPY_ATTRIBUTES);
+
+        // vérification
+        assertEquals(len, res);
+        verify(fileManager.getCommand()).copy(inputStream, pathName2, StandardCopyOption.COPY_ATTRIBUTES);
+        verifyNoMoreInteractions(fileManager.getCommand());
     }
 
     @Test
-    void testCopy() {
+    void copy2() throws IOException {
+        LOGGER.info("copy2");
+        PathName pathName = getPathName();
+
+        final OutputStream outputStream = new ByteArrayOutputStream();
+
+        final long len = 10;
+
+        when(fileManager.getCommand().copy(pathName, outputStream)).thenReturn(len);
+
+        // methode testée
+        long res = VFS4JFiles.copy(pathName, outputStream);
+
+        // vérification
+        assertEquals(len, res);
+        verify(fileManager.getCommand()).copy(pathName, outputStream);
+        verifyNoMoreInteractions(fileManager.getCommand());
     }
 
     @Test
-    void testCopy1() {
+    void copy3() throws IOException {
+        LOGGER.info("copy3");
+        PathName pathName = getPathName();
+        PathName pathName2 = getPathName2();
+        PathName pathName3 = getPathName3();
+
+        when(fileManager.getCommand().copy(pathName, pathName2, StandardCopyOption.COPY_ATTRIBUTES)).thenReturn(pathName3);
+
+        // methode testée
+        PathName res = VFS4JFiles.copy(pathName, pathName2, StandardCopyOption.COPY_ATTRIBUTES);
+
+        // vérification
+        assertEquals(pathName3, res);
+        verify(fileManager.getCommand()).copy(pathName, pathName2, StandardCopyOption.COPY_ATTRIBUTES);
+        verifyNoMoreInteractions(fileManager.getCommand());
     }
 
     @Test
-    void move() {
+    void move() throws IOException {
+        LOGGER.info("move");
+        PathName pathName = getPathName();
+        PathName pathName2 = getPathName2();
+        PathName pathName3 = getPathName3();
+
+        when(fileManager.getCommand().move(pathName, pathName2, StandardCopyOption.COPY_ATTRIBUTES)).thenReturn(pathName3);
+
+        // methode testée
+        PathName res = VFS4JFiles.move(pathName, pathName2, StandardCopyOption.COPY_ATTRIBUTES);
+
+        // vérification
+        assertEquals(pathName3, res);
+        verify(fileManager.getCommand()).move(pathName, pathName2, StandardCopyOption.COPY_ATTRIBUTES);
+        verifyNoMoreInteractions(fileManager.getCommand());
     }
 
     @Test
-    void write() {
+    void write() throws IOException {
+        LOGGER.info("write");
+        PathName pathName = getPathName();
+        PathName pathName3 = getPathName3();
+
+        byte[] buf = getBytesArrays();
+
+        when(fileManager.getCommand().write(pathName, buf, StandardOpenOption.READ)).thenReturn(pathName3);
+
+        // methode testée
+        PathName res = VFS4JFiles.write(pathName, buf, StandardOpenOption.READ);
+
+        // vérification
+        assertEquals(pathName3, res);
+        verify(fileManager.getCommand()).write(pathName, buf, StandardOpenOption.READ);
+        verifyNoMoreInteractions(fileManager.getCommand());
     }
 
     @Test
-    void testWrite() {
+    void write2() throws IOException {
+        LOGGER.info("write2");
+        PathName pathName = getPathName();
+        PathName pathName3 = getPathName3();
+
+        List<String> liste = getListStrings();
+
+        when(fileManager.getCommand().write(pathName, liste, StandardCharsets.UTF_8, StandardOpenOption.READ)).thenReturn(pathName3);
+
+        // methode testée
+        PathName res = VFS4JFiles.write(pathName, liste, StandardCharsets.UTF_8, StandardOpenOption.READ);
+
+        // vérification
+        assertEquals(pathName3, res);
+        verify(fileManager.getCommand()).write(pathName, liste, StandardCharsets.UTF_8, StandardOpenOption.READ);
+        verifyNoMoreInteractions(fileManager.getCommand());
     }
 
     @Test
-    void newInputStream() {
+    void newInputStream() throws IOException {
+        LOGGER.info("newInputStream");
+        PathName pathName = getPathName();
+
+        InputStream inputStream = new ByteArrayInputStream(getBytesArrays());
+
+        when(fileManager.getOpen().newInputStream(pathName, StandardOpenOption.READ)).thenReturn(inputStream);
+
+        // methode testée
+        InputStream res = VFS4JFiles.newInputStream(pathName, StandardOpenOption.READ);
+
+        // vérification
+        assertEquals(inputStream, res);
+        verify(fileManager.getOpen()).newInputStream(pathName, StandardOpenOption.READ);
+        verifyNoMoreInteractions(fileManager.getOpen());
     }
 
     @Test
-    void newOutputStream() {
+    void newOutputStream() throws IOException {
+        LOGGER.info("newOutputStream");
+        PathName pathName = getPathName();
+
+        OutputStream outputStream = new ByteArrayOutputStream();
+
+        when(fileManager.getOpen().newOutputStream(pathName, StandardOpenOption.READ)).thenReturn(outputStream);
+
+        // methode testée
+        OutputStream res = VFS4JFiles.newOutputStream(pathName, StandardOpenOption.READ);
+
+        // vérification
+        assertEquals(outputStream, res);
+        verify(fileManager.getOpen()).newOutputStream(pathName, StandardOpenOption.READ);
+        verifyNoMoreInteractions(fileManager.getOpen());
     }
 
     @Test
-    void newReader() {
+    void newReader() throws IOException {
+        LOGGER.info("newReader");
+        PathName pathName = getPathName();
+
+        FileReader fileReader = mock(FileReader.class);
+
+        when(fileManager.getOpen().newReader(pathName)).thenReturn(fileReader);
+
+        // methode testée
+        FileReader res = VFS4JFiles.newReader(pathName);
+
+        // vérification
+        assertEquals(fileReader, res);
+        verify(fileManager.getOpen()).newReader(pathName);
+        verifyNoMoreInteractions(fileManager.getOpen());
     }
 
     @Test
-    void newWriter() {
+    void newWriter() throws IOException {
+        LOGGER.info("newWriter");
+        PathName pathName = getPathName();
+
+        FileWriter fileWriter = mock(FileWriter.class);
+        final boolean append = true;
+
+        when(fileManager.getOpen().newWriter(pathName, append)).thenReturn(fileWriter);
+
+        // methode testée
+        FileWriter res = VFS4JFiles.newWriter(pathName, append);
+
+        // vérification
+        assertEquals(fileWriter, res);
+        verify(fileManager.getOpen()).newWriter(pathName, append);
+        verifyNoMoreInteractions(fileManager.getOpen());
     }
 
     @Test
-    void newByteChannel() {
+    void newByteChannel() throws IOException {
+        LOGGER.info("newByteChannel");
+        PathName pathName = getPathName();
+
+        FileAttribute fileAttribute = mock(FileAttribute.class);
+        Set<OpenOption> set = new HashSet<>();
+        set.add(StandardOpenOption.READ);
+        SeekableByteChannel seekableByteChannel = mock(SeekableByteChannel.class);
+
+        when(fileManager.getOpen().newByteChannel(pathName, set, fileAttribute)).thenReturn(seekableByteChannel);
+
+        // methode testée
+        SeekableByteChannel res = VFS4JFiles.newByteChannel(pathName, set, fileAttribute);
+
+        // vérification
+        assertEquals(seekableByteChannel, res);
+        verify(fileManager.getOpen()).newByteChannel(pathName, set, fileAttribute);
+        verifyNoMoreInteractions(fileManager.getOpen());
     }
 
     @Test
-    void newDirectoryStream() {
+    void newDirectoryStream() throws IOException {
+        LOGGER.info("newDirectoryStream");
+        PathName pathName = getPathName();
+
+        // TODO: problème avec le type generique de DirectoryStream.Filter (doit être PathName et pas Path)
+        DirectoryStream.Filter<Path> filter = mock(DirectoryStream.Filter.class);
+        DirectoryStream<PathName> directoryStream = mock(DirectoryStream.class);
+
+        when(fileManager.getOpen().newDirectoryStream(pathName, filter)).thenReturn(directoryStream);
+
+        // methode testée
+        DirectoryStream<PathName> res = VFS4JFiles.newDirectoryStream(pathName, filter);
+
+        // vérification
+        assertEquals(directoryStream, res);
+        verify(fileManager.getOpen()).newDirectoryStream(pathName, filter);
+        verifyNoMoreInteractions(fileManager.getOpen());
     }
 
     @Test
     void exists() {
+        LOGGER.info("exists");
+        PathName pathName = getPathName();
+
+        final boolean isExists = true;
+
+        when(fileManager.getQuery().exists(pathName, LinkOption.NOFOLLOW_LINKS)).thenReturn(isExists);
+
+        // methode testée
+        boolean res = VFS4JFiles.exists(pathName, LinkOption.NOFOLLOW_LINKS);
+
+        // vérification
+        assertEquals(isExists, res);
+        verify(fileManager.getQuery()).exists(pathName, LinkOption.NOFOLLOW_LINKS);
+        verifyNoMoreInteractions(fileManager.getQuery());
     }
 
     @Test
     void isDirectory() {
+        LOGGER.info("isDirectory");
+        PathName pathName = getPathName();
+
+        final boolean isExists = true;
+
+        when(fileManager.getQuery().isDirectory(pathName, LinkOption.NOFOLLOW_LINKS)).thenReturn(isExists);
+
+        // methode testée
+        boolean res = VFS4JFiles.isDirectory(pathName, LinkOption.NOFOLLOW_LINKS);
+
+        // vérification
+        assertEquals(isExists, res);
+        verify(fileManager.getQuery()).isDirectory(pathName, LinkOption.NOFOLLOW_LINKS);
+        verifyNoMoreInteractions(fileManager.getQuery());
     }
 
     @Test
     void isRegularFile() {
+        LOGGER.info("isRegularFile");
+        PathName pathName = getPathName();
+
+        final boolean isExists = true;
+
+        when(fileManager.getQuery().isRegularFile(pathName, LinkOption.NOFOLLOW_LINKS)).thenReturn(isExists);
+
+        // methode testée
+        boolean res = VFS4JFiles.isRegularFile(pathName, LinkOption.NOFOLLOW_LINKS);
+
+        // vérification
+        assertEquals(isExists, res);
+        verify(fileManager.getQuery()).isRegularFile(pathName, LinkOption.NOFOLLOW_LINKS);
+        verifyNoMoreInteractions(fileManager.getQuery());
     }
 
     @Test
-    void isSameFile() {
+    void isSameFile() throws IOException {
+        LOGGER.info("isSameFile");
+        PathName pathName = getPathName();
+        PathName pathName2 = getPathName2();
+
+        final boolean isExists = true;
+
+        when(fileManager.getQuery().isSameFile(pathName, pathName2)).thenReturn(isExists);
+
+        // methode testée
+        boolean res = VFS4JFiles.isSameFile(pathName, pathName2);
+
+        // vérification
+        assertEquals(isExists, res);
+        verify(fileManager.getQuery()).isSameFile(pathName, pathName2);
+        verifyNoMoreInteractions(fileManager.getQuery());
     }
 
     @Test
     void isSymbolicLink() {
+        LOGGER.info("isSymbolicLink");
+        PathName pathName = getPathName();
+
+        final boolean isExists = true;
+
+        when(fileManager.getQuery().isSymbolicLink(pathName)).thenReturn(isExists);
+
+        // methode testée
+        boolean res = VFS4JFiles.isSymbolicLink(pathName);
+
+        // vérification
+        assertEquals(isExists, res);
+        verify(fileManager.getQuery()).isSymbolicLink(pathName);
+        verifyNoMoreInteractions(fileManager.getQuery());
     }
 
     @Test
-    void lines() {
+    void lines() throws IOException {
+        LOGGER.info("lines");
+        PathName pathName = getPathName();
+
+        final Stream<String> stream = Stream.of("abc");
+
+        when(fileManager.getQuery().lines(pathName)).thenReturn(stream);
+
+        // methode testée
+        Stream<String> res = VFS4JFiles.lines(pathName);
+
+        // vérification
+        assertEquals(stream, res);
+        verify(fileManager.getQuery()).lines(pathName);
+        verifyNoMoreInteractions(fileManager.getQuery());
     }
 
     @Test
-    void testLines() {
+    void lines2() throws IOException {
+        LOGGER.info("lines2");
+        PathName pathName = getPathName();
+
+        final Stream<String> stream = Stream.of("abc2");
+
+        when(fileManager.getQuery().lines(pathName, StandardCharsets.UTF_8)).thenReturn(stream);
+
+        // methode testée
+        Stream<String> res = VFS4JFiles.lines(pathName, StandardCharsets.UTF_8);
+
+        // vérification
+        assertEquals(stream, res);
+        verify(fileManager.getQuery()).lines(pathName, StandardCharsets.UTF_8);
+        verifyNoMoreInteractions(fileManager.getQuery());
     }
 
     @Test
     void notExists() {
+        LOGGER.info("notExists");
+        PathName pathName = getPathName();
+
+        final boolean notExists = true;
+
+        when(fileManager.getQuery().notExists(pathName, LinkOption.NOFOLLOW_LINKS)).thenReturn(notExists);
+
+        // methode testée
+        boolean res = VFS4JFiles.notExists(pathName, LinkOption.NOFOLLOW_LINKS);
+
+        // vérification
+        assertEquals(notExists, res);
+        verify(fileManager.getQuery()).notExists(pathName, LinkOption.NOFOLLOW_LINKS);
+        verifyNoMoreInteractions(fileManager.getQuery());
     }
 
     @Test
-    void readAllBytes() {
+    void readAllBytes() throws IOException {
+        LOGGER.info("readAllBytes");
+        PathName pathName = getPathName();
+
+        final byte[] buf = getBytesArrays();
+
+        when(fileManager.getQuery().readAllBytes(pathName)).thenReturn(buf);
+
+        // methode testée
+        byte[] res = VFS4JFiles.readAllBytes(pathName);
+
+        // vérification
+        assertArrayEquals(buf, res);
+        verify(fileManager.getQuery()).readAllBytes(pathName);
+        verifyNoMoreInteractions(fileManager.getQuery());
     }
 
     @Test
-    void readAllLines() {
+    void readAllLines() throws IOException {
+        LOGGER.info("readAllLines");
+        PathName pathName = getPathName();
+
+        final List<String> list = getListStrings();
+
+        when(fileManager.getQuery().readAllLines(pathName)).thenReturn(list);
+
+        // methode testée
+        List<String> res = VFS4JFiles.readAllLines(pathName);
+
+        // vérification
+        assertEquals(list, res);
+        verify(fileManager.getQuery()).readAllLines(pathName);
+        verifyNoMoreInteractions(fileManager.getQuery());
     }
 
     @Test
-    void testReadAllLines() {
+    void readAllLines2() throws IOException {
+        LOGGER.info("readAllLines2");
+        PathName pathName = getPathName();
+
+        final List<String> list = getListStrings();
+
+        when(fileManager.getQuery().readAllLines(pathName, StandardCharsets.UTF_8)).thenReturn(list);
+
+        // methode testée
+        List<String> res = VFS4JFiles.readAllLines(pathName, StandardCharsets.UTF_8);
+
+        // vérification
+        assertEquals(list, res);
+        verify(fileManager.getQuery()).readAllLines(pathName, StandardCharsets.UTF_8);
+        verifyNoMoreInteractions(fileManager.getQuery());
     }
 
     @Test
-    void size() {
+    void size() throws IOException {
+        LOGGER.info("size");
+        PathName pathName = getPathName();
+
+        final long len = 50;
+
+        when(fileManager.getQuery().size(pathName)).thenReturn(len);
+
+        // methode testée
+        long res = VFS4JFiles.size(pathName);
+
+        // vérification
+        assertEquals(len, res);
+        verify(fileManager.getQuery()).size(pathName);
+        verifyNoMoreInteractions(fileManager.getQuery());
     }
 
     @Test
-    void list() {
+    void list() throws IOException {
+        LOGGER.info("list");
+        PathName pathName = getPathName();
+
+        final Stream<PathName> stream = getStreamPathName();
+
+        when(fileManager.getSearch().list(pathName)).thenReturn(stream);
+
+        // methode testée
+        Stream<PathName> res = VFS4JFiles.list(pathName);
+
+        // vérification
+        assertEquals(stream, res);
+        verify(fileManager.getSearch()).list(pathName);
+        verifyNoMoreInteractions(fileManager.getSearch());
     }
 
     @Test
-    void walk() {
+    void walk() throws IOException {
+        LOGGER.info("walk");
+        PathName pathName = getPathName();
+
+        final Stream<PathName> stream = getStreamPathName();
+        final int maxPathDepth = 5;
+
+        when(fileManager.getSearch().walk(pathName, maxPathDepth, FileVisitOption.FOLLOW_LINKS)).thenReturn(stream);
+
+        // methode testée
+        Stream<PathName> res = VFS4JFiles.walk(pathName, maxPathDepth, FileVisitOption.FOLLOW_LINKS);
+
+        // vérification
+        assertEquals(stream, res);
+        verify(fileManager.getSearch()).walk(pathName, maxPathDepth, FileVisitOption.FOLLOW_LINKS);
+        verifyNoMoreInteractions(fileManager.getSearch());
     }
 
     @Test
-    void testWalk() {
+    void walk2() throws IOException {
+        LOGGER.info("walk2");
+        PathName pathName = getPathName();
+
+        final Stream<PathName> stream = getStreamPathName();
+
+        when(fileManager.getSearch().walk(pathName, FileVisitOption.FOLLOW_LINKS)).thenReturn(stream);
+
+        // methode testée
+        Stream<PathName> res = VFS4JFiles.walk(pathName, FileVisitOption.FOLLOW_LINKS);
+
+        // vérification
+        assertEquals(stream, res);
+        verify(fileManager.getSearch()).walk(pathName, FileVisitOption.FOLLOW_LINKS);
+        verifyNoMoreInteractions(fileManager.getSearch());
     }
 
     @Test
-    void find() {
+    void find() throws IOException {
+        LOGGER.info("find");
+        PathName pathName = getPathName();
+
+        final Stream<PathName> stream = getStreamPathName();
+        final int maxPathDepth = 5;
+        final BiPredicate<PathName, BasicFileAttributes> func = (x, y) -> true;
+
+        when(fileManager.getSearch().find(pathName, maxPathDepth, func, FileVisitOption.FOLLOW_LINKS)).thenReturn(stream);
+
+        // methode testée
+        Stream<PathName> res = VFS4JFiles.find(pathName, maxPathDepth, func, FileVisitOption.FOLLOW_LINKS);
+
+        // vérification
+        assertEquals(stream, res);
+        verify(fileManager.getSearch()).find(pathName, maxPathDepth, func, FileVisitOption.FOLLOW_LINKS);
+        verifyNoMoreInteractions(fileManager.getSearch());
     }
 
     // methodes utilitaires
@@ -520,5 +958,24 @@ class VFS4JFilesTest {
 
     private PathName getPathName2() {
         return new PathName("bbb", "/tmp2");
+    }
+
+    private PathName getPathName3() {
+        return new PathName("ccc", "/tmp3");
+    }
+
+    private byte[] getBytesArrays() {
+        return "test".getBytes(StandardCharsets.UTF_8);
+    }
+
+    private List<String> getListStrings() {
+        final List<String> list = new ArrayList<>();
+        list.add("aaa");
+        list.add("bbb");
+        return list;
+    }
+
+    private Stream<PathName> getStreamPathName() {
+        return Stream.of(new PathName("aaa", "/tmp"), new PathName("bbb", "/usr"));
     }
 }
