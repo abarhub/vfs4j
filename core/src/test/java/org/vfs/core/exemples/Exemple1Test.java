@@ -16,6 +16,7 @@ import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//TODO: corriger ces TU pour qu'ils fonctionnent avec maven
 @Disabled("ces TU ne fonctionnent pas avec Maven")
 public class Exemple1Test {
 
