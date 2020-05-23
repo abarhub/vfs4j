@@ -2,6 +2,7 @@ package org.vfs.core.api;
 
 import org.vfs.core.config.PathParameter;
 import org.vfs.core.config.VFS4JConfig;
+import org.vfs.core.config.VFS4JPathMode;
 import org.vfs.core.util.ValidationUtils;
 
 import java.nio.file.Path;
@@ -19,7 +20,14 @@ public class FileManagerBuilder {
     public FileManagerBuilder addPath(String name, Path path, boolean readonly) {
         ValidationUtils.checkNotEmpty(name, "Name is empty");
         ValidationUtils.checkNotNull(path, "Path is null");
-        listeConfig.put(name, new PathParameter(path, readonly));
+        listeConfig.put(name, new PathParameter(path, readonly, VFS4JPathMode.STANDARD));
+        return this;
+    }
+
+    public FileManagerBuilder addPath(String name, PathParameter parameter) {
+        ValidationUtils.checkNotEmpty(name, "Name is empty");
+        ValidationUtils.checkNotNull(parameter, "Paramater is null");
+        listeConfig.put(name, parameter);
         return this;
     }
 

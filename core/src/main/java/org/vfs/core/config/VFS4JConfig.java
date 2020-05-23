@@ -1,9 +1,15 @@
 package org.vfs.core.config;
 
+import org.vfs.core.exception.VFS4JConfigException;
+import org.vfs.core.exception.VFS4JErrorTemporaryCreationException;
+import org.vfs.core.exception.VFS4JPathNotExistsException;
 import org.vfs.core.util.ValidationUtils;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class VFS4JConfig {
 
@@ -15,19 +21,63 @@ public class VFS4JConfig {
 
     public VFS4JConfig(Map<String, PathParameter> listeConfig) {
         ValidationUtils.checkNotNull(listeConfig, "listeConfig is null");
-        this.listeConfig = new HashMap<>(listeConfig);
+        this.listeConfig = initListConfig(listeConfig);
+    }
+
+    private Map<String, PathParameter> initListConfig(Map<String, PathParameter> listeConfig) {
+        Map<String, PathParameter> map = new HashMap<>();
+        for (Map.Entry<String, PathParameter> entry : listeConfig.entrySet()) {
+            String name = entry.getKey();
+            PathParameter param = entry.getValue();
+            if (param.getMode() == null) {
+                throw new VFS4JConfigException("Mode is empty for name '" + name + "'");
+            } else if (param.getMode() == VFS4JPathMode.STANDARD) {
+                map.put(name, param);
+            } else if (param.getMode() == VFS4JPathMode.TEMPORARY) {
+                Path path = createTempraryDiractory(name);
+                PathParameter param2 = new PathParameter(path, param.isReadonly(), param.getMode());
+                map.put(name, param2);
+            } else {
+                throw new VFS4JConfigException("Mode is invalide for name '" + name + "'");
+            }
+        }
+        return map;
     }
 
     public void addPath(String name, Path path, boolean readonly) {
         ValidationUtils.checkNotEmpty(name, "Name is empty");
         ValidationUtils.checkNotNull(path, "Path is null");
-        listeConfig.put(name, new PathParameter(path, readonly));
+        addNewPath(name, path, readonly, VFS4JPathMode.STANDARD);
     }
 
     public void addPath(String name, Path path) {
         ValidationUtils.checkNotEmpty(name, "Name is empty");
         ValidationUtils.checkNotNull(path, "Path is null");
-        listeConfig.put(name, new PathParameter(path, false));
+        addNewPath(name, path, false, VFS4JPathMode.STANDARD);
+    }
+
+    public void addTemporaryPath(String name) throws VFS4JErrorTemporaryCreationException {
+        ValidationUtils.checkNotEmpty(name, "Name is empty");
+        Path path;
+        path = createTempraryDiractory(name);
+        addNewPath(name, path, false, VFS4JPathMode.TEMPORARY);
+    }
+
+    private Path createTempraryDiractory(String name) {
+        Path path;
+        try {
+            path = Files.createTempDirectory("vsf4j");
+        } catch (IOException exception) {
+            throw new VFS4JErrorTemporaryCreationException("Error creating temporary directory for name '" + name + "'", exception);
+        }
+        return path;
+    }
+
+    private void addNewPath(String name, Path path, boolean b, VFS4JPathMode standard) {
+        if (Files.notExists(path)) {
+            throw new VFS4JPathNotExistsException("Path '" + path + "' not exists for name '" + name + "'");
+        }
+        listeConfig.put(name, new PathParameter(path, b, standard));
     }
 
     public PathParameter getPath(String name) {
