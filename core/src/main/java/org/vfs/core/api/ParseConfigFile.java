@@ -35,6 +35,8 @@ public class ParseConfigFile {
                     String key = (String) o;
                     String value = (String) o2;
                     map.put(key, value);
+                } else {
+                    LOGGER.debug("key '{}' ignored (value not String)", o);
                 }
             }
         }
@@ -108,7 +110,7 @@ public class ParseConfigFile {
                     if (p != null) {
                         throw new VFS4JException("Path for '" + nom + "' is not empty");
                     }
-                    fileManagerBuilder.addPath(nom, new PathParameter(p, readonly, VFS4JPathMode.TEMPORARY));
+                    fileManagerBuilder.addPath(nom, new PathParameter(Paths.get(""), readonly, VFS4JPathMode.TEMPORARY));
                 } else {
                     throw new VFS4JException("Path or temporary mode must be completed '" + nom + "'");
                 }

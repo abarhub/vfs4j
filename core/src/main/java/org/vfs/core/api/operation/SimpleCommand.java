@@ -26,6 +26,7 @@ public class SimpleCommand extends AbstractOperation implements Command {
     @Override
     public void createFile(PathName file, FileAttribute<?>... attrs) throws IOException {
         ValidationUtils.checkNotNull(file, "Path is null");
+        writeOperation(file, "createFile");
         Path p = getRealFile(file);
         Files.createFile(p, attrs);
     }
@@ -33,6 +34,7 @@ public class SimpleCommand extends AbstractOperation implements Command {
     @Override
     public void createDirectory(PathName file, FileAttribute<?>... attrs) throws IOException {
         ValidationUtils.checkNotNull(file, "Path is null");
+        writeOperation(file, "createDirectory");
         Path p = getRealFile(file);
         Files.createDirectory(p, attrs);
     }
@@ -40,6 +42,7 @@ public class SimpleCommand extends AbstractOperation implements Command {
     @Override
     public void createDirectories(PathName file, FileAttribute<?>... attrs) throws IOException {
         ValidationUtils.checkNotNull(file, "Path is null");
+        writeOperation(file, "createDirectories");
         Path p = getRealFile(file);
         Files.createDirectories(p, attrs);
     }
@@ -47,6 +50,7 @@ public class SimpleCommand extends AbstractOperation implements Command {
     @Override
     public void delete(PathName file) throws IOException {
         ValidationUtils.checkNotNull(file, "Path is null");
+        writeOperation(file, "delete");
         Path p = getRealFile(file);
         Files.delete(p);
     }
@@ -54,6 +58,7 @@ public class SimpleCommand extends AbstractOperation implements Command {
     @Override
     public boolean deleteIfExists(PathName file) throws IOException {
         ValidationUtils.checkNotNull(file, "Path is null");
+        writeOperation(file, "deleteIfExists");
         Path p = getRealFile(file);
         return Files.deleteIfExists(p);
     }
@@ -62,6 +67,7 @@ public class SimpleCommand extends AbstractOperation implements Command {
     public PathName createLink(PathName file, PathName target) throws IOException {
         ValidationUtils.checkNotNull(file, "Path is null");
         ValidationUtils.checkNotNull(file, "target is null");
+        writeOperation(file, "createLink");
         Path p = getRealFile(file);
         Path targetPath = getRealFile(target);
         Path pathRes = Files.createLink(p, targetPath);
@@ -72,6 +78,7 @@ public class SimpleCommand extends AbstractOperation implements Command {
     public PathName createSymbolicLink(PathName link, PathName target, FileAttribute<?>... attrs) throws IOException {
         ValidationUtils.checkNotNull(link, "Path is null");
         ValidationUtils.checkNotNull(target, "target is null");
+        writeOperation(link, "createSymbolicLink");
         Path p = getRealFile(link);
         Path targetPath = getRealFile(target);
         Path pathRes = Files.createSymbolicLink(p, targetPath, attrs);
@@ -82,6 +89,7 @@ public class SimpleCommand extends AbstractOperation implements Command {
     public long copy(InputStream input, PathName target, CopyOption... options) throws IOException {
         ValidationUtils.checkNotNull(input, "input is null");
         ValidationUtils.checkNotNull(target, "target is null");
+        writeOperation(target, "copy");
         Path targetPath = getRealFile(target);
         return Files.copy(input, targetPath, options);
     }
@@ -98,6 +106,7 @@ public class SimpleCommand extends AbstractOperation implements Command {
     public PathName copy(PathName source, PathName target, CopyOption... options) throws IOException {
         ValidationUtils.checkNotNull(source, "source is null");
         ValidationUtils.checkNotNull(target, "target is null");
+        writeOperation(target, "copy");
         Path sourcePath = getRealFile(source);
         Path targetPath = getRealFile(target);
         Path path = Files.copy(sourcePath, targetPath, options);
@@ -108,6 +117,8 @@ public class SimpleCommand extends AbstractOperation implements Command {
     public PathName move(PathName source, PathName target, CopyOption... options) throws IOException {
         ValidationUtils.checkNotNull(source, "source is null");
         ValidationUtils.checkNotNull(target, "target is null");
+        writeOperation(source, "move");
+        writeOperation(target, "move");
         Path sourcePath = getRealFile(source);
         Path targetPath = getRealFile(target);
         Path path = Files.move(sourcePath, targetPath, options);
@@ -115,20 +126,22 @@ public class SimpleCommand extends AbstractOperation implements Command {
     }
 
     @Override
-    public PathName write(PathName source, byte[] bytes, OpenOption... options) throws IOException {
-        ValidationUtils.checkNotNull(source, "source is null");
+    public PathName write(PathName target, byte[] bytes, OpenOption... options) throws IOException {
+        ValidationUtils.checkNotNull(target, "target is null");
         ValidationUtils.checkNotNull(bytes, "bytes is null");
-        Path sourcePath = getRealFile(source);
+        writeOperation(target, "target");
+        Path sourcePath = getRealFile(target);
         Path path = Files.write(sourcePath, bytes, options);
         return convertFromRealPath(path).orElseThrow(throwInvalidePath(path));
     }
 
     @Override
-    public PathName write(PathName source, Iterable<? extends CharSequence> lines, Charset cs, OpenOption... options) throws IOException {
-        ValidationUtils.checkNotNull(source, "source is null");
+    public PathName write(PathName target, Iterable<? extends CharSequence> lines, Charset cs, OpenOption... options) throws IOException {
+        ValidationUtils.checkNotNull(target, "target is null");
         ValidationUtils.checkNotNull(lines, "lines is null");
         ValidationUtils.checkNotNull(cs, "cs is null");
-        Path sourcePath = getRealFile(source);
+        writeOperation(target, "target");
+        Path sourcePath = getRealFile(target);
         Path path = Files.write(sourcePath, lines, cs, options);
         return convertFromRealPath(path).orElseThrow(throwInvalidePath(path));
     }

@@ -4,9 +4,8 @@ import org.slf4j.Logger;
 import org.vfs.core.exception.VFS4JException;
 import org.vfs.core.util.VFS4JLoggerFactory;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -49,6 +48,7 @@ public class DefaultFileManager {
             if (vfsConfigPath != null && !vfsConfigPath.trim().isEmpty()) {
                 Path path = Paths.get(vfsConfigPath);
                 if (Files.exists(path)) {
+                    LOGGER.info("VFS4J config file is '{}'",path);
                     try (InputStream in = Files.newInputStream(path)) {
                         properties = new Properties();
                         properties.load(in);
@@ -63,17 +63,26 @@ public class DefaultFileManager {
 
         if (properties == null) {
             // lecture du fichier de configuration dans le classpath
-            try (InputStream is = DefaultFileManager.class.getResourceAsStream("/vfs.properties")) {
-                if (is != null) {
-                    properties = new Properties();
-                    properties.load(is);
+            URL url = DefaultFileManager.class.getResource("/vfs.properties");
+            if(url!=null) {
+                File file = new File(url.getFile());
+                LOGGER.info("VFS4J config file is '{}'",file);
+                try (InputStream is = new FileInputStream(file)) {
+                    if (is != null) {
+                        properties = new Properties();
+                        properties.load(is);
+                    }
+                } catch (FileNotFoundException e) {
+                    properties = null;
+                    LOGGER.info("File vfs.properties not found in classpath");
+                } catch (IOException e) {
+                    throw new VFS4JException("Error in reading file vfs.properties in classpath", e);
                 }
-            } catch (FileNotFoundException e) {
-                properties = null;
-                LOGGER.info("File vfs.properties not found in classpath");
-            } catch (IOException e) {
-                throw new VFS4JException("Error in reading file vfs.properties in classpath", e);
             }
+        }
+
+        if(properties==null){
+            LOGGER.info("no VFS4J config file found");
         }
         return properties;
     }

@@ -1,17 +1,20 @@
 package org.vfs.core.config;
 
+import org.slf4j.Logger;
 import org.vfs.core.exception.VFS4JConfigException;
 import org.vfs.core.exception.VFS4JErrorTemporaryCreationException;
 import org.vfs.core.exception.VFS4JPathNotExistsException;
+import org.vfs.core.util.VFS4JLoggerFactory;
 import org.vfs.core.util.ValidationUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class VFS4JConfig {
+
+    private static final Logger LOGGER = VFS4JLoggerFactory.getLogger(VFS4JConfig.class);
 
     private final Map<String, PathParameter> listeConfig;
 
@@ -32,7 +35,12 @@ public class VFS4JConfig {
             if (param.getMode() == null) {
                 throw new VFS4JConfigException("Mode is empty for name '" + name + "'");
             } else if (param.getMode() == VFS4JPathMode.STANDARD) {
-                map.put(name, param);
+                Path path2 = param.getPath();
+                if (!path2.isAbsolute()) {
+                    path2 = path2.toAbsolutePath().normalize();
+                }
+                PathParameter param2 = new PathParameter(path2, param.isReadonly(), param.getMode());
+                map.put(name, param2);
             } else if (param.getMode() == VFS4JPathMode.TEMPORARY) {
                 Path path = createTempraryDiractory(name);
                 PathParameter param2 = new PathParameter(path, param.isReadonly(), param.getMode());
@@ -41,6 +49,7 @@ public class VFS4JConfig {
                 throw new VFS4JConfigException("Mode is invalide for name '" + name + "'");
             }
         }
+        LOGGER.info("config map: {}", map);
         return map;
     }
 

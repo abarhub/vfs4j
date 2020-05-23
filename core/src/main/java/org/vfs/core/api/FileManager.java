@@ -38,6 +38,11 @@ public class FileManager {
         return vfs4JConfig;
     }
 
+    public void setConfig(VFS4JConfig config){
+        ValidationUtils.checkNotNull(config, "config is null");
+        this.vfs4JConfig=config;
+    }
+
     public PathParameter getPath(String name) {
         ValidationUtils.checkNotEmpty(name, "Name is empty");
         return vfs4JConfig.getPath(name);

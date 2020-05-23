@@ -5,6 +5,7 @@ import org.vfs.core.util.ValidationUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.StringJoiner;
 
 public class PathParameter {
 
@@ -30,5 +31,14 @@ public class PathParameter {
 
     public VFS4JPathMode getMode() {
         return mode;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", PathParameter.class.getSimpleName() + "[", "]")
+                .add("path=" + path)
+                .add("readonly=" + readonly)
+                .add("mode=" + mode)
+                .toString();
     }
 }

@@ -25,6 +25,7 @@ public class SimpleAttribute extends AbstractOperation implements Attribute {
     public PathName setAttribute(PathName path, String attribute, Object value, LinkOption... options) throws IOException {
         ValidationUtils.checkNotNull(path, "Path is null");
         ValidationUtils.checkNotEmpty(attribute, "attribute is empty");
+        writeOperation(path, "setAttribute");
         Path p = getRealFile(path);
         Path pathRes = Files.setAttribute(p, attribute, value, options);
         return convertFromRealPath(pathRes).orElseThrow(throwInvalidePath(pathRes));
@@ -34,6 +35,7 @@ public class SimpleAttribute extends AbstractOperation implements Attribute {
     public PathName setLastModifiedTime(PathName path, FileTime time) throws IOException {
         ValidationUtils.checkNotNull(path, "Path is null");
         ValidationUtils.checkNotNull(time, "time is null");
+        writeOperation(path, "setLastModifiedTime");
         Path p = getRealFile(path);
         Path pathRes = Files.setLastModifiedTime(p, time);
         return convertFromRealPath(pathRes).orElseThrow(throwInvalidePath(pathRes));
@@ -43,6 +45,7 @@ public class SimpleAttribute extends AbstractOperation implements Attribute {
     public PathName setOwner(PathName path, UserPrincipal userPrincipal) throws IOException {
         ValidationUtils.checkNotNull(path, "Path is null");
         ValidationUtils.checkNotNull(userPrincipal, "userPrincipal is null");
+        writeOperation(path, "setOwner");
         Path p = getRealFile(path);
         Path pathRes = Files.setOwner(p, userPrincipal);
         return convertFromRealPath(pathRes).orElseThrow(throwInvalidePath(pathRes));
@@ -52,6 +55,7 @@ public class SimpleAttribute extends AbstractOperation implements Attribute {
     public PathName setPosixFilePermissions(PathName path, Set<PosixFilePermission> posixFilePermissions) throws IOException {
         ValidationUtils.checkNotNull(path, "Path is null");
         ValidationUtils.checkNotNull(posixFilePermissions, "posixFilePermissions is null");
+        writeOperation(path, "setPosixFilePermissions");
         Path p = getRealFile(path);
         Path pathRes = Files.setPosixFilePermissions(p, posixFilePermissions);
         return convertFromRealPath(pathRes).orElseThrow(throwInvalidePath(pathRes));
