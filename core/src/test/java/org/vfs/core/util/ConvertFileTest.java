@@ -177,10 +177,10 @@ class ConvertFileTest {
 
     private static Path createPath(Path path) throws IOException {
         if (Files.notExists(path)) {
-            LOGGER.info("create path {}", path, new Exception());
+            LOGGER.debug("create path {}", path);
             return Files.createDirectories(path);
         } else {
-            LOGGER.info("path already exists {}", path);
+            LOGGER.debug("path already exists {}", path);
             return path;
         }
     }
