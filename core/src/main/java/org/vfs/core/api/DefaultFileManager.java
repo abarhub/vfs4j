@@ -33,7 +33,7 @@ public class DefaultFileManager {
             fileManagerBuilder = new FileManagerBuilder();
         }
 
-        FileManager fileManager = new FileManager(fileManagerBuilder);
+        FileManager fileManager = new FileManager(fileManagerBuilder.build());
 
         LOGGER.info("End initialization");
 

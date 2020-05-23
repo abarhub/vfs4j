@@ -20,7 +20,12 @@ public class FileManager {
     private ConvertFile convertFile;
 
     public FileManager() {
-        vfs4JConfig = new VFS4JConfig();
+        this(new VFS4JConfig());
+    }
+
+    public FileManager(VFS4JConfig vfs4JConfig) {
+        ValidationUtils.checkNotNull(vfs4JConfig, "vfs4JConfig is null");
+        this.vfs4JConfig = vfs4JConfig;
         command = new SimpleCommand(this);
         convertFile = new ConvertFile(vfs4JConfig);
         query = new SimpleQuery(this);
@@ -29,26 +34,8 @@ public class FileManager {
         attribute = new SimpleAttribute(this);
     }
 
-    public FileManager(FileManagerBuilder fileManagerBuilder) {
-        vfs4JConfig = fileManagerBuilder.build();
-        command = new SimpleCommand(this);
-        convertFile = new ConvertFile(vfs4JConfig);
-        query = new SimpleQuery(this);
-        open = new SimpleOpen(this);
-        search = new SimpleSearch(this);
-        attribute = new SimpleAttribute(this);
-    }
-
-    public void addPath(String name, Path path) {
-        ValidationUtils.checkNotEmpty(name, "Name is empty");
-        ValidationUtils.checkNotNull(path, "Path is null");
-        vfs4JConfig.addPath(name, path, false);
-    }
-
-    public void addPathRealOnly(String name, Path path) {
-        ValidationUtils.checkNotEmpty(name, "Name is empty");
-        ValidationUtils.checkNotNull(path, "Path is null");
-        vfs4JConfig.addPath(name, path, true);
+    public VFS4JConfig getConfig() {
+        return vfs4JConfig;
     }
 
     public PathParameter getPath(String name) {

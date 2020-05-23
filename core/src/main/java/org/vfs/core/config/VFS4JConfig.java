@@ -14,6 +14,7 @@ public class VFS4JConfig {
     }
 
     public VFS4JConfig(Map<String, PathParameter> listeConfig) {
+        ValidationUtils.checkNotNull(listeConfig, "listeConfig is null");
         this.listeConfig = new HashMap<>(listeConfig);
     }
 
@@ -21,6 +22,12 @@ public class VFS4JConfig {
         ValidationUtils.checkNotEmpty(name, "Name is empty");
         ValidationUtils.checkNotNull(path, "Path is null");
         listeConfig.put(name, new PathParameter(path, readonly));
+    }
+
+    public void addPath(String name, Path path) {
+        ValidationUtils.checkNotEmpty(name, "Name is empty");
+        ValidationUtils.checkNotNull(path, "Path is null");
+        listeConfig.put(name, new PathParameter(path, false));
     }
 
     public PathParameter getPath(String name) {

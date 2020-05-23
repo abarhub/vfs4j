@@ -27,7 +27,7 @@ class FileManagerTest {
         Files.createDirectory(temp);
         assertTrue(Files.exists(temp));
         FileManager fileManager = new FileManager();
-        fileManager.addPath("path1", temp);
+        fileManager.getConfig().addPath("path1", temp);
 
         final String pathRef = "test.txt";
         Path p = temp.resolve(pathRef);
@@ -56,7 +56,7 @@ class FileManagerTest {
         Files.createDirectory(temp);
         assertTrue(Files.exists(temp));
         FileManager fileManager = new FileManager();
-        fileManager.addPath("path1", temp);
+        fileManager.getConfig().addPath("path1", temp);
 
         final String pathRef = "mydirectory";
         Path p = temp.resolve(pathRef);
@@ -85,7 +85,7 @@ class FileManagerTest {
         Files.createDirectory(temp);
         assertTrue(Files.exists(temp));
         FileManager fileManager = new FileManager();
-        fileManager.addPath("path1", temp);
+        fileManager.getConfig().addPath("path1", temp);
 
         final String pathRef = "mydirectory/mysubdir";
         Path p = temp.resolve(pathRef);
@@ -114,7 +114,7 @@ class FileManagerTest {
         Files.createDirectory(temp);
         assertTrue(Files.exists(temp));
         FileManager fileManager = new FileManager();
-        fileManager.addPath("path1", temp);
+        fileManager.getConfig().addPath("path1", temp);
 
         final String pathRef = "mydir5";
         Path p = temp.resolve(pathRef);
@@ -144,7 +144,7 @@ class FileManagerTest {
         Files.createDirectory(temp);
         assertTrue(Files.exists(temp));
         FileManager fileManager = new FileManager();
-        fileManager.addPath("path1", temp);
+        fileManager.getConfig().addPath("path1", temp);
 
         final String pathRef = "mydir6";
         Path p = temp.resolve(pathRef);

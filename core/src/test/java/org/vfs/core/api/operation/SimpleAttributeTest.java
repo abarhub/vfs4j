@@ -47,7 +47,7 @@ class SimpleAttributeTest {
         assertTrue(Files.isDirectory(temp));
         directory = temp;
         fileManager = new FileManager();
-        fileManager.addPath(PATH1, temp);
+        fileManager.getConfig().addPath(PATH1, temp);
 
         attribute = new SimpleAttribute(fileManager);
     }
