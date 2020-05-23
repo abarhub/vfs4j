@@ -8,18 +8,19 @@ import org.vfs.core.exception.VFS4JInvalideParameterException;
 
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class PathNameTest {
 
     @Test
     void testConstructeurOK() {
         // methode testée
-        PathName pathName=new PathName("aaa","/test/test1");
+        PathName pathName = new PathName("aaa", "/test/test1");
 
         // verifications
-        assertEquals("aaa",pathName.getName());
-        assertEquals("/test/test1",pathName.getPath());
+        assertEquals("aaa", pathName.getName());
+        assertEquals("/test/test1", pathName.getPath());
     }
 
     private static Stream<Arguments> provideTestConstructeurParametersOK() {
@@ -36,40 +37,40 @@ class PathNameTest {
 
     @ParameterizedTest
     @MethodSource("provideTestConstructeurParametersOK")
-    void testConstructeurParametersOK(final String name,final String path) {
+    void testConstructeurParametersOK(final String name, final String path) {
         // methode testée
-        PathName pathName=new PathName(name,path);
+        PathName pathName = new PathName(name, path);
 
         // verifications
-        assertEquals(name,pathName.getName());
-        assertEquals(path,pathName.getPath());
+        assertEquals(name, pathName.getName());
+        assertEquals(path, pathName.getPath());
     }
 
     private static Stream<Arguments> provideTestConstructeurParametersKO() {
         return Stream.of(
-                Arguments.of(null, "/test","Name is empty"),
-                Arguments.of("", "/test","Name is empty"),
-                Arguments.of("aaa", null,"Path is null"),
-                Arguments.of("AAA", "/test","Name is invalide"),
-                Arguments.of("123", "/test","Name is invalide"),
-                Arguments.of(" aaa", "/test","Name is invalide"),
-                Arguments.of("a aa", "/test","Name is invalide"),
-                Arguments.of("aaa ", "/test","Name is invalide"),
-                Arguments.of("aAa", "/test","Name is invalide")
+                Arguments.of(null, "/test", "Name is empty"),
+                Arguments.of("", "/test", "Name is empty"),
+                Arguments.of("aaa", null, "Path is null"),
+                Arguments.of("AAA", "/test", "Name is invalide"),
+                Arguments.of("123", "/test", "Name is invalide"),
+                Arguments.of(" aaa", "/test", "Name is invalide"),
+                Arguments.of("a aa", "/test", "Name is invalide"),
+                Arguments.of("aaa ", "/test", "Name is invalide"),
+                Arguments.of("aAa", "/test", "Name is invalide")
         );
     }
 
     @ParameterizedTest
     @MethodSource("provideTestConstructeurParametersKO")
-    void testConstructeurParametersKO(final String name,final String path, String messageError) {
+    void testConstructeurParametersKO(final String name, final String path, String messageError) {
         try {
             // methode testée
             PathName pathName = new PathName(name, path);
 
             fail("Erreur");
 
-        }catch(VFS4JInvalideParameterException e){
-            assertEquals(messageError,e.getMessage());
+        } catch (VFS4JInvalideParameterException e) {
+            assertEquals(messageError, e.getMessage());
         }
     }
 }

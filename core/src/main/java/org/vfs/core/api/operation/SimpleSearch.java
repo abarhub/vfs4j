@@ -24,8 +24,8 @@ public class SimpleSearch extends AbstractOperation implements Search {
 
     @Override
     public Stream<PathName> list(PathName file) throws IOException {
-        ValidationUtils.checkNotNull(file,"Path is null");
-        Path p=getRealFile(file);
+        ValidationUtils.checkNotNull(file, "Path is null");
+        Path p = getRealFile(file);
         return Files.list(p)
                 .map(x -> getFileManager()
                         .convertFromRealPath(x)
@@ -34,8 +34,8 @@ public class SimpleSearch extends AbstractOperation implements Search {
 
     @Override
     public Stream<PathName> walk(PathName file, int maxDepth, FileVisitOption... options) throws IOException {
-        ValidationUtils.checkNotNull(file,"Path is null");
-        Path p=getRealFile(file);
+        ValidationUtils.checkNotNull(file, "Path is null");
+        Path p = getRealFile(file);
         return Files.walk(p, maxDepth, options)
                 .map(x -> getFileManager()
                         .convertFromRealPath(x)
@@ -44,8 +44,8 @@ public class SimpleSearch extends AbstractOperation implements Search {
 
     @Override
     public Stream<PathName> walk(PathName file, FileVisitOption... options) throws IOException {
-        ValidationUtils.checkNotNull(file,"Path is null");
-        Path p=getRealFile(file);
+        ValidationUtils.checkNotNull(file, "Path is null");
+        Path p = getRealFile(file);
         return Files.walk(p, options)
                 .map(x -> getFileManager()
                         .convertFromRealPath(x)
@@ -55,17 +55,17 @@ public class SimpleSearch extends AbstractOperation implements Search {
     @Override
     public Stream<PathName> find(PathName file, int maxDepth,
                                  BiPredicate<PathName, BasicFileAttributes> matcher, FileVisitOption... options) throws IOException {
-        ValidationUtils.checkNotNull(file,"Path is null");
-        Path p=getRealFile(file);
-        BiPredicate<Path, BasicFileAttributes> matcher2=(path, attr)->{
+        ValidationUtils.checkNotNull(file, "Path is null");
+        Path p = getRealFile(file);
+        BiPredicate<Path, BasicFileAttributes> matcher2 = (path, attr) -> {
             Optional<PathName> p2 = getFileManager().convertFromRealPath(path);
-            if(p2.isPresent()){
-                return matcher.test(p2.get(),attr);
+            if (p2.isPresent()) {
+                return matcher.test(p2.get(), attr);
             } else {
                 throw new VFS4JInvalidPathException("Invalide Path", path);
             }
         };
-        return Files.find(p, maxDepth,matcher2, options)
+        return Files.find(p, maxDepth, matcher2, options)
                 .map(x -> getFileManager()
                         .convertFromRealPath(x)
                         .orElseThrow(throwInvalidePath(x)));

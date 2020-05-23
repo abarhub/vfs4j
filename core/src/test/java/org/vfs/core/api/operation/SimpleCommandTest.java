@@ -36,22 +36,22 @@ class SimpleCommandTest {
     @BeforeEach
     void setUp(@TempDir Path tempDir) throws IOException {
         assertTrue(Files.exists(tempDir));
-        Path temp=tempDir.resolve("temp");
+        Path temp = tempDir.resolve("temp");
         assertFalse(Files.exists(temp));
         Files.createDirectory(temp);
         assertTrue(Files.exists(temp));
         assertTrue(Files.isDirectory(temp));
-        directory=temp;
-        fileManager=new FileManager();
-        fileManager.addPath(PATH1,temp);
+        directory = temp;
+        fileManager = new FileManager();
+        fileManager.addPath(PATH1, temp);
 
-        command=new SimpleCommand(fileManager);
+        command = new SimpleCommand(fileManager);
     }
 
     @Test
     void createFile() throws IOException {
         final String filename = "fichier.txt";
-        final Path file=directory.resolve(filename);
+        final Path file = directory.resolve(filename);
         assertFalse(Files.exists(file));
 
         // methode testée
@@ -66,7 +66,7 @@ class SimpleCommandTest {
     @Test
     void createDirectory() throws IOException {
         final String filename = "mytemp";
-        final Path file=directory.resolve(filename);
+        final Path file = directory.resolve(filename);
         assertFalse(Files.exists(file));
 
         // methode testée
@@ -81,7 +81,7 @@ class SimpleCommandTest {
     @Test
     void createDirectories() throws IOException {
         final String filename = "mytemp/mydir";
-        final Path file=directory.resolve(filename);
+        final Path file = directory.resolve(filename);
         assertFalse(Files.exists(file));
         assertFalse(Files.exists(file.getParent()));
         assertTrue(Files.exists(file.getParent().getParent()));
@@ -99,7 +99,7 @@ class SimpleCommandTest {
     @Test
     void deleteExists() throws IOException {
         final String filename = "fichier2";
-        final Path file=directory.resolve(filename);
+        final Path file = directory.resolve(filename);
         assertFalse(Files.exists(file));
         Files.createFile(file);
         assertTrue(Files.exists(file));
@@ -114,15 +114,15 @@ class SimpleCommandTest {
     @Test
     void deleteNotExists() throws IOException {
         final String filename = "fichier3";
-        final Path file=directory.resolve(filename);
+        final Path file = directory.resolve(filename);
         assertFalse(Files.exists(file));
 
         try {
             // methode testée
             command.delete(getPathName(filename));
             fail("Error");
-        }catch(NoSuchFileException e){
-            assertEquals(e.getMessage(),file.toString());
+        } catch (NoSuchFileException e) {
+            assertEquals(e.getMessage(), file.toString());
         }
 
         // vérifications
@@ -132,7 +132,7 @@ class SimpleCommandTest {
     @Test
     void deleteIfExistsExists() throws IOException {
         final String filename = "fichier4";
-        final Path file=directory.resolve(filename);
+        final Path file = directory.resolve(filename);
         assertFalse(Files.exists(file));
         Files.createFile(file);
         assertTrue(Files.exists(file));
@@ -148,7 +148,7 @@ class SimpleCommandTest {
     @Test
     void deleteIfExistsNotExists() throws IOException {
         final String filename = "fichier5";
-        final Path file=directory.resolve(filename);
+        final Path file = directory.resolve(filename);
         assertFalse(Files.exists(file));
 
         // methode testée
@@ -162,16 +162,16 @@ class SimpleCommandTest {
     @Test
     void createLink() throws IOException {
         final String link = "filelink";
-        final Path linkPath=directory.resolve(link);
+        final Path linkPath = directory.resolve(link);
         final String target = "dirtarget";
-        final Path targetPath=directory.resolve(target);
+        final Path targetPath = directory.resolve(target);
         final String contenuFichier = "abcaaa123";
         Files.createFile(targetPath);
         Files.write(targetPath, contenuFichier.getBytes(StandardCharsets.UTF_8));
         assertFalse(Files.exists(linkPath));
         assertTrue(Files.exists(targetPath));
         assertTrue(Files.isRegularFile(targetPath));
-        assertArrayEquals(contenuFichier.getBytes(StandardCharsets.UTF_8),Files.readAllBytes(targetPath));
+        assertArrayEquals(contenuFichier.getBytes(StandardCharsets.UTF_8), Files.readAllBytes(targetPath));
 
         // methode testée
         PathName res = command.createLink(getPathName(link), getPathName(target));
@@ -181,9 +181,9 @@ class SimpleCommandTest {
         assertTrue(Files.exists(targetPath));
         assertTrue(Files.isRegularFile(linkPath));
         assertTrue(Files.isRegularFile(targetPath));
-        assertArrayEquals(contenuFichier.getBytes(StandardCharsets.UTF_8),Files.readAllBytes(linkPath));
-        assertArrayEquals(contenuFichier.getBytes(StandardCharsets.UTF_8),Files.readAllBytes(targetPath));
-        assertEquals(getPathName(link),res);
+        assertArrayEquals(contenuFichier.getBytes(StandardCharsets.UTF_8), Files.readAllBytes(linkPath));
+        assertArrayEquals(contenuFichier.getBytes(StandardCharsets.UTF_8), Files.readAllBytes(targetPath));
+        assertEquals(getPathName(link), res);
     }
 
     @Test
@@ -191,9 +191,9 @@ class SimpleCommandTest {
     @Tag("symbolicLink")
     void createSymbolicLink() throws IOException {
         final String link = "dirlink";
-        final Path linkPath=directory.resolve(link);
+        final Path linkPath = directory.resolve(link);
         final String target = "dirtarget";
-        final Path targetPath=directory.resolve(target);
+        final Path targetPath = directory.resolve(target);
         Files.createDirectory(targetPath);
         assertFalse(Files.exists(linkPath));
         assertTrue(Files.exists(targetPath));
@@ -207,18 +207,18 @@ class SimpleCommandTest {
         assertTrue(Files.exists(targetPath));
         assertTrue(Files.isSymbolicLink(linkPath));
         assertTrue(Files.isDirectory(targetPath));
-        assertEquals(getPathName(link),res);
+        assertEquals(getPathName(link), res);
     }
 
     @Test
     void copyInput() throws IOException {
         final String contenu = "abc";
-        ByteArrayInputStream input=new ByteArrayInputStream(contenu.getBytes(StandardCharsets.UTF_8));
+        ByteArrayInputStream input = new ByteArrayInputStream(contenu.getBytes(StandardCharsets.UTF_8));
         final String filename = "file1.txt";
         PathName outputFile = getPathName(filename);
 
         // methode testée
-        long res = command.copy(input,outputFile);
+        long res = command.copy(input, outputFile);
 
         // vérifications
         byte[] buf = Files.readAllBytes(directory.resolve(filename));
@@ -231,10 +231,10 @@ class SimpleCommandTest {
         final String contenu = "abc2";
         final String filename = "file2.txt";
         PathName inputFile = getPathName(filename);
-        Path input=directory.resolve(filename);
-        Files.write(input,contenu.getBytes(StandardCharsets.UTF_8));
+        Path input = directory.resolve(filename);
+        Files.write(input, contenu.getBytes(StandardCharsets.UTF_8));
         assertTrue(Files.exists(input));
-        ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         // methode testée
         long res = command.copy(inputFile, outputStream);
@@ -251,11 +251,11 @@ class SimpleCommandTest {
         final String filenameInput = "fileinput.txt";
         final String filenameOutput = "fileoutput.txt";
         PathName inputFile = getPathName(filenameInput);
-        Path input=directory.resolve(filenameInput);
-        Files.write(input,contenu.getBytes(StandardCharsets.UTF_8));
+        Path input = directory.resolve(filenameInput);
+        Files.write(input, contenu.getBytes(StandardCharsets.UTF_8));
         assertTrue(Files.exists(input));
         PathName outputFile = getPathName(filenameOutput);
-        Path output=directory.resolve(filenameOutput);
+        Path output = directory.resolve(filenameOutput);
         assertFalse(Files.exists(output));
 
         // methode testée
@@ -276,11 +276,11 @@ class SimpleCommandTest {
         final String filenameInput = "fileinput2.txt";
         final String filenameOutput = "fileoutput2.txt";
         PathName inputFile = getPathName(filenameInput);
-        Path input=directory.resolve(filenameInput);
-        Files.write(input,contenu.getBytes(StandardCharsets.UTF_8));
+        Path input = directory.resolve(filenameInput);
+        Files.write(input, contenu.getBytes(StandardCharsets.UTF_8));
         assertTrue(Files.exists(input));
         PathName outputFile = getPathName(filenameOutput);
-        Path output=directory.resolve(filenameOutput);
+        Path output = directory.resolve(filenameOutput);
         assertFalse(Files.exists(output));
 
         // methode testée
@@ -300,7 +300,7 @@ class SimpleCommandTest {
         final String contenu = "abc5";
         final String filename = "file.txt";
         final PathName inputFile = getPathName(filename);
-        final Path file=directory.resolve(filename);
+        final Path file = directory.resolve(filename);
         assertFalse(Files.exists(file));
 
         // methode testée
@@ -316,11 +316,11 @@ class SimpleCommandTest {
     @Test
     void writeLines() throws IOException {
         final String contenu = "abc6";
-        final List<String> lignesRef=new ArrayList<>();
+        final List<String> lignesRef = new ArrayList<>();
         lignesRef.add(contenu);
         final String filename = "file2.txt";
         final PathName inputFile = getPathName(filename);
-        final Path file=directory.resolve(filename);
+        final Path file = directory.resolve(filename);
         assertFalse(Files.exists(file));
 
         // methode testée
@@ -338,7 +338,7 @@ class SimpleCommandTest {
 
     // methodes utilitaires
 
-    public PathName getPathName(String filename){
+    public PathName getPathName(String filename) {
         return new PathName(PATH1, filename);
     }
 }

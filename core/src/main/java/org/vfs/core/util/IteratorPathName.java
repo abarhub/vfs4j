@@ -1,8 +1,8 @@
 package org.vfs.core.util;
 
-import org.vfs.core.exception.VFS4JException;
 import org.vfs.core.api.FileManager;
 import org.vfs.core.api.PathName;
+import org.vfs.core.exception.VFS4JException;
 
 import java.nio.file.Path;
 import java.util.Iterator;

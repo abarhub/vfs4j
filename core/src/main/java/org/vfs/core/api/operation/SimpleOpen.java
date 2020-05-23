@@ -24,45 +24,45 @@ public class SimpleOpen extends AbstractOperation implements Open {
 
     @Override
     public InputStream newInputStream(PathName pathName, OpenOption... options) throws IOException {
-        Path path=getRealFile(pathName);
+        Path path = getRealFile(pathName);
         return Files.newInputStream(path, options);
     }
 
     @Override
     public OutputStream newOutputStream(PathName pathName, OpenOption... options) throws IOException {
-        Path path=getRealFile(pathName);
+        Path path = getRealFile(pathName);
         return Files.newOutputStream(path, options);
     }
 
     @Override
     public FileReader newReader(PathName pathName) throws IOException {
-        Path path=getRealFile(pathName);
+        Path path = getRealFile(pathName);
         // TODO: voir comment gérer l'encodage des caractères
         return new FileReader(path.toFile());
     }
 
     @Override
     public FileWriter newWriter(PathName pathName, boolean append) throws IOException {
-        Path path=getRealFile(pathName);
+        Path path = getRealFile(pathName);
         // TODO: voir comment gérer l'encodage des caractères
         return new FileWriter(path.toFile(), append);
     }
 
     @Override
     public SeekableByteChannel newByteChannel(PathName pathName, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
-        Path path=getRealFile(pathName);
-        return Files.newByteChannel(path,options,attrs);
+        Path path = getRealFile(pathName);
+        return Files.newByteChannel(path, options, attrs);
     }
 
     @Override
     public DirectoryStream<PathName> newDirectoryStream(PathName pathName, DirectoryStream.Filter<? super PathName> filter) throws IOException {
-        Path path=getRealFile(pathName);
-        DirectoryStream.Filter<? super Path> filter2=(p) -> {
+        Path path = getRealFile(pathName);
+        DirectoryStream.Filter<? super Path> filter2 = (p) -> {
             Optional<PathName> res = convertFromRealPath(p);
-            if(res.isPresent()){
+            if (res.isPresent()) {
                 return filter.accept(res.get());
             } else {
-                throw new VFS4JInvalidPathException("Path invalide",p);
+                throw new VFS4JInvalidPathException("Path invalide", p);
             }
         };
         final DirectoryStream<Path> directoryStream = Files.newDirectoryStream(path, filter2);

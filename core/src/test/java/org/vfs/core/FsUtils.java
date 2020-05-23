@@ -15,8 +15,8 @@ public class FsUtils {
             while ((nRead = input.read(data, 0, data.length)) != -1) {
                 buffer.write(data, 0, nRead);
             }
-        }finally{
-            if(input!=null) {
+        } finally {
+            if (input != null) {
                 input.close();
             }
         }
@@ -26,10 +26,10 @@ public class FsUtils {
     }
 
     public static List<String> readAll(FileReader reader) throws IOException {
-        List<String> lignes=new ArrayList<>();
-        try(BufferedReader bufferedReader=new BufferedReader(reader)){
+        List<String> lignes = new ArrayList<>();
+        try (BufferedReader bufferedReader = new BufferedReader(reader)) {
             String line;
-            while((line=bufferedReader.readLine())!=null){
+            while ((line = bufferedReader.readLine()) != null) {
                 lignes.add(line);
             }
         }
@@ -37,8 +37,8 @@ public class FsUtils {
     }
 
     public static List<String> newList(String... contenu) {
-        final List<String> liste=new ArrayList<>();
-        if(contenu!=null){
+        final List<String> liste = new ArrayList<>();
+        if (contenu != null) {
             liste.addAll(Arrays.asList(contenu));
         }
         return liste;

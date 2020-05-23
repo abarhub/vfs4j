@@ -14,15 +14,15 @@ public class DirectoryStreamPathName implements DirectoryStream<PathName> {
     private final FileManager fileManager;
 
     public DirectoryStreamPathName(DirectoryStream<Path> directoryStream, FileManager fileManager) {
-        ValidationUtils.checkNotNull(directoryStream,"directoryStream is null");
-        ValidationUtils.checkNotNull(fileManager,"fileManager is null");
+        ValidationUtils.checkNotNull(directoryStream, "directoryStream is null");
+        ValidationUtils.checkNotNull(fileManager, "fileManager is null");
         this.directoryStream = directoryStream;
-        this.fileManager=fileManager;
+        this.fileManager = fileManager;
     }
 
     @Override
     public Iterator<PathName> iterator() {
-        Iterator<Path> iter=directoryStream.iterator();
+        Iterator<Path> iter = directoryStream.iterator();
         return new IteratorPathName(iter, fileManager);
     }
 

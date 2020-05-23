@@ -10,7 +10,7 @@ public class PathParameter {
     private final boolean readonly;
 
     public PathParameter(Path path, boolean readonly) {
-        ValidationUtils.checkNotNull(path,"Path is null");
+        ValidationUtils.checkNotNull(path, "Path is null");
         this.path = path;
         this.readonly = readonly;
     }

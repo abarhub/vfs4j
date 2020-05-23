@@ -11,7 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class MainTest {
 
@@ -19,8 +19,8 @@ class MainTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        Path p= Paths.get("./target/test");
-        if(Files.exists(p)) {
+        Path p = Paths.get("./target/test");
+        if (Files.exists(p)) {
             FileUtils.deleteDirectory(p.toFile());
         }
         assertFalse(Files.exists(p));

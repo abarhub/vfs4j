@@ -40,22 +40,22 @@ class SimpleAttributeTest {
         //fileManager=new FileManager();
 
         assertTrue(Files.exists(tempDir));
-        Path temp=tempDir.resolve("temp");
+        Path temp = tempDir.resolve("temp");
         assertFalse(Files.exists(temp));
         Files.createDirectory(temp);
         assertTrue(Files.exists(temp));
         assertTrue(Files.isDirectory(temp));
-        directory=temp;
-        fileManager=new FileManager();
-        fileManager.addPath(PATH1,temp);
+        directory = temp;
+        fileManager = new FileManager();
+        fileManager.addPath(PATH1, temp);
 
-        attribute=new SimpleAttribute(fileManager);
+        attribute = new SimpleAttribute(fileManager);
     }
 
     @Test
     void setAttribute() throws IOException {
-        String filename="fichier1.txt";
-        final Path file=directory.resolve(filename);
+        String filename = "fichier1.txt";
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertTrue(Files.exists(file));
         final FileTime fileTime = FileTime.from(Instant.EPOCH);
@@ -65,15 +65,15 @@ class SimpleAttributeTest {
 
         // vérifications
         assertNotNull(res);
-        FileTime time= Files.getLastModifiedTime(file);
+        FileTime time = Files.getLastModifiedTime(file);
         assertNotNull(time);
         assertEquals(fileTime, time);
     }
 
     @Test
     void setLastModifiedTime() throws IOException {
-        String filename="fichier2.txt";
-        final Path file=directory.resolve(filename);
+        String filename = "fichier2.txt";
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertTrue(Files.exists(file));
         final FileTime fileTime = FileTime.from(Instant.EPOCH.plusMillis(1000));
@@ -83,7 +83,7 @@ class SimpleAttributeTest {
 
         // vérifications
         assertNotNull(res);
-        FileTime time= Files.getLastModifiedTime(file);
+        FileTime time = Files.getLastModifiedTime(file);
         assertNotNull(time);
         assertEquals(fileTime, time);
     }
@@ -91,12 +91,12 @@ class SimpleAttributeTest {
     @Test
     @Disabled("Problème de droit pour modifier les droit d'un fichier")
     void setOwner() throws IOException {
-        String filename="fichier3.txt";
-        final Path file=directory.resolve(filename);
+        String filename = "fichier3.txt";
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertTrue(Files.exists(file));
-        LOGGER.info("file={} ({})",file, file.toUri());
-        FileSystem fs=FileSystems.getDefault();
+        LOGGER.info("file={} ({})", file, file.toUri());
+        FileSystem fs = FileSystems.getDefault();
         UserPrincipalLookupService lookupService = fs.getUserPrincipalLookupService();
         final String username = "user123";
         UserPrincipal user = lookupService.lookupPrincipalByName(username);
@@ -106,7 +106,7 @@ class SimpleAttributeTest {
 
         // vérifications
         assertNotNull(res);
-        UserPrincipal owner= Files.getOwner(file);
+        UserPrincipal owner = Files.getOwner(file);
         assertNotNull(owner);
         assertEquals(owner, user);
     }
@@ -115,11 +115,11 @@ class SimpleAttributeTest {
     @Disabled("Ne fonctionne pas sous windows")
     @Tag("linux")
     void setPosixFilePermissions() throws IOException {
-        String filename="fichier4.txt";
-        final Path file=directory.resolve(filename);
+        String filename = "fichier4.txt";
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertTrue(Files.exists(file));
-        Set<PosixFilePermission> permissions=new HashSet<>();
+        Set<PosixFilePermission> permissions = new HashSet<>();
         permissions.add(PosixFilePermission.OWNER_READ);
 
         // methode testée
@@ -134,12 +134,12 @@ class SimpleAttributeTest {
 
     @Test
     void getAttribute() throws IOException {
-        String filename="fichier5.txt";
-        final Path file=directory.resolve(filename);
+        String filename = "fichier5.txt";
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertTrue(Files.exists(file));
         final FileTime fileTime = FileTime.from(Instant.EPOCH.plusMillis(3000));
-        Files.setLastModifiedTime(file,fileTime);
+        Files.setLastModifiedTime(file, fileTime);
 
         // methode testée
         FileTime res = (FileTime) attribute.getAttribute(getPathName(filename), "lastModifiedTime");
@@ -154,8 +154,8 @@ class SimpleAttributeTest {
     @Test
     @Tag("windows")
     void getFileAttributeView() throws IOException {
-        String filename="fichier6.txt";
-        final Path file=directory.resolve(filename);
+        String filename = "fichier6.txt";
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertTrue(Files.exists(file));
 
@@ -169,12 +169,12 @@ class SimpleAttributeTest {
 
     @Test
     void getLastModifiedTime() throws IOException {
-        String filename="fichier7.txt";
-        final Path file=directory.resolve(filename);
+        String filename = "fichier7.txt";
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertTrue(Files.exists(file));
         final FileTime fileTime = FileTime.from(Instant.EPOCH.plusMillis(4000));
-        Files.setLastModifiedTime(file,fileTime);
+        Files.setLastModifiedTime(file, fileTime);
 
         // methode testée
         FileTime res = attribute.getLastModifiedTime(getPathName(filename));
@@ -186,8 +186,8 @@ class SimpleAttributeTest {
 
     @Test
     void getOwner() throws IOException {
-        String filename="fichier8.txt";
-        final Path file=directory.resolve(filename);
+        String filename = "fichier8.txt";
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertTrue(Files.exists(file));
 
@@ -202,8 +202,8 @@ class SimpleAttributeTest {
     @Disabled("Ne fonctionne pas sous windows")
     @Tag("linux")
     void getPosixFilePermissions() throws IOException {
-        String filename="fichier9.txt";
-        final Path file=directory.resolve(filename);
+        String filename = "fichier9.txt";
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertTrue(Files.exists(file));
 
@@ -219,8 +219,8 @@ class SimpleAttributeTest {
     @Test
     @Tag("windows")
     void isExecutable() throws IOException {
-        String filename="fichier10.txt";
-        final Path file=directory.resolve(filename);
+        String filename = "fichier10.txt";
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertTrue(Files.exists(file));
 
@@ -233,8 +233,8 @@ class SimpleAttributeTest {
 
     @Test
     void isHidden() throws IOException {
-        String filename="fichier11.txt";
-        final Path file=directory.resolve(filename);
+        String filename = "fichier11.txt";
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertTrue(Files.exists(file));
 
@@ -247,8 +247,8 @@ class SimpleAttributeTest {
 
     @Test
     void isReadable() throws IOException {
-        String filename="fichier12.txt";
-        final Path file=directory.resolve(filename);
+        String filename = "fichier12.txt";
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertTrue(Files.exists(file));
 
@@ -263,12 +263,12 @@ class SimpleAttributeTest {
     void isWritableTrue() throws IOException {
 
         final String filename = "fichier13.txt";
-        final Path file=directory.resolve(filename);
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertTrue(Files.isWritable(file));
 
         // methode testée
-        boolean res=attribute.isWritable(getPathName(filename));
+        boolean res = attribute.isWritable(getPathName(filename));
 
         // vérifications
         assertTrue(res);
@@ -279,12 +279,12 @@ class SimpleAttributeTest {
     @Disabled("TODO: trouver un moyen de créer un fichier non writable")
     void isWritableFalse() throws IOException {
         final String filename = "fichier14.txt";
-        final Path file=directory.resolve(filename);
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertFalse(Files.isWritable(file));
 
         // methode testée
-        boolean res=attribute.isWritable(getPathName(filename));
+        boolean res = attribute.isWritable(getPathName(filename));
 
         // vérifications
         assertFalse(res);
@@ -292,12 +292,12 @@ class SimpleAttributeTest {
 
     @Test
     void readAttributesStr() throws IOException {
-        String filename="fichier15.txt";
-        final Path file=directory.resolve(filename);
+        String filename = "fichier15.txt";
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertTrue(Files.exists(file));
         final FileTime fileTime = FileTime.from(Instant.EPOCH.plusMillis(6000));
-        Files.setLastModifiedTime(file,fileTime);
+        Files.setLastModifiedTime(file, fileTime);
 
         // methode testée
         Map<String, Object> res = attribute.readAttributes(getPathName(filename), LAST_MODIFIED_TIME_ATTRIBUTE);
@@ -310,12 +310,12 @@ class SimpleAttributeTest {
 
     @Test
     void readAttributesClass() throws IOException {
-        String filename="fichier16.txt";
-        final Path file=directory.resolve(filename);
+        String filename = "fichier16.txt";
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertTrue(Files.exists(file));
         final FileTime fileTime = FileTime.from(Instant.EPOCH.plusMillis(7000));
-        Files.setLastModifiedTime(file,fileTime);
+        Files.setLastModifiedTime(file, fileTime);
 
         // methode testée
         BasicFileAttributes res = attribute.readAttributes(getPathName(filename), BasicFileAttributes.class);
@@ -328,7 +328,7 @@ class SimpleAttributeTest {
 
     // methodes utilitaires
 
-    public PathName getPathName(String filename){
+    public PathName getPathName(String filename) {
         return new PathName(PATH1, filename);
     }
 

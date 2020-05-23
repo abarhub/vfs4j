@@ -20,10 +20,10 @@ class ParseConfigFileTest {
         final String path1 = "dir1";
         final String dir2 = "dir2";
         final String path2 = "dir2";
-        Properties properties=new Properties();
-        properties.put("vfs.paths.dir1.path",path1);
-        properties.put("vfs.paths.dir2.path",path2);
-        ParseConfigFile parseConfigFile=new ParseConfigFile();
+        Properties properties = new Properties();
+        properties.put("vfs.paths.dir1.path", path1);
+        properties.put("vfs.paths.dir2.path", path2);
+        ParseConfigFile parseConfigFile = new ParseConfigFile();
 
         // methode testée
         FileManagerBuilder res = parseConfigFile.parse(properties);
@@ -32,15 +32,15 @@ class ParseConfigFileTest {
         assertNotNull(res);
         VFS4JConfig res2 = res.build();
         assertNotNull(res2);
-        List<String> liste=new ArrayList<>();
+        List<String> liste = new ArrayList<>();
         liste.add(dir1);
         liste.add(dir2);
-        assertEquals(new HashSet<>(liste),new HashSet<>(res2.getNames()));
-        PathParameter pathParameter =res2.getPath(dir1);
+        assertEquals(new HashSet<>(liste), new HashSet<>(res2.getNames()));
+        PathParameter pathParameter = res2.getPath(dir1);
         assertNotNull(pathParameter);
         assertEquals(Paths.get(path1), pathParameter.getPath());
         assertFalse(pathParameter.isReadonly());
-        pathParameter =res2.getPath(dir2);
+        pathParameter = res2.getPath(dir2);
         assertNotNull(pathParameter);
         assertEquals(Paths.get(path2), pathParameter.getPath());
         assertFalse(pathParameter.isReadonly());

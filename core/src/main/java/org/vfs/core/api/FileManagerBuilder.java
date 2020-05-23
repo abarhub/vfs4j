@@ -13,17 +13,17 @@ public class FileManagerBuilder {
     private final Map<String, PathParameter> listeConfig;
 
     public FileManagerBuilder() {
-        listeConfig=new HashMap<>();
+        listeConfig = new HashMap<>();
     }
 
-    public FileManagerBuilder addPath(String name, Path path, boolean readonly){
-        ValidationUtils.checkNotEmpty(name,"Name is empty");
-        ValidationUtils.checkNotNull(path,"Path is null");
-        listeConfig.put(name,new PathParameter(path,readonly));
+    public FileManagerBuilder addPath(String name, Path path, boolean readonly) {
+        ValidationUtils.checkNotEmpty(name, "Name is empty");
+        ValidationUtils.checkNotNull(path, "Path is null");
+        listeConfig.put(name, new PathParameter(path, readonly));
         return this;
     }
 
-    public VFS4JConfig build(){
+    public VFS4JConfig build() {
         return new VFS4JConfig(listeConfig);
     }
 

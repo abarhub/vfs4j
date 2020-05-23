@@ -12,15 +12,15 @@ public class PathName {
     private final String path;
 
     public PathName(String name, String path) {
-        ValidationUtils.checkNotEmpty(name,"Name is empty");
-        ValidationUtils.checkParameter(isValideName(name),"Name is invalide");
-        ValidationUtils.checkNotNull(path,"Path is null");
+        ValidationUtils.checkNotEmpty(name, "Name is empty");
+        ValidationUtils.checkParameter(isValideName(name), "Name is invalide");
+        ValidationUtils.checkNotNull(path, "Path is null");
         this.name = name;
         this.path = path;
     }
 
     private boolean isValideName(String name) {
-        if(name==null||name.trim().isEmpty()){
+        if (name == null || name.trim().isEmpty()) {
             return false;
         }
         return name.matches("^[a-z][a-z0-9]*$");
@@ -48,11 +48,11 @@ public class PathName {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PathName pathName = (PathName) o;
-        if(!Objects.equals(name, pathName.name)) {
+        if (!Objects.equals(name, pathName.name)) {
             return false;
         }
-        Path p=Paths.get(path);
-        Path p2=Paths.get(pathName.path);
+        Path p = Paths.get(path);
+        Path p2 = Paths.get(pathName.path);
         return p.equals(p2);
     }
 

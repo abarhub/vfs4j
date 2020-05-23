@@ -37,31 +37,31 @@ class SimpleQueryTest {
 
     @BeforeEach
     void setUp(@TempDir Path tempDir) throws IOException {
-        fileManager=new FileManager();
+        fileManager = new FileManager();
 
         assertTrue(Files.exists(tempDir));
-        Path temp=tempDir.resolve("temp");
+        Path temp = tempDir.resolve("temp");
         assertFalse(Files.exists(temp));
         Files.createDirectory(temp);
         assertTrue(Files.exists(temp));
         assertTrue(Files.isDirectory(temp));
-        directory=temp;
-        fileManager=new FileManager();
-        fileManager.addPath(PATH1,temp);
+        directory = temp;
+        fileManager = new FileManager();
+        fileManager.addPath(PATH1, temp);
 
-        simpleQuery =new SimpleQuery(fileManager);
+        simpleQuery = new SimpleQuery(fileManager);
     }
 
     @Test
     void existsTrue() throws IOException {
 
         final String filename = "fichier.txt";
-        final Path file=directory.resolve(filename);
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertTrue(Files.exists(file));
 
         // methode testée
-        boolean res= simpleQuery.exists(getPathName(filename));
+        boolean res = simpleQuery.exists(getPathName(filename));
 
         // vérifications
         assertTrue(res);
@@ -71,11 +71,11 @@ class SimpleQueryTest {
     void existsNot() throws IOException {
 
         final String filename = "fichier.txt";
-        final Path file=directory.resolve(filename);
+        final Path file = directory.resolve(filename);
         assertFalse(Files.exists(file));
 
         // methode testée
-        boolean res= simpleQuery.exists(getPathName(filename));
+        boolean res = simpleQuery.exists(getPathName(filename));
 
         // vérifications
         assertFalse(res);
@@ -85,12 +85,12 @@ class SimpleQueryTest {
     void isDirectoryTrue() throws IOException {
 
         final String filename = "directory";
-        final Path file=directory.resolve(filename);
+        final Path file = directory.resolve(filename);
         Files.createDirectory(file);
         assertTrue(Files.isDirectory(file));
 
         // methode testée
-        boolean res= simpleQuery.isDirectory(getPathName(filename));
+        boolean res = simpleQuery.isDirectory(getPathName(filename));
 
         // vérifications
         assertTrue(res);
@@ -100,12 +100,12 @@ class SimpleQueryTest {
     void isDirectoryFalse() throws IOException {
 
         final String filename = "file.txt";
-        final Path file=directory.resolve(filename);
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertFalse(Files.isDirectory(file));
 
         // methode testée
-        boolean res= simpleQuery.isDirectory(getPathName(filename));
+        boolean res = simpleQuery.isDirectory(getPathName(filename));
 
         // vérifications
         assertFalse(res);
@@ -115,12 +115,12 @@ class SimpleQueryTest {
     void isRegularFileTrue() throws IOException {
 
         final String filename = "file.txt";
-        final Path file=directory.resolve(filename);
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertTrue(Files.isRegularFile(file));
 
         // methode testée
-        boolean res= simpleQuery.isRegularFile(getPathName(filename));
+        boolean res = simpleQuery.isRegularFile(getPathName(filename));
 
         // vérifications
         assertTrue(res);
@@ -130,12 +130,12 @@ class SimpleQueryTest {
     void isRegularFileFalse() throws IOException {
 
         final String filename = "direct2";
-        final Path file=directory.resolve(filename);
+        final Path file = directory.resolve(filename);
         Files.createDirectory(file);
         assertFalse(Files.isRegularFile(file));
 
         // methode testée
-        boolean res= simpleQuery.isRegularFile(getPathName(filename));
+        boolean res = simpleQuery.isRegularFile(getPathName(filename));
 
         // vérifications
         assertFalse(res);
@@ -153,18 +153,18 @@ class SimpleQueryTest {
     @ParameterizedTest
     @MethodSource("provideIsSameFile")
     void isSameFile(final String filename, final String filename2, final boolean resultat) throws IOException {
-        final Path file=directory.resolve(filename);
-        final Path file2=directory.resolve(filename2);
-        if(Files.notExists(file)) {
+        final Path file = directory.resolve(filename);
+        final Path file2 = directory.resolve(filename2);
+        if (Files.notExists(file)) {
             Files.createFile(file);
         }
-        if(Files.notExists(file2)) {
+        if (Files.notExists(file2)) {
             Files.createFile(file2);
         }
         assertEquals(resultat, Files.isSameFile(file, file2));
 
         // methode testée
-        boolean res= simpleQuery.isSameFile(getPathName(filename), getPathName(filename2));
+        boolean res = simpleQuery.isSameFile(getPathName(filename), getPathName(filename2));
 
         // vérifications
         assertEquals(resultat, res);
@@ -176,14 +176,14 @@ class SimpleQueryTest {
     void isSymbolicLinkTrue() throws IOException {
         final String filename = "file1.txt";
         final String filename2 = "file2.txt";
-        final Path file=directory.resolve(filename);
-        final Path file2=directory.resolve(filename2);
+        final Path file = directory.resolve(filename);
+        final Path file2 = directory.resolve(filename2);
         Files.createFile(file2);
         Files.createSymbolicLink(file, file2);
         assertTrue(Files.isSymbolicLink(file));
 
         // methode testée
-        boolean res= simpleQuery.isSymbolicLink(getPathName(filename));
+        boolean res = simpleQuery.isSymbolicLink(getPathName(filename));
 
         // vérifications
         assertTrue(res);
@@ -194,12 +194,12 @@ class SimpleQueryTest {
     void isSymbolicLinkFalse() throws IOException {
 
         final String filename = "file1.txt";
-        final Path file=directory.resolve(filename);
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertFalse(Files.isSymbolicLink(file));
 
         // methode testée
-        boolean res= simpleQuery.isSymbolicLink(getPathName(filename));
+        boolean res = simpleQuery.isSymbolicLink(getPathName(filename));
 
         // vérifications
         assertFalse(res);
@@ -209,12 +209,12 @@ class SimpleQueryTest {
     void lines() throws IOException {
 
         final String filename = "file.txt";
-        final Path file=directory.resolve(filename);
-        final List<String> lignes=liste("aaa","bbb", "ccc", "aébc");
+        final Path file = directory.resolve(filename);
+        final List<String> lignes = liste("aaa", "bbb", "ccc", "aébc");
         Files.write(file, lignes, StandardCharsets.UTF_8);
 
         // methode testée
-        try(Stream<String> res= simpleQuery.lines(getPathName(filename))) {
+        try (Stream<String> res = simpleQuery.lines(getPathName(filename))) {
 
             // vérifications
             assertNotNull(res);
@@ -227,12 +227,12 @@ class SimpleQueryTest {
     void linesCs() throws IOException {
 
         final String filename = "file2.txt";
-        final Path file=directory.resolve(filename);
-        final List<String> lignes=liste("aaa","bbéb", "ccc");
+        final Path file = directory.resolve(filename);
+        final List<String> lignes = liste("aaa", "bbéb", "ccc");
         Files.write(file, lignes, StandardCharsets.UTF_8);
 
         // methode testée
-        try(Stream<String> res= simpleQuery.lines(getPathName(filename), StandardCharsets.UTF_8)) {
+        try (Stream<String> res = simpleQuery.lines(getPathName(filename), StandardCharsets.UTF_8)) {
 
             // vérifications
             assertNotNull(res);
@@ -245,11 +245,11 @@ class SimpleQueryTest {
     void notExistsTrue() throws IOException {
 
         final String filename = "fichier.txt";
-        final Path file=directory.resolve(filename);
+        final Path file = directory.resolve(filename);
         assertTrue(Files.notExists(file));
 
         // methode testée
-        boolean res= simpleQuery.notExists(getPathName(filename));
+        boolean res = simpleQuery.notExists(getPathName(filename));
 
         // vérifications
         assertTrue(res);
@@ -259,12 +259,12 @@ class SimpleQueryTest {
     void notExistsFalse() throws IOException {
 
         final String filename = "fichier.txt";
-        final Path file=directory.resolve(filename);
+        final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertFalse(Files.notExists(file));
 
         // methode testée
-        boolean res= simpleQuery.notExists(getPathName(filename));
+        boolean res = simpleQuery.notExists(getPathName(filename));
 
         // vérifications
         assertFalse(res);
@@ -274,12 +274,12 @@ class SimpleQueryTest {
     void readAllBytes() throws IOException {
 
         final String filename = "file2.txt";
-        final Path file=directory.resolve(filename);
-        final String contenu="abc";
+        final Path file = directory.resolve(filename);
+        final String contenu = "abc";
         Files.write(file, contenu.getBytes(StandardCharsets.UTF_8));
 
         // methode testée
-        byte[] res= simpleQuery.readAllBytes(getPathName(filename));
+        byte[] res = simpleQuery.readAllBytes(getPathName(filename));
 
         // vérifications
         assertArrayEquals(contenu.getBytes(StandardCharsets.UTF_8), res);
@@ -289,12 +289,12 @@ class SimpleQueryTest {
     void readAllLines() throws IOException {
 
         final String filename = "file3.txt";
-        final Path file=directory.resolve(filename);
-        final List<String> lignes=liste("aaa","bbéb", "ccc");
+        final Path file = directory.resolve(filename);
+        final List<String> lignes = liste("aaa", "bbéb", "ccc");
         Files.write(file, lignes, StandardCharsets.UTF_8);
 
         // methode testée
-        List<String> res= simpleQuery.readAllLines(getPathName(filename));
+        List<String> res = simpleQuery.readAllLines(getPathName(filename));
 
         // vérifications
         assertEquals(lignes, res);
@@ -304,12 +304,12 @@ class SimpleQueryTest {
     void readAllLinesCS() throws IOException {
 
         final String filename = "file3.txt";
-        final Path file=directory.resolve(filename);
-        final List<String> lignes=liste("aaa","bbéb", "ccc");
+        final Path file = directory.resolve(filename);
+        final List<String> lignes = liste("aaa", "bbéb", "ccc");
         Files.write(file, lignes, StandardCharsets.UTF_8);
 
         // methode testée
-        List<String> res= simpleQuery.readAllLines(getPathName(filename), StandardCharsets.UTF_8);
+        List<String> res = simpleQuery.readAllLines(getPathName(filename), StandardCharsets.UTF_8);
 
         // vérifications
         assertEquals(lignes, res);
@@ -319,12 +319,12 @@ class SimpleQueryTest {
     void size() throws IOException {
 
         final String filename = "file2.txt";
-        final Path file=directory.resolve(filename);
-        final String contenu="abc123852";
+        final Path file = directory.resolve(filename);
+        final String contenu = "abc123852";
         Files.write(file, contenu.getBytes(StandardCharsets.UTF_8));
 
         // methode testée
-        long res= simpleQuery.size(getPathName(filename));
+        long res = simpleQuery.size(getPathName(filename));
 
         // vérifications
         assertEquals(contenu.length(), res);
@@ -333,14 +333,14 @@ class SimpleQueryTest {
 
     // methodes utilitaires
 
-    public PathName getPathName(String filename){
+    public PathName getPathName(String filename) {
         return new PathName(PATH1, filename);
     }
 
-    public List<String> liste(String... str){
-        List<String> list=new ArrayList<>();
-        if(str!=null){
-            for(String s:str){
+    public List<String> liste(String... str) {
+        List<String> list = new ArrayList<>();
+        if (str != null) {
+            for (String s : str) {
                 list.add(s);
             }
         }
