@@ -79,6 +79,7 @@ public class FileManager {
         ValidationUtils.checkNotNull(config, "config is null");
         this.vfs4JConfig = config;
         convertFile = new ConvertFile(vfs4JConfig);
+        initOperations();
     }
 
     public PathParameter getPath(String name) {
