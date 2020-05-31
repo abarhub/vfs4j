@@ -17,9 +17,12 @@ public class ParseConfigFile {
 
     public static final String PREFIX = "vfs.";
     public static final String PREFIX_PATHS = PREFIX + "paths.";
+    public static final String PREFIX_PLUGINS = PREFIX+"plugins.";
     public static final String SUFFIX_PATH = ".path";
     public static final String SUFFIX_MODE = ".mode";
     public static final String SUFFIX_READONLY = ".readonly";
+    public static final String SUFFIX_CLASS2 = "class";
+    public static final String SUFFIX_CLASS = "."+SUFFIX_CLASS2;
     public static final String VALIDE_NAME = "[a-zA-Z][a-zA-Z0-9]*";
 
     // construction de la map des propriétés (on enlève ce qui n'est pas de type string)
@@ -42,6 +45,7 @@ public class ParseConfigFile {
         }
         // détermination des noms
         List<String> liste = new ArrayList<>();
+        List<String> listePlugins = new ArrayList<>();
         for (Map.Entry<String, String> entry : map.entrySet()) {
             String key = entry.getKey();
             if (key.startsWith(PREFIX_PATHS)) {
@@ -62,6 +66,16 @@ public class ParseConfigFile {
                     }
                 } else {
                     LOGGER.debug("key '{}' ignored (bad suffix)", key);
+                }
+            } else if(key.startsWith(PREFIX_PLUGINS)){
+                String s = key.substring(PREFIX_PLUGINS.length());
+                if (s.endsWith(SUFFIX_CLASS)) {
+                    s = s.substring(0, s.indexOf(SUFFIX_CLASS));
+                    if (!s.trim().isEmpty() && s.matches(VALIDE_NAME)) {
+                        listePlugins.add(s);
+                    } else {
+                        LOGGER.debug("key '{}' ignored (bad name)", key);
+                    }
                 }
             } else {
                 LOGGER.debug("key '{}' ignored (bad prefix)", key);
@@ -114,6 +128,30 @@ public class ParseConfigFile {
                 } else {
                     throw new VFS4JException("Path or temporary mode must be completed '" + nom + "'");
                 }
+            }
+        }
+
+        // ajout des paths dans fileManagerBuilder
+        for (String nom : listePlugins) {
+            String keyClass = PREFIX_PLUGINS + nom + SUFFIX_CLASS;
+            if (map.containsKey(keyClass)) {
+                String classe=map.get(keyClass);
+
+                Map<String,String> mapConfigPlugins=new HashMap<>();
+                mapConfigPlugins.put("class",classe);
+
+                String debut=PREFIX_PLUGINS + nom+".";
+                for(Map.Entry<String,String> entry:map.entrySet()){
+                    String key=entry.getKey();
+                    if(key!=null&&key.startsWith(debut)){
+                        String s=key.substring(debut.length());
+                        if(s!=null&&!s.trim().isEmpty()) {
+                            mapConfigPlugins.put(s,entry.getValue());
+                        }
+                    }
+                }
+
+                fileManagerBuilder.addPlugins(nom, mapConfigPlugins);
             }
         }
 

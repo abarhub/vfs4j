@@ -1,13 +1,18 @@
 package org.vfs.core.config;
 
 import org.slf4j.Logger;
+import org.vfs.core.api.ParseConfigFile;
 import org.vfs.core.exception.VFS4JConfigException;
 import org.vfs.core.exception.VFS4JErrorTemporaryCreationException;
 import org.vfs.core.exception.VFS4JPathNotExistsException;
+import org.vfs.core.plugin.common.VFS4JPlugins;
+import org.vfs.core.plugin.common.VFS4JPluginsFactory;
 import org.vfs.core.util.VFS4JLoggerFactory;
 import org.vfs.core.util.ValidationUtils;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -18,18 +23,32 @@ public class VFS4JConfig {
 
     private final Map<String, PathParameter> listeConfig;
 
+    private final Map<String,VFS4JPlugins> listePlugins;
+
     public VFS4JConfig() {
         listeConfig = new HashMap<>();
+        listePlugins=new HashMap<>();
     }
 
-    public VFS4JConfig(VFSConfigFile configFile) {
+    public void init(VFSConfigFile configFile) {
         ValidationUtils.checkNotNull(configFile, "configFile is null");
         ValidationUtils.checkNotNull(configFile.getListeConfig(), "listeConfig is null");
-        this.listeConfig = initListConfig(configFile.getListeConfig());
+        initListConfig(configFile);
     }
 
-    private Map<String, PathParameter> initListConfig(Map<String, PathParameter> listeConfig) {
+    private void initListConfig(VFSConfigFile configFile) {
         LOGGER.debug("init configuration ...");
+        Map<String, PathParameter> map = initPaths(configFile);
+        listeConfig.clear();
+        listeConfig.putAll(map);
+        Map<String, VFS4JPlugins> mapPlugins = initPlugins(configFile);
+        listePlugins.clear();
+        listePlugins.putAll(mapPlugins);
+        LOGGER.debug("init configuration OK");
+    }
+
+    private Map<String, PathParameter> initPaths(VFSConfigFile configFile) {
+        Map<String, PathParameter> listeConfig=configFile.getListeConfig();
         Map<String, PathParameter> map = new HashMap<>();
         for (Map.Entry<String, PathParameter> entry : listeConfig.entrySet()) {
             String name = entry.getKey();
@@ -52,8 +71,51 @@ public class VFS4JConfig {
             }
         }
         LOGGER.info("config map: {}", map);
-        LOGGER.debug("init configuration OK");
         return map;
+    }
+
+    private Map<String, VFS4JPlugins> initPlugins(VFSConfigFile configFile) {
+        Map<String, VFS4JPlugins> map=new HashMap<>();
+        if(configFile.getListePlugins()!=null) {
+            Map<String, VFS4JPluginsFactory> mapFactory=new HashMap<>();
+            for (String name : configFile.getListePlugins().keySet()){
+                Map<String, String> mapConfig = configFile.getListePlugins().get(name);
+                String keyClass= ParseConfigFile.SUFFIX_CLASS2;
+                if(mapConfig.containsKey(keyClass)) {
+                    String className =mapConfig.get(keyClass);
+                    if(className!=null&&!className.trim().isEmpty()) {
+                        VFS4JPluginsFactory pluginsFactory;
+                        if(mapFactory.containsKey(className)){
+                            pluginsFactory=mapFactory.get(className);
+                        } else {
+                            pluginsFactory=createPluginsFactory(name, className);
+                            mapFactory.put(className, pluginsFactory);
+                        }
+                        VFS4JPlugins plugins=pluginsFactory.createPlugins(name,mapConfig);
+                        map.put(name,plugins);
+                    }
+                } else {
+                    throw new VFS4JConfigException("Plugins for name '" + name + "' has no class");
+                }
+            }
+        }
+        LOGGER.info("config plugins: {}", map);
+        return map;
+    }
+
+    private VFS4JPluginsFactory createPluginsFactory(String name, String className){
+        try {
+            Class<?> clazz = Class.forName(className);
+            Constructor<?> ctor = clazz.getConstructor();
+            Object object = ctor.newInstance();
+            if(VFS4JPluginsFactory.class.isInstance(object)){
+                return (VFS4JPluginsFactory)object;
+            } else {
+                throw new VFS4JConfigException("Object '"+className+"' is not of type PluginsFactory for name '" + name + "'");
+            }
+        } catch (Exception e) {
+            throw new VFS4JConfigException("Can't create PluginsFactory '"+className+"' for name '" + name + "'", e);
+        }
     }
 
     public void addPath(String name, Path path, boolean readonly) {
