@@ -16,8 +16,6 @@ import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//TODO: corriger ces TU pour qu'ils fonctionnent avec maven
-@Disabled("ces TU ne fonctionnent pas avec Maven")
 public class Exemple1Test {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Exemple1Test.class);
@@ -46,7 +44,7 @@ public class Exemple1Test {
         ParseConfigFile parseConfigFile = new ParseConfigFile();
         FileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
 
-        DefaultFileManager.get().setConfig(fileManagerBuilder.build());
+        reinitConfig(fileManagerBuilder.build());
 
         VFS4JConfig config = DefaultFileManager.get().getConfig();
 
@@ -109,7 +107,7 @@ public class Exemple1Test {
         ParseConfigFile parseConfigFile = new ParseConfigFile();
         FileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
 
-        DefaultFileManager.get().setConfig(fileManagerBuilder.build());
+        reinitConfig(fileManagerBuilder.build());
 
         VFS4JConfig config = DefaultFileManager.get().getConfig();
 
@@ -142,5 +140,12 @@ public class Exemple1Test {
         assertFalse(Files.exists(file2));
 
         LOGGER.info("exemple2 OK");
+    }
+
+    // methodes utilitaires
+
+    private void reinitConfig(VFS4JConfig vfs4JConfig){
+        DefaultFileManager.get().setConfig(vfs4JConfig);
+        VFS4JFiles.reinit();
     }
 }

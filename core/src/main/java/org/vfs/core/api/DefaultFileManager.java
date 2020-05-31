@@ -88,6 +88,7 @@ public class DefaultFileManager {
     }
 
     public static FileManager get() {
+        LOGGER.debug("get FileManager");
         return fileManager;
     }
 

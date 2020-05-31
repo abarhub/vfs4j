@@ -3,6 +3,7 @@ package org.vfs.core.api;
 import org.vfs.core.config.PathParameter;
 import org.vfs.core.config.VFS4JConfig;
 import org.vfs.core.config.VFS4JPathMode;
+import org.vfs.core.config.VFSConfigFile;
 import org.vfs.core.util.ValidationUtils;
 
 import java.nio.file.Path;
@@ -32,7 +33,11 @@ public class FileManagerBuilder {
     }
 
     public VFS4JConfig build() {
-        return new VFS4JConfig(listeConfig);
+        Map<String, PathParameter> conf=new HashMap<>();
+        conf.putAll(listeConfig);
+        VFSConfigFile vfsConfigFile=new VFSConfigFile();
+        vfsConfigFile.setListeConfig(conf);
+        return new VFS4JConfig(vfsConfigFile);
     }
 
 

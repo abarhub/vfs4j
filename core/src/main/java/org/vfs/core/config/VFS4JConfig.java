@@ -22,12 +22,14 @@ public class VFS4JConfig {
         listeConfig = new HashMap<>();
     }
 
-    public VFS4JConfig(Map<String, PathParameter> listeConfig) {
-        ValidationUtils.checkNotNull(listeConfig, "listeConfig is null");
-        this.listeConfig = initListConfig(listeConfig);
+    public VFS4JConfig(VFSConfigFile configFile) {
+        ValidationUtils.checkNotNull(configFile, "configFile is null");
+        ValidationUtils.checkNotNull(configFile.getListeConfig(), "listeConfig is null");
+        this.listeConfig = initListConfig(configFile.getListeConfig());
     }
 
     private Map<String, PathParameter> initListConfig(Map<String, PathParameter> listeConfig) {
+        LOGGER.debug("init configuration ...");
         Map<String, PathParameter> map = new HashMap<>();
         for (Map.Entry<String, PathParameter> entry : listeConfig.entrySet()) {
             String name = entry.getKey();
@@ -50,6 +52,7 @@ public class VFS4JConfig {
             }
         }
         LOGGER.info("config map: {}", map);
+        LOGGER.debug("init configuration OK");
         return map;
     }
 

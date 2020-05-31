@@ -23,6 +23,10 @@ public class VFS4JFiles {
         fileManager = aFileManager;
     }
 
+    public static void reinit(){
+        fileManager = DefaultFileManager.get();
+    }
+
     public static PathName setAttribute(PathName path, String attribute, Object value, LinkOption... options) throws IOException {
         return getFileManager().getAttribute().setAttribute(path, attribute, value, options);
     }
