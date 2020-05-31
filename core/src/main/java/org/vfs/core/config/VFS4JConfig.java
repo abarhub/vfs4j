@@ -25,9 +25,12 @@ public class VFS4JConfig {
 
     private final Map<String,VFS4JPlugins> listePlugins;
 
+    private final List<String> listPluginsOrder;
+
     public VFS4JConfig() {
         listeConfig = new HashMap<>();
         listePlugins=new HashMap<>();
+        listPluginsOrder=new ArrayList<>();
     }
 
     public void init(VFSConfigFile configFile) {
@@ -41,6 +44,7 @@ public class VFS4JConfig {
         Map<String, PathParameter> map = initPaths(configFile);
         listeConfig.clear();
         listeConfig.putAll(map);
+        listPluginsOrder.clear();
         Map<String, VFS4JPlugins> mapPlugins = initPlugins(configFile);
         listePlugins.clear();
         listePlugins.putAll(mapPlugins);
@@ -91,8 +95,9 @@ public class VFS4JConfig {
                             pluginsFactory=createPluginsFactory(name, className);
                             mapFactory.put(className, pluginsFactory);
                         }
-                        VFS4JPlugins plugins=pluginsFactory.createPlugins(name,mapConfig);
+                        VFS4JPlugins plugins=pluginsFactory.createPlugins(name,mapConfig, this);
                         map.put(name,plugins);
+                        listPluginsOrder.add(name);
                     }
                 } else {
                     throw new VFS4JConfigException("Plugins for name '" + name + "' has no class");
@@ -163,6 +168,15 @@ public class VFS4JConfig {
         List<String> liste = new ArrayList<>();
         liste.addAll(listeConfig.keySet());
         return liste;
+    }
+
+    public List<String> getPluginsOrder(){
+        return listPluginsOrder;
+    }
+
+    public VFS4JPlugins getPlugins(String name){
+        ValidationUtils.checkNotEmpty(name, "Name is empty");
+        return listePlugins.get(name);
     }
 
     @Override

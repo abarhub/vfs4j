@@ -3,6 +3,7 @@ package org.vfs.core.api;
 import org.vfs.core.api.operation.*;
 import org.vfs.core.config.PathParameter;
 import org.vfs.core.config.VFS4JConfig;
+import org.vfs.core.plugin.common.VFS4JPlugins;
 import org.vfs.core.util.ConvertFile;
 import org.vfs.core.util.ValidationUtils;
 
@@ -26,21 +27,57 @@ public class FileManager {
     public FileManager(VFS4JConfig vfs4JConfig) {
         ValidationUtils.checkNotNull(vfs4JConfig, "vfs4JConfig is null");
         this.vfs4JConfig = vfs4JConfig;
-        command = new SimpleCommand(this);
         convertFile = new ConvertFile(vfs4JConfig);
+        initOperations();
+    }
+
+    private void initOperations() {
+
+        command = new SimpleCommand(this);
         query = new SimpleQuery(this);
         open = new SimpleOpen(this);
         search = new SimpleSearch(this);
         attribute = new SimpleAttribute(this);
+
+        if (vfs4JConfig.getPluginsOrder() != null &&
+                !vfs4JConfig.getPluginsOrder().isEmpty()) {
+
+
+            for (String name : vfs4JConfig.getPluginsOrder()) {
+                VFS4JPlugins plugins = vfs4JConfig.getPlugins(name);
+                if (plugins != null) {
+                    Optional<Attribute> attributeOpt = plugins.getAttribute(attribute);
+                    if (attributeOpt.isPresent()) {
+                        attribute = attributeOpt.get();
+                    }
+                    Optional<Command> commandOptional = plugins.getCommand(command);
+                    if (commandOptional.isPresent()) {
+                        command = commandOptional.get();
+                    }
+                    Optional<Query> queryOptional = plugins.getQuery(query);
+                    if (queryOptional.isPresent()) {
+                        query = queryOptional.get();
+                    }
+                    Optional<Open> optionalOpen = plugins.getOpen(open);
+                    if (optionalOpen.isPresent()) {
+                        open = optionalOpen.get();
+                    }
+                    Optional<Search> optionalSearch = plugins.getSearch(search);
+                    if (optionalSearch.isPresent()) {
+                        search = optionalSearch.get();
+                    }
+                }
+            }
+        }
     }
 
     public VFS4JConfig getConfig() {
         return vfs4JConfig;
     }
 
-    public void setConfig(VFS4JConfig config){
+    public void setConfig(VFS4JConfig config) {
         ValidationUtils.checkNotNull(config, "config is null");
-        this.vfs4JConfig=config;
+        this.vfs4JConfig = config;
         convertFile = new ConvertFile(vfs4JConfig);
     }
 
