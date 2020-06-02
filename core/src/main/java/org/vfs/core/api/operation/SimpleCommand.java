@@ -24,27 +24,30 @@ public class SimpleCommand extends AbstractOperation implements Command {
     }
 
     @Override
-    public void createFile(PathName file, FileAttribute<?>... attrs) throws IOException {
+    public PathName createFile(PathName file, FileAttribute<?>... attrs) throws IOException {
         ValidationUtils.checkNotNull(file, "Path is null");
         writeOperation(file, "createFile");
         Path p = getRealFile(file);
-        Files.createFile(p, attrs);
+        Path pathRes = Files.createFile(p, attrs);
+        return convertFromRealPath(pathRes).orElseThrow(throwInvalidePath(pathRes));
     }
 
     @Override
-    public void createDirectory(PathName file, FileAttribute<?>... attrs) throws IOException {
+    public PathName createDirectory(PathName file, FileAttribute<?>... attrs) throws IOException {
         ValidationUtils.checkNotNull(file, "Path is null");
         writeOperation(file, "createDirectory");
         Path p = getRealFile(file);
-        Files.createDirectory(p, attrs);
+        Path pathRes = Files.createDirectory(p, attrs);
+        return convertFromRealPath(pathRes).orElseThrow(throwInvalidePath(pathRes));
     }
 
     @Override
-    public void createDirectories(PathName file, FileAttribute<?>... attrs) throws IOException {
+    public PathName createDirectories(PathName file, FileAttribute<?>... attrs) throws IOException {
         ValidationUtils.checkNotNull(file, "Path is null");
         writeOperation(file, "createDirectories");
         Path p = getRealFile(file);
-        Files.createDirectories(p, attrs);
+        Path pathRes = Files.createDirectories(p, attrs);
+        return convertFromRealPath(pathRes).orElseThrow(throwInvalidePath(pathRes));
     }
 
     @Override

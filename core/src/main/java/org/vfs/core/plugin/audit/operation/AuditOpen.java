@@ -22,37 +22,73 @@ public class AuditOpen extends AbstractAuditOperation implements Open {
 
     @Override
     public InputStream newInputStream(PathName pathName, OpenOption... options) throws IOException {
-        log("newInputStream for file {}", pathName);
-        return open.newInputStream(pathName, options);
+        try {
+            InputStream res = open.newInputStream(pathName, options);
+            log("newInputStream for file {}", pathName);
+            return res;
+        } catch (IOException e) {
+            logError("Error for newInputStream for file {}", e, pathName);
+            throw e;
+        }
     }
 
     @Override
     public OutputStream newOutputStream(PathName pathName, OpenOption... options) throws IOException {
-        log("newOutputStream for file {}", pathName);
-        return open.newOutputStream(pathName, options);
+        try {
+            OutputStream res = open.newOutputStream(pathName, options);
+            log("newOutputStream for file {}", pathName);
+            return res;
+        } catch (IOException e) {
+            logError("Error for newOutputStream for file {}", e, pathName);
+            throw e;
+        }
     }
 
     @Override
     public FileReader newReader(PathName pathName) throws IOException {
-        log("newReader for file {}", pathName);
-        return open.newReader(pathName);
+        try {
+            FileReader res = open.newReader(pathName);
+            log("newReader for file {}", pathName);
+            return res;
+        } catch (IOException e) {
+            logError("newReader for file {}", e, pathName);
+            throw e;
+        }
     }
 
     @Override
     public FileWriter newWriter(PathName pathName, boolean append) throws IOException {
-        log("newWriter for file {}", pathName);
-        return open.newWriter(pathName, append);
+        try {
+            FileWriter res = open.newWriter(pathName, append);
+            log("newWriter for file {}", pathName);
+            return res;
+        } catch (IOException e) {
+            logError("Error for newWriter for file {}", e, pathName);
+            throw e;
+        }
     }
 
     @Override
     public SeekableByteChannel newByteChannel(PathName pathName, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
-        log("newByteChannel for file {}", pathName);
-        return open.newByteChannel(pathName, options, attrs);
+        try {
+            SeekableByteChannel res = open.newByteChannel(pathName, options, attrs);
+            log("newByteChannel for file {}", pathName);
+            return res;
+        } catch (IOException e) {
+            logError("Error newByteChannel for file {}", e, pathName);
+            throw e;
+        }
     }
 
     @Override
     public DirectoryStream<PathName> newDirectoryStream(PathName pathName, DirectoryStream.Filter<? super PathName> filter) throws IOException {
-        log("newDirectoryStream for file {}", pathName);
-        return open.newDirectoryStream(pathName, filter);
+        try {
+            DirectoryStream<PathName> res = open.newDirectoryStream(pathName, filter);
+            log("newDirectoryStream for file {}", pathName);
+            return res;
+        } catch (IOException e) {
+            logError("newDirectoryStream for file {}", e, pathName);
+            throw e;
+        }
     }
 }

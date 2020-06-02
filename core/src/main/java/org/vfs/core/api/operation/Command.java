@@ -11,11 +11,11 @@ import java.nio.file.OpenOption;
 import java.nio.file.attribute.FileAttribute;
 
 public interface Command {
-    void createFile(PathName file, FileAttribute<?>... attrs) throws IOException;
+    PathName createFile(PathName file, FileAttribute<?>... attrs) throws IOException;
 
-    void createDirectory(PathName file, FileAttribute<?>... attrs) throws IOException;
+    PathName createDirectory(PathName file, FileAttribute<?>... attrs) throws IOException;
 
-    void createDirectories(PathName file, FileAttribute<?>... attrs) throws IOException;
+    PathName createDirectories(PathName file, FileAttribute<?>... attrs) throws IOException;
 
     void delete(PathName file) throws IOException;
 

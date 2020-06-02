@@ -38,6 +38,25 @@ public abstract class AbstractAuditOperation {
                 LOGGER.trace(message, parameters);
                 break;
         }
+    }
 
+    protected void logError(String message, Exception e, Object... parameters) {
+        switch (vfs4JAuditPlugins.getLogLevel()) {
+            case ERROR:
+                LOGGER.error(message, parameters, e);
+                break;
+            case WARN:
+                LOGGER.warn(message, parameters, e);
+                break;
+            case INFO:
+                LOGGER.info(message, parameters, e);
+                break;
+            case DEBUG:
+                LOGGER.debug(message, parameters, e);
+                break;
+            case TRACE:
+                LOGGER.trace(message, parameters, e);
+                break;
+        }
     }
 }
