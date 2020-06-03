@@ -1,6 +1,8 @@
 package org.vfs.core.plugin.audit.operation;
 
 import org.slf4j.Logger;
+import org.vfs.core.api.PathName;
+import org.vfs.core.plugin.audit.AuditOperation;
 import org.vfs.core.plugin.audit.VFS4JAuditPlugins;
 import org.vfs.core.util.VFS4JLoggerFactory;
 import org.vfs.core.util.ValidationUtils;
@@ -58,5 +60,9 @@ public abstract class AbstractAuditOperation {
                 LOGGER.trace(message, parameters, e);
                 break;
         }
+    }
+
+    protected boolean isActive(AuditOperation operation, PathName... pathNames) {
+        return true;
     }
 }
