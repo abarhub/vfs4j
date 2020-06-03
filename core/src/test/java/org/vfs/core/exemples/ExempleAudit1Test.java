@@ -76,6 +76,68 @@ public class ExempleAudit1Test {
         LOGGER.info("exemple1 OK");
     }
 
+    @Test
+    public void exemple2() throws IOException {
+
+        LOGGER.info("exemple2 ...");
+
+        Path temp = Files.createTempDirectory("junit_test_vfs4j");
+
+        Path path1 = temp.resolve("rep01");
+        Files.createDirectories(path1);
+
+        Path path2 = temp.resolve("rep02");
+        Files.createDirectories(path2);
+
+        Properties properties = new Properties();
+
+        properties.setProperty("vfs.paths.rep01.path", path1.toString());
+        properties.setProperty("vfs.paths.rep01.readonly", "false");
+        //properties.setProperty("vfs.paths.rep02.path", path2.toString());
+        //properties.setProperty("vfs.paths.rep02.readonly", "true");
+        properties.setProperty("vfs.plugins.plugins1.class", "org.vfs.core.plugin.audit.VFS4JAuditPluginsFactory");
+        properties.setProperty("vfs.plugins.plugins1.operations", "COMMAND");
+        properties.setProperty("vfs.plugins.plugins1.filterPath", "*.txt");
+
+        ParseConfigFile parseConfigFile = new ParseConfigFile();
+        FileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
+
+        reinitConfig(fileManagerBuilder.build());
+
+        VFS4JConfig config = DefaultFileManager.get().getConfig();
+
+        assertNotNull(config.getPath("rep01"));
+        assertFalse(config.getPath("rep01").isReadonly());
+
+        Path file1 = path1.resolve("fichier01.txt");
+        Path file2 = path1.resolve("fichier02.jpg");
+        Path file3 = path1.resolve("fichier03.txt");
+
+        Files.deleteIfExists(file1);
+        Files.deleteIfExists(file2);
+        Files.deleteIfExists(file3);
+
+        assertTrue(Files.exists(path1));
+
+        assertFalse(Files.exists(file1));
+        assertFalse(Files.exists(file2));
+        assertFalse(Files.exists(file3));
+
+        // methodes testées
+        VFS4JFiles.createFile(new PathName("rep01", "fichier01.txt"));
+        VFS4JFiles.createFile(new PathName("rep01", "fichier02.jpg"));
+        VFS4JFiles.createFile(new PathName("rep01", "fichier03.txt"));
+
+        // vérifications
+
+
+        assertTrue(Files.exists(file1));
+        assertTrue(Files.exists(file2));
+        assertTrue(Files.exists(file3));
+
+        LOGGER.info("exemple2 OK");
+    }
+
 
     // methodes utilitaires
 

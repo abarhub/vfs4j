@@ -6,17 +6,21 @@ import org.vfs.core.config.VFS4JConfig;
 import org.vfs.core.plugin.audit.operation.AuditAttribute;
 import org.vfs.core.plugin.audit.operation.AuditCommand;
 import org.vfs.core.plugin.audit.operation.AuditOpen;
+import org.vfs.core.plugin.audit.operation.AuditSearch;
 import org.vfs.core.plugin.common.VFS4JPlugins;
 import org.vfs.core.util.VFS4JLoggerFactory;
 
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class VFS4JAuditPlugins implements VFS4JPlugins {
 
     private static final Logger LOGGER = VFS4JLoggerFactory.getLogger(VFS4JAuditPlugins.class);
 
     private AuditLogLevel logLevel;
+
+    private Set<AuditOperation> listOperations;
+
+    private List<String> filterPath;
 
     private VFS4JConfig vfs4JConfig;
 
@@ -45,6 +49,71 @@ public class VFS4JAuditPlugins implements VFS4JPlugins {
             }
         }
 
+        listOperations = new HashSet<>();
+        if (config.containsKey("operations")) {
+            String s = config.get("operations");
+            if (s != null && !s.trim().isEmpty()) {
+                s = s.trim();
+                if (s.contains(",")) {
+                    String[] tab = s.split(",");
+                    if (tab != null) {
+                        for (String s2 : tab) {
+                            addOperation(listOperations, s2);
+                        }
+                    }
+                } else {
+                    addOperation(listOperations, s);
+                }
+            }
+        } else {
+            // non configuré => on ajoute tout
+            for (AuditOperation operation : AuditOperation.values()) {
+                listOperations.add(operation);
+            }
+        }
+
+        filterPath = new ArrayList<>();
+        if (config.containsKey("filterPath")) {
+            String s = config.get("filterPath");
+            if (s != null && !s.trim().isEmpty()) {
+                s = s.trim();
+                if (s.contains(",")) {
+                    String[] tab = s.split(",");
+                    if (tab != null) {
+                        for (String s2 : tab) {
+                            s2 = s2.trim();
+                            if (s2.length() > 0) {
+                                filterPath.add(s2);
+                            }
+                        }
+                    }
+                } else {
+                    filterPath.add(s);
+                }
+            }
+        }
+    }
+
+    private void addOperation(Set<AuditOperation> listOperations, String s2) {
+        s2 = s2.trim();
+        if (s2.length() > 0) {
+            boolean trouve = false;
+            for (AuditGroupOperations groupeOperation : AuditGroupOperations.values()) {
+                if (s2.equalsIgnoreCase(groupeOperation.name())) {
+                    listOperations.addAll(groupeOperation.getOperations());
+                    trouve = true;
+                    break;
+                }
+            }
+            if (!trouve) {
+                for (AuditOperation operation : AuditOperation.values()) {
+                    if (s2.equalsIgnoreCase(operation.name())) {
+                        listOperations.add(operation);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -69,7 +138,7 @@ public class VFS4JAuditPlugins implements VFS4JPlugins {
 
     @Override
     public Optional<Search> getSearch(Search search) {
-        return Optional.empty();
+        return Optional.of(new AuditSearch(this, search));
     }
 
     public AuditLogLevel getLogLevel() {
@@ -78,5 +147,13 @@ public class VFS4JAuditPlugins implements VFS4JPlugins {
 
     public VFS4JConfig getVfs4JConfig() {
         return vfs4JConfig;
+    }
+
+    public Set<AuditOperation> getListOperations() {
+        return listOperations;
+    }
+
+    public List<String> getFilterPath() {
+        return filterPath;
     }
 }

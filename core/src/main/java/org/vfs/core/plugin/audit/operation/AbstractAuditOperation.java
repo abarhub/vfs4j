@@ -7,6 +7,11 @@ import org.vfs.core.plugin.audit.VFS4JAuditPlugins;
 import org.vfs.core.util.VFS4JLoggerFactory;
 import org.vfs.core.util.ValidationUtils;
 
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.PathMatcher;
+import java.nio.file.Paths;
+
 public abstract class AbstractAuditOperation {
 
     private static final Logger LOGGER = VFS4JLoggerFactory.getLogger(VFS4JAuditPlugins.class);
@@ -63,6 +68,29 @@ public abstract class AbstractAuditOperation {
     }
 
     protected boolean isActive(AuditOperation operation, PathName... pathNames) {
-        return true;
+        if (vfs4JAuditPlugins.getListOperations() == null) {
+            // aucune opération n'est configuré => on n'affiche rien
+            return false;
+        } else if (vfs4JAuditPlugins.getListOperations().contains(operation)) {
+            if (vfs4JAuditPlugins.getFilterPath() != null &&
+                    !vfs4JAuditPlugins.getFilterPath().isEmpty() &&
+                    pathNames != null && pathNames.length > 0) {
+                FileSystem fs = FileSystems.getDefault();
+                for (String glob : vfs4JAuditPlugins.getFilterPath()) {
+                    PathMatcher pathMatcher = fs.getPathMatcher("glob:" + glob);
+                    for (PathName p : pathNames) {
+                        if (pathMatcher.matches(Paths.get(p.getPath()))) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            // l'operation n'est pas dans la liste => on ne fait rien
+            return false;
+        }
     }
 }
