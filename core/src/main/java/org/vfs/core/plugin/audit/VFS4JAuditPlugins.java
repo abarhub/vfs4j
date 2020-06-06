@@ -3,10 +3,7 @@ package org.vfs.core.plugin.audit;
 import org.slf4j.Logger;
 import org.vfs.core.api.operation.*;
 import org.vfs.core.config.VFS4JConfig;
-import org.vfs.core.plugin.audit.operation.AuditAttribute;
-import org.vfs.core.plugin.audit.operation.AuditCommand;
-import org.vfs.core.plugin.audit.operation.AuditOpen;
-import org.vfs.core.plugin.audit.operation.AuditSearch;
+import org.vfs.core.plugin.audit.operation.*;
 import org.vfs.core.plugin.common.VFS4JPlugins;
 import org.vfs.core.util.VFS4JLoggerFactory;
 
@@ -133,7 +130,7 @@ public class VFS4JAuditPlugins implements VFS4JPlugins {
 
     @Override
     public Optional<Query> getQuery(Query query) {
-        return Optional.empty();
+        return Optional.of(new AuditQuery(this, query));
     }
 
     @Override
