@@ -23,7 +23,7 @@ public class VFS4JFiles {
         fileManager = aFileManager;
     }
 
-    public static void reinit(){
+    public static void reinit() {
         fileManager = DefaultFileManager.get();
     }
 

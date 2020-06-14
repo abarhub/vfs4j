@@ -12,7 +12,6 @@ import org.vfs.core.util.ValidationUtils;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -23,14 +22,14 @@ public class VFS4JConfig {
 
     private final Map<String, PathParameter> listeConfig;
 
-    private final Map<String,VFS4JPlugins> listePlugins;
+    private final Map<String, VFS4JPlugins> listePlugins;
 
     private final List<String> listPluginsOrder;
 
     public VFS4JConfig() {
         listeConfig = new HashMap<>();
-        listePlugins=new HashMap<>();
-        listPluginsOrder=new ArrayList<>();
+        listePlugins = new HashMap<>();
+        listPluginsOrder = new ArrayList<>();
     }
 
     public void init(VFSConfigFile configFile) {
@@ -52,7 +51,7 @@ public class VFS4JConfig {
     }
 
     private Map<String, PathParameter> initPaths(VFSConfigFile configFile) {
-        Map<String, PathParameter> listeConfig=configFile.getListeConfig();
+        Map<String, PathParameter> listeConfig = configFile.getListeConfig();
         Map<String, PathParameter> map = new HashMap<>();
         for (Map.Entry<String, PathParameter> entry : listeConfig.entrySet()) {
             String name = entry.getKey();
@@ -79,24 +78,24 @@ public class VFS4JConfig {
     }
 
     private Map<String, VFS4JPlugins> initPlugins(VFSConfigFile configFile) {
-        Map<String, VFS4JPlugins> map=new HashMap<>();
-        if(configFile.getListePlugins()!=null) {
-            Map<String, VFS4JPluginsFactory> mapFactory=new HashMap<>();
-            for (String name : configFile.getListePlugins().keySet()){
+        Map<String, VFS4JPlugins> map = new HashMap<>();
+        if (configFile.getListePlugins() != null) {
+            Map<String, VFS4JPluginsFactory> mapFactory = new HashMap<>();
+            for (String name : configFile.getListePlugins().keySet()) {
                 Map<String, String> mapConfig = configFile.getListePlugins().get(name);
-                String keyClass= ParseConfigFile.SUFFIX_CLASS2;
-                if(mapConfig.containsKey(keyClass)) {
-                    String className =mapConfig.get(keyClass);
-                    if(className!=null&&!className.trim().isEmpty()) {
+                String keyClass = ParseConfigFile.SUFFIX_CLASS2;
+                if (mapConfig.containsKey(keyClass)) {
+                    String className = mapConfig.get(keyClass);
+                    if (className != null && !className.trim().isEmpty()) {
                         VFS4JPluginsFactory pluginsFactory;
-                        if(mapFactory.containsKey(className)){
-                            pluginsFactory=mapFactory.get(className);
+                        if (mapFactory.containsKey(className)) {
+                            pluginsFactory = mapFactory.get(className);
                         } else {
-                            pluginsFactory=createPluginsFactory(name, className);
+                            pluginsFactory = createPluginsFactory(name, className);
                             mapFactory.put(className, pluginsFactory);
                         }
-                        VFS4JPlugins plugins=pluginsFactory.createPlugins(name,mapConfig, this);
-                        map.put(name,plugins);
+                        VFS4JPlugins plugins = pluginsFactory.createPlugins(name, mapConfig, this);
+                        map.put(name, plugins);
                         listPluginsOrder.add(name);
                     }
                 } else {
@@ -108,18 +107,18 @@ public class VFS4JConfig {
         return map;
     }
 
-    private VFS4JPluginsFactory createPluginsFactory(String name, String className){
+    private VFS4JPluginsFactory createPluginsFactory(String name, String className) {
         try {
             Class<?> clazz = Class.forName(className);
             Constructor<?> ctor = clazz.getConstructor();
             Object object = ctor.newInstance();
-            if(VFS4JPluginsFactory.class.isInstance(object)){
-                return (VFS4JPluginsFactory)object;
+            if (VFS4JPluginsFactory.class.isInstance(object)) {
+                return (VFS4JPluginsFactory) object;
             } else {
-                throw new VFS4JConfigException("Object '"+className+"' is not of type PluginsFactory for name '" + name + "'");
+                throw new VFS4JConfigException("Object '" + className + "' is not of type PluginsFactory for name '" + name + "'");
             }
         } catch (Exception e) {
-            throw new VFS4JConfigException("Can't create PluginsFactory '"+className+"' for name '" + name + "'", e);
+            throw new VFS4JConfigException("Can't create PluginsFactory '" + className + "' for name '" + name + "'", e);
         }
     }
 
@@ -170,11 +169,11 @@ public class VFS4JConfig {
         return liste;
     }
 
-    public List<String> getPluginsOrder(){
+    public List<String> getPluginsOrder() {
         return listPluginsOrder;
     }
 
-    public VFS4JPlugins getPlugins(String name){
+    public VFS4JPlugins getPlugins(String name) {
         ValidationUtils.checkNotEmpty(name, "Name is empty");
         return listePlugins.get(name);
     }

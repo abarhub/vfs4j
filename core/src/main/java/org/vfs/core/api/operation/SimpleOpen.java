@@ -66,8 +66,8 @@ public class SimpleOpen extends AbstractOperation implements Open {
     public DirectoryStream<PathName> newDirectoryStream(PathName pathName, DirectoryStream.Filter<? super PathName> filter) throws IOException {
         ValidationUtils.checkNotNull(pathName, "Path is null");
         Path path = getRealFile(pathName);
-        DirectoryStream.Filter<? super Path> filter2=null;
-        if(filter!=null) {
+        DirectoryStream.Filter<? super Path> filter2 = null;
+        if (filter != null) {
             filter2 = (p) -> {
                 Optional<PathName> res = convertFromRealPath(p);
                 if (res.isPresent()) {

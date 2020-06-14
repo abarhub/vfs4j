@@ -48,7 +48,7 @@ public class DefaultFileManager {
             if (vfsConfigPath != null && !vfsConfigPath.trim().isEmpty()) {
                 Path path = Paths.get(vfsConfigPath);
                 if (Files.exists(path)) {
-                    LOGGER.info("VFS4J config file is '{}'",path);
+                    LOGGER.info("VFS4J config file is '{}'", path);
                     try (InputStream in = Files.newInputStream(path)) {
                         properties = new Properties();
                         properties.load(in);
@@ -64,9 +64,9 @@ public class DefaultFileManager {
         if (properties == null) {
             // lecture du fichier de configuration dans le classpath
             URL url = DefaultFileManager.class.getResource("/vfs.properties");
-            if(url!=null) {
+            if (url != null) {
                 File file = new File(url.getFile());
-                LOGGER.info("VFS4J config file is '{}'",file);
+                LOGGER.info("VFS4J config file is '{}'", file);
                 try (InputStream is = new FileInputStream(file)) {
                     if (is != null) {
                         properties = new Properties();
@@ -81,7 +81,7 @@ public class DefaultFileManager {
             }
         }
 
-        if(properties==null){
+        if (properties == null) {
             LOGGER.info("no VFS4J config file found");
         }
         return properties;

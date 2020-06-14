@@ -5,8 +5,8 @@ public enum VFS4JPathMode {
 
     private final String name;
 
-    VFS4JPathMode(String name){
-        this.name=name;
+    VFS4JPathMode(String name) {
+        this.name = name;
     }
 
     public String getName() {

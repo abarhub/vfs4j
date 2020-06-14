@@ -143,7 +143,7 @@ public class Exemple1Test {
 
     // methodes utilitaires
 
-    private void reinitConfig(VFS4JConfig vfs4JConfig){
+    private void reinitConfig(VFS4JConfig vfs4JConfig) {
         DefaultFileManager.get().setConfig(vfs4JConfig);
         VFS4JFiles.reinit();
     }

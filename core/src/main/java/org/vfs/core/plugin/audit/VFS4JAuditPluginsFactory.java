@@ -18,8 +18,8 @@ public class VFS4JAuditPluginsFactory implements VFS4JPluginsFactory {
 
     @Override
     public VFS4JPlugins createPlugins(String name, Map<String, String> config, VFS4JConfig vfs4JConfig) {
-        VFS4JAuditPlugins auditPlugins=new VFS4JAuditPlugins();
-        auditPlugins.init(name,config, vfs4JConfig);
+        VFS4JAuditPlugins auditPlugins = new VFS4JAuditPlugins();
+        auditPlugins.init(name, config, vfs4JConfig);
         return auditPlugins;
     }
 }
