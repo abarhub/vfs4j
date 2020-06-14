@@ -167,10 +167,10 @@ public class VFS4JAuditPlugins implements VFS4JPlugins {
 
     public void removeListener(VFS4JLogAudit logAudit) {
         ValidationUtils.checkNotNull(logAudit, "logAudit is null");
-        listener.add(logAudit);
+        listener.remove(logAudit);
     }
 
     public List<VFS4JLogAudit> getListener() {
-        return listener;
+        return Collections.unmodifiableList(listener);
     }
 }
