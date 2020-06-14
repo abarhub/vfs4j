@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.vfs.core.api.PathName;
 import org.vfs.core.plugin.audit.AuditOperation;
 import org.vfs.core.plugin.audit.VFS4JAuditPlugins;
+import org.vfs.core.plugin.audit.VFS4JLogAudit;
 import org.vfs.core.util.VFS4JLoggerFactory;
 import org.vfs.core.util.ValidationUtils;
 
@@ -28,6 +29,7 @@ public abstract class AbstractAuditOperation {
     }
 
     protected void log(String message, Object... parameters) {
+        sendMessageToListener(false, message, parameters);
         switch (vfs4JAuditPlugins.getLogLevel()) {
             case ERROR:
                 LOGGER.error(message, parameters);
@@ -48,6 +50,7 @@ public abstract class AbstractAuditOperation {
     }
 
     protected void logError(String message, Exception e, Object... parameters) {
+        sendMessageToListener(false, message, parameters);
         switch (vfs4JAuditPlugins.getLogLevel()) {
             case ERROR:
                 LOGGER.error(message, parameters, e);
@@ -64,6 +67,15 @@ public abstract class AbstractAuditOperation {
             case TRACE:
                 LOGGER.trace(message, parameters, e);
                 break;
+        }
+    }
+
+    private void sendMessageToListener(boolean error, String message, Object[] parameters) {
+        if (vfs4JAuditPlugins.getListener() != null &&
+                !vfs4JAuditPlugins.getListener().isEmpty()) {
+            for (VFS4JLogAudit logAudit : vfs4JAuditPlugins.getListener()) {
+                logAudit.log(vfs4JAuditPlugins.getLogLevel(), error, message, parameters);
+            }
         }
     }
 

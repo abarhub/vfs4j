@@ -6,6 +6,7 @@ import org.vfs.core.config.VFS4JConfig;
 import org.vfs.core.plugin.audit.operation.*;
 import org.vfs.core.plugin.common.VFS4JPlugins;
 import org.vfs.core.util.VFS4JLoggerFactory;
+import org.vfs.core.util.ValidationUtils;
 
 import java.util.*;
 
@@ -21,11 +22,16 @@ public class VFS4JAuditPlugins implements VFS4JPlugins {
 
     private VFS4JConfig vfs4JConfig;
 
+    private List<VFS4JLogAudit> listener = new ArrayList<>();
+
     public VFS4JAuditPlugins() {
         LOGGER.info("create VFS4JAuditPlugins");
     }
 
     public void init(String name, Map<String, String> config, VFS4JConfig vfs4JConfig) {
+        ValidationUtils.checkNotNull(name, "Name is null");
+        ValidationUtils.checkNotNull(config, "Config is null");
+        ValidationUtils.checkNotNull(vfs4JConfig, "vfs4JConfig is null");
         LOGGER.info("init VFS4JAuditPlugins: {}", name);
 
         this.vfs4JConfig = vfs4JConfig;
@@ -152,5 +158,19 @@ public class VFS4JAuditPlugins implements VFS4JPlugins {
 
     public List<String> getFilterPath() {
         return filterPath;
+    }
+
+    public void addListener(VFS4JLogAudit logAudit) {
+        ValidationUtils.checkNotNull(logAudit, "logAudit is null");
+        listener.add(logAudit);
+    }
+
+    public void removeListener(VFS4JLogAudit logAudit) {
+        ValidationUtils.checkNotNull(logAudit, "logAudit is null");
+        listener.add(logAudit);
+    }
+
+    public List<VFS4JLogAudit> getListener() {
+        return listener;
     }
 }
