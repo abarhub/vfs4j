@@ -6,7 +6,6 @@ import org.vfs.core.plugin.audit.AuditOperation;
 import org.vfs.core.plugin.audit.VFS4JAuditPlugins;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.file.LinkOption;
 import java.util.List;

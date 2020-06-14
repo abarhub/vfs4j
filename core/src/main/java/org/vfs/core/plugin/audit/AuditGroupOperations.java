@@ -17,7 +17,10 @@ public enum AuditGroupOperations {
 
     OPEN(NEW_INPUT_STREAM, NEW_OUTPUT_STREAM, NEW_READER, NEW_WRITER, NEW_BYTE_CHANNEL, NEW_DIRECTORY_STREAM),
 
-    SEARCH(LIST, WALK, FIND);
+    SEARCH(LIST, WALK, FIND),
+
+    QUERY(EXISTS, IS_DIRECTORY, IS_REGULAR_FILE, IS_SAME_FILE, IS_SYMBOLIC_LINK, LINES, NOT_EXISTS,
+            READ_ALL_BYTES, READ_ALL_LINES, SIZE);
 
     AuditGroupOperations(AuditOperation... operations) {
         List<AuditOperation> liste = new ArrayList<>();
