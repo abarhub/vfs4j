@@ -50,7 +50,7 @@ public abstract class AbstractAuditOperation {
     }
 
     protected void logError(String message, Exception e, Object... parameters) {
-        sendMessageToListener(false, message, parameters);
+        sendMessageToListener(true, message, parameters);
         switch (vfs4JAuditPlugins.getLogLevel()) {
             case ERROR:
                 LOGGER.error(message, parameters, e);

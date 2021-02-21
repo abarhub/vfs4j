@@ -65,7 +65,7 @@ public class AuditOpen extends AbstractAuditOperation implements Open {
                 log("newReader for file {}", pathName);
                 return res;
             } catch (IOException e) {
-                logError("newReader for file {}", e, pathName);
+                logError("Error for newReader for file {}", e, pathName);
                 throw e;
             }
         } else {
@@ -99,7 +99,7 @@ public class AuditOpen extends AbstractAuditOperation implements Open {
                 log("newByteChannel for file {}", pathName);
                 return res;
             } catch (IOException e) {
-                logError("Error newByteChannel for file {}", e, pathName);
+                logError("Error for newByteChannel for file {}", e, pathName);
                 throw e;
             }
         } else {
@@ -116,7 +116,7 @@ public class AuditOpen extends AbstractAuditOperation implements Open {
                 log("newDirectoryStream for file {}", pathName);
                 return res;
             } catch (IOException e) {
-                logError("newDirectoryStream for file {}", e, pathName);
+                logError("Error for newDirectoryStream for file {}", e, pathName);
                 throw e;
             }
         } else {

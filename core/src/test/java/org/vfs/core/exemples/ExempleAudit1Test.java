@@ -195,10 +195,11 @@ public class ExempleAudit1Test {
         // methodes testées
         FileAlreadyExistsException res = assertThrows(FileAlreadyExistsException.class, () -> VFS4JFiles.createFile(new PathName("rep03", "fichierErreur01.txt")));
 
+        assertNotNull(res);
         assertTrue(Files.exists(file1));
 
         assertEquals(1, listeAudit.size());
-        assertEquals("INFO;false;Error for createFile for file rep03:fichierErreur01.txt", listeAudit.get(0));
+        assertEquals("INFO;true;Error for createFile for file rep03:fichierErreur01.txt", listeAudit.get(0));
 
         LOGGER.info("exemple3 OK");
     }
