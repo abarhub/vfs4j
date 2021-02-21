@@ -29,3 +29,5 @@ core/target/
 /tests/vfs-tests-parent.iml
 /tests/simple/vfs-tests.iml
 /target/
+tests/vfs4j-tests-parent.iml
+tests/simple/vfs4j-tests.iml
