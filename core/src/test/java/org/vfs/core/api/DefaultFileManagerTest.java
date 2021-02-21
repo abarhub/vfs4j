@@ -49,10 +49,10 @@ class DefaultFileManagerTest {
 
         // vérifications
         assertNotNull(fileManager);
-        PathParameter pathParameter = fileManager.getPath(dir1);
+        PathParameter pathParameter = (PathParameter) fileManager.getPath(dir1);
         assertNotNull(pathParameter);
         assertEquals(path01, pathParameter.getPath());
-        pathParameter = fileManager.getPath(dir2);
+        pathParameter = (PathParameter) fileManager.getPath(dir2);
         assertNotNull(pathParameter);
         assertEquals(path02, pathParameter.getPath());
     }
@@ -81,10 +81,10 @@ class DefaultFileManagerTest {
 
         // vérifications
         assertNotNull(fileManager);
-        PathParameter pathParameter = fileManager.getPath(dir1);
+        PathParameter pathParameter = (PathParameter) fileManager.getPath(dir1);
         assertNotNull(pathParameter);
         assertEquals(path01, pathParameter.getPath());
-        pathParameter = fileManager.getPath(dir2);
+        pathParameter = (PathParameter) fileManager.getPath(dir2);
         assertNotNull(pathParameter);
         assertEquals(path02, pathParameter.getPath());
     }

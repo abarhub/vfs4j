@@ -1,6 +1,7 @@
 package org.vfs.core.api;
 
 import org.vfs.core.config.PathParameter;
+import org.vfs.core.config.VFS4JParameter;
 import org.vfs.core.exception.VFS4JWriteException;
 
 import java.nio.file.Path;
@@ -27,7 +28,7 @@ public abstract class AbstractOperation {
     }
 
     protected void writeOperation(PathName pathName, String operationName) {
-        PathParameter param = getFileManager().getConfig().getPath(pathName.getName());
+        VFS4JParameter param = getFileManager().getConfig().getPath(pathName.getName());
         if (param != null && param.isReadonly()) {
             throw new VFS4JWriteException("write operation forbidden for " + operationName + " on " + pathName.getName());
         }

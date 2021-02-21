@@ -4,8 +4,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.vfs.core.config.PathParameter;
+import org.vfs.core.config.VFS4JClasspathParameter;
 import org.vfs.core.config.VFS4JConfig;
 import org.vfs.core.config.VFS4JPathMode;
+import org.vfs.core.exception.VFS4JException;
+import org.vfs.core.exception.VFS4JInvalideConfigFileException;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -45,12 +48,12 @@ class ParseConfigFileTest {
         liste.add(dir1);
         liste.add(dir2);
         assertEquals(new HashSet<>(liste), new HashSet<>(res2.getNames()));
-        PathParameter pathParameter = res2.getPath(dir1);
+        PathParameter pathParameter = (PathParameter) res2.getPath(dir1);
         assertNotNull(pathParameter);
         assertEquals(Paths.get(path1), pathParameter.getPath());
         assertFalse(pathParameter.isReadonly());
         assertEquals(VFS4JPathMode.STANDARD, pathParameter.getMode());
-        pathParameter = res2.getPath(dir2);
+        pathParameter = (PathParameter) res2.getPath(dir2);
         assertNotNull(pathParameter);
         assertEquals(Paths.get(path2), pathParameter.getPath());
         assertFalse(pathParameter.isReadonly());
@@ -59,7 +62,7 @@ class ParseConfigFileTest {
 
     @Test
     @DisplayName("Parse un fichier avec des temporary")
-    void parseWithTempoary() {
+    void parseWithTemporary() {
         final String dir1 = "dir1";
         final String path1 = tempDir.resolve("dir1").toString();
         final String dir2 = "dir2";
@@ -79,12 +82,12 @@ class ParseConfigFileTest {
         liste.add(dir1);
         liste.add(dir2);
         assertEquals(new HashSet<>(liste), new HashSet<>(res2.getNames()));
-        PathParameter pathParameter = res2.getPath(dir1);
+        PathParameter pathParameter = (PathParameter) res2.getPath(dir1);
         assertNotNull(pathParameter);
         assertEquals(Paths.get(path1), pathParameter.getPath());
         assertFalse(pathParameter.isReadonly());
         assertEquals(VFS4JPathMode.STANDARD, pathParameter.getMode());
-        pathParameter = res2.getPath(dir2);
+        pathParameter = (PathParameter) res2.getPath(dir2);
         assertNotNull(pathParameter);
         assertNotNull(pathParameter.getPath());
         assertFalse(pathParameter.getPath().toString().isEmpty());
@@ -96,7 +99,7 @@ class ParseConfigFileTest {
 
     @Test
     @DisplayName("Parse un fichier avec des temporary")
-    void parseWithTempoary2() {
+    void parseWithTemporary2() {
         final String dir1 = "dir01";
         final String path1 = tempDir.resolve("dir01").toString();
         final String dir2 = "dir02";
@@ -117,12 +120,12 @@ class ParseConfigFileTest {
         liste.add(dir1);
         liste.add(dir2);
         assertEquals(new HashSet<>(liste), new HashSet<>(res2.getNames()));
-        PathParameter pathParameter = res2.getPath(dir1);
+        PathParameter pathParameter = (PathParameter) res2.getPath(dir1);
         assertNotNull(pathParameter);
         assertEquals(Paths.get(path1), pathParameter.getPath());
         assertFalse(pathParameter.isReadonly());
         assertEquals(VFS4JPathMode.STANDARD, pathParameter.getMode());
-        pathParameter = res2.getPath(dir2);
+        pathParameter = (PathParameter) res2.getPath(dir2);
         assertNotNull(pathParameter);
         assertNotNull(pathParameter.getPath());
         assertFalse(pathParameter.getPath().toString().isEmpty());
@@ -157,16 +160,85 @@ class ParseConfigFileTest {
         liste.add(dir1);
         liste.add(dir2);
         assertEquals(new HashSet<>(liste), new HashSet<>(res2.getNames()));
-        PathParameter pathParameter = res2.getPath(dir1);
+        PathParameter pathParameter = (PathParameter) res2.getPath(dir1);
         assertNotNull(pathParameter);
         assertEquals(Paths.get(path1), pathParameter.getPath());
         assertTrue(pathParameter.isReadonly());
         assertEquals(VFS4JPathMode.STANDARD, pathParameter.getMode());
-        pathParameter = res2.getPath(dir2);
+        pathParameter = (PathParameter) res2.getPath(dir2);
         assertNotNull(pathParameter);
         assertEquals(Paths.get(path2), pathParameter.getPath());
         assertFalse(pathParameter.isReadonly());
         assertEquals(VFS4JPathMode.STANDARD, pathParameter.getMode());
     }
 
+    @Test
+    @DisplayName("Parse un fichier avec un classpath")
+    void parseWithClasspath() {
+        final String dir1 = "dir01";
+        Properties properties = new Properties();
+        properties.put("vfs.paths.dir01.readonly", "true");
+        properties.put("vfs.paths.dir01.mode", VFS4JPathMode.CLASSPATH.getName());
+        ParseConfigFile parseConfigFile = new ParseConfigFile();
+
+        // methode testée
+        FileManagerBuilder res = parseConfigFile.parse(properties);
+
+        // vérifications
+        assertNotNull(res);
+        VFS4JConfig res2 = res.build();
+        assertNotNull(res2);
+        List<String> liste = new ArrayList<>();
+        liste.add(dir1);
+        assertEquals(new HashSet<>(liste), new HashSet<>(res2.getNames()));
+        VFS4JClasspathParameter pathParameter = (VFS4JClasspathParameter) res2.getPath(dir1);
+        assertNotNull(pathParameter);
+        assertEquals("", pathParameter.getPath());
+        assertTrue(pathParameter.isReadonly());
+        assertEquals(VFS4JPathMode.CLASSPATH, pathParameter.getMode());
+    }
+
+    @Test
+    @DisplayName("Parse un fichier avec un classpath et un path")
+    void parseWithClasspathAndPath() {
+        final String dir1 = "dir01";
+        Properties properties = new Properties();
+        properties.put("vfs.paths.dir01.path", "/test1/");
+        properties.put("vfs.paths.dir01.readonly", "true");
+        properties.put("vfs.paths.dir01.mode", VFS4JPathMode.CLASSPATH.getName());
+        ParseConfigFile parseConfigFile = new ParseConfigFile();
+
+        // methode testée
+        FileManagerBuilder res = parseConfigFile.parse(properties);
+
+        // vérifications
+        assertNotNull(res);
+        VFS4JConfig res2 = res.build();
+        assertNotNull(res2);
+        List<String> liste = new ArrayList<>();
+        liste.add(dir1);
+        assertEquals(new HashSet<>(liste), new HashSet<>(res2.getNames()));
+        VFS4JClasspathParameter pathParameter = (VFS4JClasspathParameter) res2.getPath(dir1);
+        assertNotNull(pathParameter);
+        assertEquals("/test1/", pathParameter.getPath());
+        assertTrue(pathParameter.isReadonly());
+        assertEquals(VFS4JPathMode.CLASSPATH, pathParameter.getMode());
+    }
+
+    @Test
+    @DisplayName("Parse un fichier avec un classpath et readonly=false")
+    void parseWithClasspathAndReadonlyFalse() {
+        Properties properties = new Properties();
+        properties.put("vfs.paths.dir01.readonly", "false");
+        properties.put("vfs.paths.dir01.mode", VFS4JPathMode.CLASSPATH.getName());
+        ParseConfigFile parseConfigFile = new ParseConfigFile();
+
+        // methode testée
+        VFS4JException exception = assertThrows(VFS4JException.class,
+                ()-> parseConfigFile.parse(properties));
+
+        // vérifications
+        assertNotNull(exception);
+        assertEquals("Path for 'dir01' with classpatch mode and readonly to false", exception.getMessage());
+    }
 }

@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class FileManagerBuilder {
 
-    private final Map<String, PathParameter> listeConfig;
+    private final Map<String, VFS4JParameter> listeConfig;
 
     private final Map<String, Map<String, String>> listePlugins;
 
@@ -25,7 +25,7 @@ public class FileManagerBuilder {
         return this;
     }
 
-    public FileManagerBuilder addPath(String name, PathParameter parameter) {
+    public FileManagerBuilder addPath(String name, VFS4JParameter parameter) {
         ValidationUtils.checkNotEmpty(name, "Name is empty");
         ValidationUtils.checkNotNull(parameter, "Paramater is null");
         listeConfig.put(name, parameter);
@@ -40,7 +40,7 @@ public class FileManagerBuilder {
     }
 
     public VFS4JConfig build() {
-        Map<String, PathParameter> confPaths = new HashMap<>();
+        Map<String, VFS4JParameter> confPaths = new HashMap<>();
         confPaths.putAll(listeConfig);
         VFSConfigFile vfsConfigFile = new VFSConfigFile();
         vfsConfigFile.setListeConfig(confPaths);

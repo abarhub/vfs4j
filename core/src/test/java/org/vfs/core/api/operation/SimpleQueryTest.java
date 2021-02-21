@@ -174,7 +174,7 @@ class SimpleQueryTest {
     @Disabled("Les liens symboliques ne fonctionnent sous windows que si on est superadmin => test désactivé")
     @Tag("symbolicLink")
     void isSymbolicLinkTrue() throws IOException {
-        final String filename = "file1.txt";
+        final String filename = "fichier1.txt";
         final String filename2 = "file2.txt";
         final Path file = directory.resolve(filename);
         final Path file2 = directory.resolve(filename2);
@@ -193,7 +193,7 @@ class SimpleQueryTest {
     @Tag("symbolicLink")
     void isSymbolicLinkFalse() throws IOException {
 
-        final String filename = "file1.txt";
+        final String filename = "fichier1.txt";
         final Path file = directory.resolve(filename);
         Files.createFile(file);
         assertFalse(Files.isSymbolicLink(file));

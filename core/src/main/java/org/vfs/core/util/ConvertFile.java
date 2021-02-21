@@ -1,16 +1,21 @@
 package org.vfs.core.util;
 
+import org.slf4j.Logger;
 import org.vfs.core.api.PathName;
-import org.vfs.core.config.PathParameter;
-import org.vfs.core.config.VFS4JConfig;
+import org.vfs.core.config.*;
 import org.vfs.core.exception.VFS4JInvalideParameterException;
+import org.vfs.core.plugin.audit.VFS4JAuditPlugins;
 
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ConvertFile {
+
+    private static final Logger LOGGER = VFS4JLoggerFactory.getLogger(ConvertFile.class);
 
     private final VFS4JConfig vfs4JConfig;
 
@@ -21,17 +26,43 @@ public class ConvertFile {
 
     public Path getRealFile(PathName file) {
         ValidationUtils.checkNotNull(file, "Path is null");
-        PathParameter p = vfs4JConfig.getPath(file.getName());
+        VFS4JParameter p = vfs4JConfig.getPath(file.getName());
         if (p == null) {
             throw new VFS4JInvalideParameterException("PathName '" + file.getName() + "' doesn't exist");
         }
         Path path;
-        if (file.getPath() == null || file.getPath().isEmpty()) {
-            path = p.getPath();
+        if (p.getMode() == VFS4JPathMode.CLASSPATH) {
+            VFS4JClasspathParameter parameter= (VFS4JClasspathParameter) p;
+            try {
+                String directory="";
+                if(!Objects.equals(parameter.getPath(),"")){
+                    directory=parameter.getPath();
+                } else {
+                    directory="";
+                }
+                if (file.getPath() == null || file.getPath().isEmpty()) {
+                    path = Paths.get(ClassLoader.getSystemResource(directory).toURI());
+                } else {
+                    Path p2 = Paths.get(directory,file.getPath()).normalize();
+                    p2 = removeReferenceParentInBegin(p2);
+                    path = Paths.get(ClassLoader.getSystemResource(p2.toString()).toURI());
+                }
+            } catch (URISyntaxException e) {
+                throw new VFS4JInvalideParameterException("path '" + file.getName() + "' invalide", e);
+            }
         } else {
-            Path p2 = Paths.get(file.getPath()).normalize();
-            p2 = removeReferenceParentInBegin(p2);
-            path = p.getPath().resolve(p2);
+            if (p instanceof PathParameter) {
+                PathParameter pathParameter = (PathParameter) p;
+                if (file.getPath() == null || file.getPath().isEmpty()) {
+                    path = pathParameter.getPath();
+                } else {
+                    Path p2 = Paths.get(file.getPath()).normalize();
+                    p2 = removeReferenceParentInBegin(p2);
+                    path = pathParameter.getPath().resolve(p2);
+                }
+            } else {
+                throw new VFS4JInvalideParameterException("path type '" + file.getName() + "' invalide");
+            }
         }
         return path;
     }
@@ -64,18 +95,23 @@ public class ConvertFile {
             PathName pathNameTrouve = null;
             Path fileNormalized = file.normalize();
             for (String name : nameList) {
-                PathParameter pathParameter = vfs4JConfig.getPath(name);
-                Path path = pathParameter.getPath();
-                if (fileNormalized.startsWith(path)) {
-                    if (trouve == null) {
-                        trouve = path;
-                        pathNameTrouve = createPathName(fileNormalized, name, path);
-                    } else {
-                        if (trouve.getNameCount() < path.getNameCount()) {
+                VFS4JParameter pathParameter = vfs4JConfig.getPath(name);
+                if( pathParameter instanceof PathParameter) {
+                    PathParameter parameter= (PathParameter) pathParameter;
+                    Path path = parameter.getPath();
+                    if (fileNormalized.startsWith(path)) {
+                        if (trouve == null) {
                             trouve = path;
                             pathNameTrouve = createPathName(fileNormalized, name, path);
+                        } else {
+                            if (trouve.getNameCount() < path.getNameCount()) {
+                                trouve = path;
+                                pathNameTrouve = createPathName(fileNormalized, name, path);
+                            }
                         }
                     }
+                } else {
+                    throw new VFS4JInvalideParameterException("Invalide parameter "+name);
                 }
             }
             return Optional.ofNullable(pathNameTrouve);

@@ -1,7 +1,8 @@
 package org.vfs.core.config;
 
 public enum VFS4JPathMode {
-    STANDARD("standard"), TEMPORARY("temporary");
+    STANDARD("standard"), TEMPORARY("temporary"),
+    CLASSPATH("classpath");
 
     private final String name;
 

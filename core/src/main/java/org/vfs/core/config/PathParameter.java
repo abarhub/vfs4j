@@ -5,7 +5,7 @@ import org.vfs.core.util.ValidationUtils;
 import java.nio.file.Path;
 import java.util.StringJoiner;
 
-public class PathParameter {
+public class PathParameter implements VFS4JParameter {
 
     private final Path path;
     private final boolean readonly;
@@ -14,6 +14,8 @@ public class PathParameter {
     public PathParameter(Path path, boolean readonly, VFS4JPathMode mode) {
         ValidationUtils.checkNotNull(path, "Path is null");
         ValidationUtils.checkNotNull(mode, "mode is null");
+        ValidationUtils.checkParameter(mode == VFS4JPathMode.STANDARD ||
+                mode == VFS4JPathMode.TEMPORARY, "mode must be STANDARD or TEMPORARY");
         this.path = path;
         this.readonly = readonly;
         this.mode = mode;

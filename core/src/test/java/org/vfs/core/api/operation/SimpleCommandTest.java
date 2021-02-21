@@ -214,7 +214,7 @@ class SimpleCommandTest {
     void copyInput() throws IOException {
         final String contenu = "abc";
         ByteArrayInputStream input = new ByteArrayInputStream(contenu.getBytes(StandardCharsets.UTF_8));
-        final String filename = "file1.txt";
+        final String filename = "fichier1.txt";
         PathName outputFile = getPathName(filename);
 
         // methode testée

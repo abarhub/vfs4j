@@ -4,15 +4,15 @@ import java.util.Map;
 
 public class VFSConfigFile {
 
-    private Map<String, PathParameter> listeConfig;
+    private Map<String, VFS4JParameter> listeConfig;
 
     private Map<String, Map<String, String>> listePlugins;
 
-    public Map<String, PathParameter> getListeConfig() {
+    public Map<String, VFS4JParameter> getListeConfig() {
         return listeConfig;
     }
 
-    public void setListeConfig(Map<String, PathParameter> listeConfig) {
+    public void setListeConfig(Map<String, VFS4JParameter> listeConfig) {
         this.listeConfig = listeConfig;
     }
 

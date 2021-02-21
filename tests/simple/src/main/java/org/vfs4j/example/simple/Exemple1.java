@@ -4,7 +4,9 @@ import com.google.common.base.Verify;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vfs.core.api.*;
+import org.vfs.core.config.PathParameter;
 import org.vfs.core.config.VFS4JConfig;
+import org.vfs.core.config.VFS4JParameter;
 import org.vfs.core.config.VFS4JPathMode;
 
 import java.io.IOException;
@@ -107,7 +109,8 @@ public class Exemple1 {
         Verify.verifyNotNull(config.getPath("rep02"));
         Verify.verifyNotNull(config.getPath("temp"));
 
-        Path pathTemp = config.getPath("temp").getPath();
+        PathParameter parameter = (PathParameter) config.getPath("temp");
+        Path pathTemp = parameter.getPath();
 
 
         Path file1 = path1.resolve("fichier01.txt");

@@ -2,11 +2,13 @@ package org.vfs.core.api;
 
 import org.slf4j.Logger;
 import org.vfs.core.config.PathParameter;
+import org.vfs.core.config.VFS4JClasspathParameter;
 import org.vfs.core.config.VFS4JPathMode;
 import org.vfs.core.exception.VFS4JException;
 import org.vfs.core.exception.VFS4JInvalideConfigFileException;
 import org.vfs.core.util.VFS4JLoggerFactory;
 
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -102,6 +104,8 @@ public class ParseConfigFile {
                         mode = VFS4JPathMode.STANDARD;
                     } else if (Objects.equals(valueMode, VFS4JPathMode.TEMPORARY.getName())) {
                         mode = VFS4JPathMode.TEMPORARY;
+                    } else if (Objects.equals(valueMode, VFS4JPathMode.CLASSPATH.getName())) {
+                        mode = VFS4JPathMode.CLASSPATH;
                     } else {
                         throw new VFS4JInvalideConfigFileException("mode for '" + nom + "' is invalide (value='" + valueMode + "')");
                     }
@@ -125,6 +129,17 @@ public class ParseConfigFile {
                         throw new VFS4JException("Path for '" + nom + "' is not empty");
                     }
                     fileManagerBuilder.addPath(nom, new PathParameter(Paths.get(""), readonly, VFS4JPathMode.TEMPORARY));
+                } else if (mode == VFS4JPathMode.CLASSPATH) {
+                    if (!readonly) {
+                        throw new VFS4JException("Path for '" + nom + "' with classpatch mode and readonly to false");
+                    }
+                    String classpath;
+                    if (p == null) {
+                        classpath = "";
+                    } else {
+                        classpath = valuePath;
+                    }
+                    fileManagerBuilder.addPath(nom, new VFS4JClasspathParameter(classpath));
                 } else {
                     throw new VFS4JException("Path or temporary mode must be completed '" + nom + "'");
                 }

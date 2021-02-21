@@ -20,7 +20,7 @@ public class VFS4JConfig {
 
     private static final Logger LOGGER = VFS4JLoggerFactory.getLogger(VFS4JConfig.class);
 
-    private final Map<String, PathParameter> listeConfig;
+    private final Map<String, VFS4JParameter> listeConfig;
 
     private final Map<String, VFS4JPlugins> listePlugins;
 
@@ -40,7 +40,7 @@ public class VFS4JConfig {
 
     private void initListConfig(VFSConfigFile configFile) {
         LOGGER.debug("init configuration ...");
-        Map<String, PathParameter> map = initPaths(configFile);
+        Map<String, VFS4JParameter> map = initPaths(configFile);
         listeConfig.clear();
         listeConfig.putAll(map);
         listPluginsOrder.clear();
@@ -50,20 +50,25 @@ public class VFS4JConfig {
         LOGGER.debug("init configuration OK");
     }
 
-    private Map<String, PathParameter> initPaths(VFSConfigFile configFile) {
-        Map<String, PathParameter> listeConfig = configFile.getListeConfig();
-        Map<String, PathParameter> map = new HashMap<>();
-        for (Map.Entry<String, PathParameter> entry : listeConfig.entrySet()) {
+    private Map<String, VFS4JParameter> initPaths(VFSConfigFile configFile) {
+        Map<String, VFS4JParameter> listeConfig = configFile.getListeConfig();
+        Map<String, VFS4JParameter> map = new HashMap<>();
+        for (Map.Entry<String, VFS4JParameter> entry : listeConfig.entrySet()) {
             String name = entry.getKey();
-            PathParameter param = entry.getValue();
+            VFS4JParameter param = entry.getValue();
             if (param.getMode() == null) {
                 throw new VFS4JConfigException("Mode is empty for name '" + name + "'");
             } else if (param.getMode() == VFS4JPathMode.STANDARD) {
-                Path path2 = param.getPath();
+                PathParameter path = (PathParameter) param;
+                Path path2 = path.getPath();
                 if (!path2.isAbsolute()) {
                     path2 = path2.toAbsolutePath().normalize();
                 }
                 PathParameter param2 = new PathParameter(path2, param.isReadonly(), param.getMode());
+                map.put(name, param2);
+            } else if (param.getMode() == VFS4JPathMode.CLASSPATH) {
+                VFS4JClasspathParameter classpath= (VFS4JClasspathParameter) param;
+                VFS4JClasspathParameter param2 = new VFS4JClasspathParameter(classpath.getPath());
                 map.put(name, param2);
             } else if (param.getMode() == VFS4JPathMode.TEMPORARY) {
                 Path path = createTempraryDiractory(name);
@@ -158,7 +163,7 @@ public class VFS4JConfig {
         listeConfig.put(name, new PathParameter(path, b, standard));
     }
 
-    public PathParameter getPath(String name) {
+    public VFS4JParameter getPath(String name) {
         ValidationUtils.checkNotEmpty(name, "Name is empty");
         return listeConfig.get(name);
     }

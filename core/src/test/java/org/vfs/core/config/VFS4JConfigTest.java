@@ -41,7 +41,7 @@ class VFS4JConfigTest {
         vfs4JConfig.addPath(nom, path, readOnly);
 
         // vérifications
-        PathParameter pathParameter = vfs4JConfig.getPath(nom);
+        PathParameter pathParameter = (PathParameter) vfs4JConfig.getPath(nom);
         assertNotNull(pathParameter);
         assertEquals(path, pathParameter.getPath());
         assertEquals(readOnly, pathParameter.isReadonly());
@@ -60,7 +60,7 @@ class VFS4JConfigTest {
         vfs4JConfig.addPath(nom, path, readOnly);
 
         // methode testée
-        PathParameter pathParameter = vfs4JConfig.getPath(nom);
+        PathParameter pathParameter = (PathParameter) vfs4JConfig.getPath(nom);
 
         // vérifications
         assertNotNull(pathParameter);
@@ -86,7 +86,7 @@ class VFS4JConfigTest {
         vfs4JConfig.addPath(nom2, path2, readonly2);
 
         // methode testée
-        PathParameter pathParameter = vfs4JConfig.getPath(nom2);
+        PathParameter pathParameter = (PathParameter) vfs4JConfig.getPath(nom2);
 
         // vérifications
         assertNotNull(pathParameter);
@@ -107,7 +107,7 @@ class VFS4JConfigTest {
         vfs4JConfig.addPath(nom, path, readOnly);
 
         // methode testée
-        PathParameter pathParameter = vfs4JConfig.getPath("name02");
+        VFS4JParameter pathParameter = vfs4JConfig.getPath("name02");
 
         // vérifications
         assertNull(pathParameter);
@@ -120,7 +120,7 @@ class VFS4JConfigTest {
         VFS4JConfig vfs4JConfig = new VFS4JConfig();
 
         // methode testée
-        PathParameter pathParameter = vfs4JConfig.getPath("name03");
+        VFS4JParameter pathParameter = vfs4JConfig.getPath("name03");
 
         // vérifications
         assertNull(pathParameter);
@@ -174,7 +174,7 @@ class VFS4JConfigTest {
         }
 
         // methode testée
-        PathParameter pathParameter = vfs4JConfig.getPath(nameRef);
+        PathParameter pathParameter = (PathParameter) vfs4JConfig.getPath(nameRef);
 
         // vérifications
         if (!existRef) {

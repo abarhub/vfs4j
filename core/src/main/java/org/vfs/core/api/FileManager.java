@@ -3,6 +3,7 @@ package org.vfs.core.api;
 import org.vfs.core.api.operation.*;
 import org.vfs.core.config.PathParameter;
 import org.vfs.core.config.VFS4JConfig;
+import org.vfs.core.config.VFS4JParameter;
 import org.vfs.core.plugin.common.VFS4JPlugins;
 import org.vfs.core.util.ConvertFile;
 import org.vfs.core.util.ValidationUtils;
@@ -82,7 +83,7 @@ public class FileManager {
         initOperations();
     }
 
-    public PathParameter getPath(String name) {
+    public VFS4JParameter getPath(String name) {
         ValidationUtils.checkNotEmpty(name, "Name is empty");
         return vfs4JConfig.getPath(name);
     }
