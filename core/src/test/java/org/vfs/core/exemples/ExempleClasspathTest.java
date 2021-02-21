@@ -48,8 +48,9 @@ public class ExempleClasspathTest {
         assertNotNull(config.getPath("rep01"));
         assertTrue(config.getPath("rep01").isReadonly());
 
-        // methodes testées
-        List<String> res = VFS4JFiles.readAllLines(new PathName("rep01", "/test_classpath01.txt"));
+        try {
+            // methodes testées
+            List<String> res = VFS4JFiles.readAllLines(new PathName("rep01", "/test_classpath01.txt"));
 
         assertNotNull(res);
 
@@ -57,6 +58,11 @@ public class ExempleClasspathTest {
         assertEquals("aaaa BBBBB CCCCC NNNNNNNNN", res.get(0));
 
         LOGGER.info("exemple1 OK");
+
+        } catch(Exception e){
+            LOGGER.error("Erreur exemple1()", e);
+            throw e;
+        }
     }
 
     @Test
