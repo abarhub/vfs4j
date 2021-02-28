@@ -5,6 +5,7 @@ import org.vfs.core.api.PathName;
 import org.vfs.core.config.*;
 import org.vfs.core.exception.VFS4JInvalideParameterException;
 
+import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -41,14 +42,22 @@ public class ConvertFile {
                 } else {
                     directory = "";
                 }
+                LOGGER.info("directory={}", directory);
                 if (file.getPath() == null || file.getPath().isEmpty()) {
                     path = Paths.get(ClassLoader.getSystemResource(directory).toURI());
                 } else {
+                    LOGGER.info("file.getPath()={}", file.getPath());
                     Path p2 = Paths.get(directory, file.getPath()).normalize();
                     p2 = removeReferenceParentInBegin(p2);
                     LOGGER.info("p2={}", p2);
                     URL url = ClassLoader.getSystemResource(p2.toString());
                     LOGGER.info("getSystemResource={}", url);
+                    LOGGER.info("getSystemResource2={}", ConvertFile.class.getResource(p2.toString()));
+                    LOGGER.info("getSystemResource3={}", ClassLoader.getSystemResource(p2.toString()));
+                    if (p2.toString().startsWith(File.separator)) {
+
+                        //LOGGER.info("getSystemResource={}", url);
+                    }
                     path = Paths.get(ClassLoader.getSystemResource(p2.toString()).toURI());
                 }
             } catch (URISyntaxException e) {
