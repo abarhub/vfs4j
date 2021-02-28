@@ -17,8 +17,8 @@ public class VFS4JAuditCommand extends VFS4JAbstractAuditOperation implements VF
 
     private VFS4JCommand command;
 
-    public VFS4JAuditCommand(VFS4JAuditPlugins vfs4JAuditPlugins, VFS4JCommand command) {
-        super(vfs4JAuditPlugins);
+    public VFS4JAuditCommand(VFS4JAuditPlugins auditPlugins, VFS4JCommand command) {
+        super(auditPlugins);
         this.command = command;
     }
 

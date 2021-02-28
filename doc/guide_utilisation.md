@@ -25,11 +25,6 @@ VFS4JFiles.createFile(new VFS4JPathName("dir1","file01.txt"));
 Il faut créer le fichier de configuration suivant :
 
 ```code
-vfs.paths.rep01.path", path1.toString());
-        properties.setProperty("vfs.paths.rep01.readonly", "false");
-        properties.setProperty("vfs.plugins.plugins1.class", "org.vfs.core.plugin.audit.VFS4JAuditPluginsFactory");
-        properties.setProperty("vfs.plugins.plugins1.operations", "COMMAND");
-        properties.setProperty("vfs.plugins.plugins1.filterPath", "*.txt");
 vfs.paths.dir1.path=/var/local/dir
 vfs.paths.dir1.readonly=false
 vfs.plugins.plugins1.class=org.vfs.core.plugin.audit.VFS4JAuditPluginsFactory

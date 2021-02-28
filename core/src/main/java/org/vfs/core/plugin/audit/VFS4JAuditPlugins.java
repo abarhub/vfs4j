@@ -36,6 +36,17 @@ public class VFS4JAuditPlugins implements VFS4JPlugins {
 
         this.vfs4JConfig = vfs4JConfig;
 
+        // set logLevel
+        initLogLevel(config);
+
+        // set listOperations
+        initOperationList(config);
+
+        // set filterPath
+        initFilterPath(config);
+    }
+
+    private void initLogLevel(Map<String, String> config) {
         logLevel = VFS4JAuditLogLevel.INFO;
         if (config.containsKey("loglevel")) {
             String s = config.get("loglevel");
@@ -51,7 +62,9 @@ public class VFS4JAuditPlugins implements VFS4JPlugins {
                 logLevel = trouve;
             }
         }
+    }
 
+    private void initOperationList(Map<String, String> config) {
         listOperations = new HashSet<>();
         if (config.containsKey("operations")) {
             String s = config.get("operations");
@@ -70,11 +83,11 @@ public class VFS4JAuditPlugins implements VFS4JPlugins {
             }
         } else {
             // non configuré => on ajoute tout
-            for (VFS4JAuditOperation operation : VFS4JAuditOperation.values()) {
-                listOperations.add(operation);
-            }
+            listOperations.addAll(Arrays.asList(VFS4JAuditOperation.values()));
         }
+    }
 
+    private void initFilterPath(Map<String, String> config) {
         filterPath = new ArrayList<>();
         if (config.containsKey("filterPath")) {
             String s = config.get("filterPath");

@@ -15,8 +15,8 @@ public class VFS4JAuditSearch extends VFS4JAbstractAuditOperation implements VFS
 
     private VFS4JSearch search;
 
-    public VFS4JAuditSearch(VFS4JAuditPlugins vfs4JAuditPlugins, VFS4JSearch search) {
-        super(vfs4JAuditPlugins);
+    public VFS4JAuditSearch(VFS4JAuditPlugins auditPlugins, VFS4JSearch search) {
+        super(auditPlugins);
         this.search = search;
     }
 

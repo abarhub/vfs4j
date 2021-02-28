@@ -15,8 +15,8 @@ public class VFS4JAuditQuery extends VFS4JAbstractAuditOperation implements VFS4
 
     private VFS4JQuery query;
 
-    public VFS4JAuditQuery(VFS4JAuditPlugins vfs4JAuditPlugins, VFS4JQuery query) {
-        super(vfs4JAuditPlugins);
+    public VFS4JAuditQuery(VFS4JAuditPlugins auditPlugins, VFS4JQuery query) {
+        super(auditPlugins);
         this.query = query;
     }
 

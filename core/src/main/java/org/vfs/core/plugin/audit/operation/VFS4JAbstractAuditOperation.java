@@ -19,7 +19,7 @@ public abstract class VFS4JAbstractAuditOperation {
 
     private VFS4JAuditPlugins auditPlugins;
 
-    public VFS4JAbstractAuditOperation(VFS4JAuditPlugins auditPlugins) {
+    protected VFS4JAbstractAuditOperation(VFS4JAuditPlugins auditPlugins) {
         VFS4JValidationUtils.checkNotNull(auditPlugins, "vfs4JAuditPlugins is null");
         this.auditPlugins = auditPlugins;
     }
@@ -79,15 +79,15 @@ public abstract class VFS4JAbstractAuditOperation {
         }
     }
 
-    protected boolean isActive(VFS4JAuditOperation operation, VFS4JPathName... VFS4JPathNames) {
+    protected boolean isActive(VFS4JAuditOperation operation, VFS4JPathName... pathNames) {
         if (auditPlugins.getListOperations() == null) {
             // aucune opération n'est configuré => on n'affiche rien
             return false;
         } else if (auditPlugins.getListOperations().contains(operation)) {
             if (auditPlugins.getFilterPath() != null &&
                     !auditPlugins.getFilterPath().isEmpty() &&
-                    VFS4JPathNames != null && VFS4JPathNames.length > 0) {
-                return isFilterPathMatch(VFS4JPathNames);
+                    pathNames != null && pathNames.length > 0) {
+                return isFilterPathMatch(pathNames);
             } else {
                 return true;
             }
@@ -97,11 +97,11 @@ public abstract class VFS4JAbstractAuditOperation {
         }
     }
 
-    private boolean isFilterPathMatch(VFS4JPathName[] VFS4JPathNames) {
+    private boolean isFilterPathMatch(VFS4JPathName[] pathNames) {
         FileSystem fs = FileSystems.getDefault();
         for (String glob : auditPlugins.getFilterPath()) {
             PathMatcher pathMatcher = fs.getPathMatcher("glob:" + glob);
-            for (VFS4JPathName p : VFS4JPathNames) {
+            for (VFS4JPathName p : pathNames) {
                 if (pathMatcher.matches(Paths.get(p.getPath()))) {
                     return true;
                 }

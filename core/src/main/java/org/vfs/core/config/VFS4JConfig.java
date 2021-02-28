@@ -91,19 +91,7 @@ public class VFS4JConfig {
                 Map<String, String> mapConfig = configFile.getListePlugins().get(name);
                 String keyClass = VFS4JParseConfigFile.SUFFIX_CLASS_EXTENSION;
                 if (mapConfig.containsKey(keyClass)) {
-                    String className = mapConfig.get(keyClass);
-                    if (className != null && !className.trim().isEmpty()) {
-                        VFS4JPluginsFactory pluginsFactory;
-                        if (mapFactory.containsKey(className)) {
-                            pluginsFactory = mapFactory.get(className);
-                        } else {
-                            pluginsFactory = createPluginsFactory(name, className);
-                            mapFactory.put(className, pluginsFactory);
-                        }
-                        VFS4JPlugins plugins = pluginsFactory.createPlugins(name, mapConfig, this);
-                        map.put(name, plugins);
-                        listPluginsOrder.add(name);
-                    }
+                    addPlugin(map, mapFactory, name, mapConfig, keyClass);
                 } else {
                     throw new VFS4JConfigException("Plugins for name '" + name + "' has no class");
                 }
@@ -111,6 +99,22 @@ public class VFS4JConfig {
         }
         LOGGER.info("config plugins: {}", map);
         return map;
+    }
+
+    private void addPlugin(Map<String, VFS4JPlugins> map, Map<String, VFS4JPluginsFactory> mapFactory, String name, Map<String, String> mapConfig, String keyClass) {
+        String className = mapConfig.get(keyClass);
+        if (className != null && !className.trim().isEmpty()) {
+            VFS4JPluginsFactory pluginsFactory;
+            if (mapFactory.containsKey(className)) {
+                pluginsFactory = mapFactory.get(className);
+            } else {
+                pluginsFactory = createPluginsFactory(name, className);
+                mapFactory.put(className, pluginsFactory);
+            }
+            VFS4JPlugins plugins = pluginsFactory.createPlugins(name, mapConfig, this);
+            map.put(name, plugins);
+            listPluginsOrder.add(name);
+        }
     }
 
     private VFS4JPluginsFactory createPluginsFactory(String name, String className) {

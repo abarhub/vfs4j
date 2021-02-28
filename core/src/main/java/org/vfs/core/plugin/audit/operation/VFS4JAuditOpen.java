@@ -16,111 +16,111 @@ public class VFS4JAuditOpen extends VFS4JAbstractAuditOperation implements VFS4J
 
     private VFS4JOpen open;
 
-    public VFS4JAuditOpen(VFS4JAuditPlugins vfs4JAuditPlugins, VFS4JOpen open) {
-        super(vfs4JAuditPlugins);
+    public VFS4JAuditOpen(VFS4JAuditPlugins auditPlugins, VFS4JOpen open) {
+        super(auditPlugins);
         this.open = open;
     }
 
     @Override
-    public InputStream newInputStream(VFS4JPathName VFS4JPathName, OpenOption... options) throws IOException {
-        boolean active = isActive(VFS4JAuditOperation.NEW_INPUT_STREAM, VFS4JPathName);
+    public InputStream newInputStream(VFS4JPathName pathName, OpenOption... options) throws IOException {
+        boolean active = isActive(VFS4JAuditOperation.NEW_INPUT_STREAM, pathName);
         if (active) {
             try {
-                InputStream res = open.newInputStream(VFS4JPathName, options);
-                log("newInputStream for file {}", VFS4JPathName);
+                InputStream res = open.newInputStream(pathName, options);
+                log("newInputStream for file {}", pathName);
                 return res;
             } catch (IOException e) {
-                logError("Error for newInputStream for file {}", e, VFS4JPathName);
+                logError("Error for newInputStream for file {}", e, pathName);
                 throw e;
             }
         } else {
-            return open.newInputStream(VFS4JPathName, options);
+            return open.newInputStream(pathName, options);
         }
     }
 
     @Override
-    public OutputStream newOutputStream(VFS4JPathName VFS4JPathName, OpenOption... options) throws IOException {
-        boolean active = isActive(VFS4JAuditOperation.NEW_OUTPUT_STREAM, VFS4JPathName);
+    public OutputStream newOutputStream(VFS4JPathName pathName, OpenOption... options) throws IOException {
+        boolean active = isActive(VFS4JAuditOperation.NEW_OUTPUT_STREAM, pathName);
         if (active) {
             try {
-                OutputStream res = open.newOutputStream(VFS4JPathName, options);
-                log("newOutputStream for file {}", VFS4JPathName);
+                OutputStream res = open.newOutputStream(pathName, options);
+                log("newOutputStream for file {}", pathName);
                 return res;
             } catch (IOException e) {
-                logError("Error for newOutputStream for file {}", e, VFS4JPathName);
+                logError("Error for newOutputStream for file {}", e, pathName);
                 throw e;
             }
         } else {
-            return open.newOutputStream(VFS4JPathName, options);
+            return open.newOutputStream(pathName, options);
         }
     }
 
     @Override
-    public FileReader newReader(VFS4JPathName VFS4JPathName) throws IOException {
-        boolean active = isActive(VFS4JAuditOperation.NEW_READER, VFS4JPathName);
+    public FileReader newReader(VFS4JPathName pathName) throws IOException {
+        boolean active = isActive(VFS4JAuditOperation.NEW_READER, pathName);
         if (active) {
 
             try {
-                FileReader res = open.newReader(VFS4JPathName);
-                log("newReader for file {}", VFS4JPathName);
+                FileReader res = open.newReader(pathName);
+                log("newReader for file {}", pathName);
                 return res;
             } catch (IOException e) {
-                logError("Error for newReader for file {}", e, VFS4JPathName);
+                logError("Error for newReader for file {}", e, pathName);
                 throw e;
             }
         } else {
-            return open.newReader(VFS4JPathName);
+            return open.newReader(pathName);
         }
     }
 
     @Override
-    public FileWriter newWriter(VFS4JPathName VFS4JPathName, boolean append) throws IOException {
-        boolean active = isActive(VFS4JAuditOperation.NEW_WRITER, VFS4JPathName);
+    public FileWriter newWriter(VFS4JPathName pathName, boolean append) throws IOException {
+        boolean active = isActive(VFS4JAuditOperation.NEW_WRITER, pathName);
         if (active) {
             try {
-                FileWriter res = open.newWriter(VFS4JPathName, append);
-                log("newWriter for file {}", VFS4JPathName);
+                FileWriter res = open.newWriter(pathName, append);
+                log("newWriter for file {}", pathName);
                 return res;
             } catch (IOException e) {
-                logError("Error for newWriter for file {}", e, VFS4JPathName);
+                logError("Error for newWriter for file {}", e, pathName);
                 throw e;
             }
         } else {
-            return open.newWriter(VFS4JPathName, append);
+            return open.newWriter(pathName, append);
         }
     }
 
     @Override
-    public SeekableByteChannel newByteChannel(VFS4JPathName VFS4JPathName, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
-        boolean active = isActive(VFS4JAuditOperation.NEW_BYTE_CHANNEL, VFS4JPathName);
+    public SeekableByteChannel newByteChannel(VFS4JPathName pathName, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
+        boolean active = isActive(VFS4JAuditOperation.NEW_BYTE_CHANNEL, pathName);
         if (active) {
             try {
-                SeekableByteChannel res = open.newByteChannel(VFS4JPathName, options, attrs);
-                log("newByteChannel for file {}", VFS4JPathName);
+                SeekableByteChannel res = open.newByteChannel(pathName, options, attrs);
+                log("newByteChannel for file {}", pathName);
                 return res;
             } catch (IOException e) {
-                logError("Error for newByteChannel for file {}", e, VFS4JPathName);
+                logError("Error for newByteChannel for file {}", e, pathName);
                 throw e;
             }
         } else {
-            return open.newByteChannel(VFS4JPathName, options, attrs);
+            return open.newByteChannel(pathName, options, attrs);
         }
     }
 
     @Override
-    public DirectoryStream<VFS4JPathName> newDirectoryStream(VFS4JPathName VFS4JPathName, DirectoryStream.Filter<? super VFS4JPathName> filter) throws IOException {
-        boolean active = isActive(VFS4JAuditOperation.NEW_DIRECTORY_STREAM, VFS4JPathName);
+    public DirectoryStream<VFS4JPathName> newDirectoryStream(VFS4JPathName pathName, DirectoryStream.Filter<? super VFS4JPathName> filter) throws IOException {
+        boolean active = isActive(VFS4JAuditOperation.NEW_DIRECTORY_STREAM, pathName);
         if (active) {
             try {
-                DirectoryStream<VFS4JPathName> res = open.newDirectoryStream(VFS4JPathName, filter);
-                log("newDirectoryStream for file {}", VFS4JPathName);
+                DirectoryStream<VFS4JPathName> res = open.newDirectoryStream(pathName, filter);
+                log("newDirectoryStream for file {}", pathName);
                 return res;
             } catch (IOException e) {
-                logError("Error for newDirectoryStream for file {}", e, VFS4JPathName);
+                logError("Error for newDirectoryStream for file {}", e, pathName);
                 throw e;
             }
         } else {
-            return open.newDirectoryStream(VFS4JPathName, filter);
+            return open.newDirectoryStream(pathName, filter);
         }
     }
 }

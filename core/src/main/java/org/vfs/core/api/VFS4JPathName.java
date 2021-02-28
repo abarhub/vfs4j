@@ -48,12 +48,12 @@ public class VFS4JPathName {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        VFS4JPathName VFS4JPathName = (VFS4JPathName) o;
-        if (!Objects.equals(name, VFS4JPathName.name)) {
+        VFS4JPathName pathName = (VFS4JPathName) o;
+        if (!Objects.equals(name, pathName.name)) {
             return false;
         }
         Path p = Paths.get(path);
-        Path p2 = Paths.get(VFS4JPathName.path);
+        Path p2 = Paths.get(pathName.path);
         return p.equals(p2);
     }
 

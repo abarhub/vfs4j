@@ -15,8 +15,8 @@ public class VFS4JAuditAttribute extends VFS4JAbstractAuditOperation implements 
 
     private VFS4JAttribute attribute;
 
-    public VFS4JAuditAttribute(VFS4JAuditPlugins vfs4JAuditPlugins, VFS4JAttribute attribute) {
-        super(vfs4JAuditPlugins);
+    public VFS4JAuditAttribute(VFS4JAuditPlugins auditPlugins, VFS4JAttribute attribute) {
+        super(auditPlugins);
         this.attribute = attribute;
     }
 

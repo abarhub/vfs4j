@@ -29,44 +29,44 @@ public class VFS4JSimpleOpen extends VFS4JAbstractOperation implements VFS4JOpen
     }
 
     @Override
-    public OutputStream newOutputStream(VFS4JPathName VFS4JPathName, OpenOption... options) throws IOException {
-        VFS4JValidationUtils.checkNotNull(VFS4JPathName, VFS4JErrorMessages.PATH_IS_NULL);
-        writeOperation(VFS4JPathName, "newOutputStream");
-        Path path = getRealFile(VFS4JPathName);
+    public OutputStream newOutputStream(VFS4JPathName pathName, OpenOption... options) throws IOException {
+        VFS4JValidationUtils.checkNotNull(pathName, VFS4JErrorMessages.PATH_IS_NULL);
+        writeOperation(pathName, "newOutputStream");
+        Path path = getRealFile(pathName);
         return Files.newOutputStream(path, options);
     }
 
     @Override
-    public FileReader newReader(VFS4JPathName VFS4JPathName) throws IOException {
-        VFS4JValidationUtils.checkNotNull(VFS4JPathName, VFS4JErrorMessages.PATH_IS_NULL);
-        Path path = getRealFile(VFS4JPathName);
+    public FileReader newReader(VFS4JPathName pathName) throws IOException {
+        VFS4JValidationUtils.checkNotNull(pathName, VFS4JErrorMessages.PATH_IS_NULL);
+        Path path = getRealFile(pathName);
         // TODO: voir comment gérer l'encodage des caractères
         return new FileReader(path.toFile());
     }
 
     @Override
-    public FileWriter newWriter(VFS4JPathName VFS4JPathName, boolean append) throws IOException {
-        VFS4JValidationUtils.checkNotNull(VFS4JPathName, VFS4JErrorMessages.PATH_IS_NULL);
-        writeOperation(VFS4JPathName, "newWriter");
-        Path path = getRealFile(VFS4JPathName);
+    public FileWriter newWriter(VFS4JPathName pathName, boolean append) throws IOException {
+        VFS4JValidationUtils.checkNotNull(pathName, VFS4JErrorMessages.PATH_IS_NULL);
+        writeOperation(pathName, "newWriter");
+        Path path = getRealFile(pathName);
         // TODO: voir comment gérer l'encodage des caractères
         return new FileWriter(path.toFile(), append);
     }
 
     @Override
-    public SeekableByteChannel newByteChannel(VFS4JPathName VFS4JPathName, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
-        VFS4JValidationUtils.checkNotNull(VFS4JPathName, VFS4JErrorMessages.PATH_IS_NULL);
+    public SeekableByteChannel newByteChannel(VFS4JPathName pathName, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
+        VFS4JValidationUtils.checkNotNull(pathName, VFS4JErrorMessages.PATH_IS_NULL);
         if (options != null && options.contains(StandardOpenOption.WRITE)) {
-            writeOperation(VFS4JPathName, "newByteChannel");
+            writeOperation(pathName, "newByteChannel");
         }
-        Path path = getRealFile(VFS4JPathName);
+        Path path = getRealFile(pathName);
         return Files.newByteChannel(path, options, attrs);
     }
 
     @Override
-    public DirectoryStream<VFS4JPathName> newDirectoryStream(VFS4JPathName VFS4JPathName, DirectoryStream.Filter<? super VFS4JPathName> filter) throws IOException {
-        VFS4JValidationUtils.checkNotNull(VFS4JPathName, VFS4JErrorMessages.PATH_IS_NULL);
-        Path path = getRealFile(VFS4JPathName);
+    public DirectoryStream<VFS4JPathName> newDirectoryStream(VFS4JPathName pathName, DirectoryStream.Filter<? super VFS4JPathName> filter) throws IOException {
+        VFS4JValidationUtils.checkNotNull(pathName, VFS4JErrorMessages.PATH_IS_NULL);
+        Path path = getRealFile(pathName);
         DirectoryStream.Filter<? super Path> filter2 = null;
         if (filter != null) {
             filter2 = (p) -> {

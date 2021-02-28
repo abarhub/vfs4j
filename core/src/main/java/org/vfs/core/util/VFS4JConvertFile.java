@@ -17,59 +17,70 @@ public class VFS4JConvertFile {
 
     private static final Logger LOGGER = VFS4JLoggerFactory.getLogger(VFS4JConvertFile.class);
 
-    private final VFS4JConfig vfs4JConfig;
+    private final VFS4JConfig config;
 
-    public VFS4JConvertFile(VFS4JConfig vfs4JConfig) {
-        VFS4JValidationUtils.checkNotNull(vfs4JConfig, "vfsConfig is null");
-        this.vfs4JConfig = vfs4JConfig;
+    public VFS4JConvertFile(VFS4JConfig config) {
+        VFS4JValidationUtils.checkNotNull(config, "vfsConfig is null");
+        this.config = config;
     }
 
     public Path getRealFile(VFS4JPathName file) {
         VFS4JValidationUtils.checkNotNull(file, VFS4JErrorMessages.PATH_IS_NULL);
-        VFS4JParameter p = vfs4JConfig.getPath(file.getName());
+        VFS4JParameter p = config.getPath(file.getName());
         if (p == null) {
             throw new VFS4JInvalideParameterException("PathName '" + file.getName() + "' doesn't exist");
         }
         Path path;
         if (p.getMode() == VFS4JPathMode.CLASSPATH) {
-            VFS4JClasspathParameter parameter = (VFS4JClasspathParameter) p;
-            try {
-                String directory = "";
-                if (!Objects.equals(parameter.getPath(), "")) {
-                    directory = parameter.getPath();
-                } else {
-                    directory = "";
-                }
-                if (file.getPath() == null || file.getPath().isEmpty()) {
-                    path = Paths.get(ClassLoader.getSystemResource(directory).toURI());
-                } else {
-                    Path p2 = Paths.get(directory, file.getPath()).normalize();
-                    p2 = removeReferenceParentInBegin(p2);
-                    URL url = ClassLoader.getSystemResource(p2.toString());
-                    if (url == null) {
-                        // file not found. Find in classpath from current class. For Linux
-                        url = VFS4JConvertFile.class.getResource(p2.toString());
-                        LOGGER.debug("correct classpath url={}", url);
-                    }
-                    LOGGER.debug("classpath url={}", url);
-                    path = Paths.get(url.toURI());
-                }
-            } catch (URISyntaxException e) {
-                throw new VFS4JInvalideParameterException("path '" + file.getName() + "' invalide", e);
-            }
+            path = getPathFromClasspath(file, (VFS4JClasspathParameter) p);
         } else {
             if (p instanceof VFS4JPathParameter) {
-                VFS4JPathParameter pathParameter = (VFS4JPathParameter) p;
-                if (file.getPath() == null || file.getPath().isEmpty()) {
-                    path = pathParameter.getPath();
-                } else {
-                    Path p2 = Paths.get(file.getPath()).normalize();
-                    p2 = removeReferenceParentInBegin(p2);
-                    path = pathParameter.getPath().resolve(p2);
-                }
+                path = getPath(file, (VFS4JPathParameter) p);
             } else {
                 throw new VFS4JInvalideParameterException("path type '" + file.getName() + "' invalide");
             }
+        }
+        return path;
+    }
+
+    private Path getPathFromClasspath(VFS4JPathName file, VFS4JClasspathParameter parameter) {
+        Path path;
+        try {
+            String directory = "";
+            if (!Objects.equals(parameter.getPath(), "")) {
+                directory = parameter.getPath();
+            } else {
+                directory = "";
+            }
+            if (file.getPath() == null || file.getPath().isEmpty()) {
+                path = Paths.get(ClassLoader.getSystemResource(directory).toURI());
+            } else {
+                Path p2 = Paths.get(directory, file.getPath()).normalize();
+                p2 = removeReferenceParentInBegin(p2);
+                URL url = ClassLoader.getSystemResource(p2.toString());
+                if (url == null) {
+                    // file not found. Find in classpath from current class. For Linux
+                    url = VFS4JConvertFile.class.getResource(p2.toString());
+                    LOGGER.debug("correct classpath url={}", url);
+                }
+                LOGGER.debug("classpath url={}", url);
+                path = Paths.get(url.toURI());
+            }
+        } catch (URISyntaxException e) {
+            throw new VFS4JInvalideParameterException("path '" + file.getName() + "' invalide", e);
+        }
+        return path;
+    }
+
+    private Path getPath(VFS4JPathName file, VFS4JPathParameter p) {
+        Path path;
+        VFS4JPathParameter pathParameter = p;
+        if (file.getPath() == null || file.getPath().isEmpty()) {
+            path = pathParameter.getPath();
+        } else {
+            Path p2 = Paths.get(file.getPath()).normalize();
+            p2 = removeReferenceParentInBegin(p2);
+            path = pathParameter.getPath().resolve(p2);
         }
         return path;
     }
@@ -96,13 +107,13 @@ public class VFS4JConvertFile {
 
     public Optional<VFS4JPathName> convertFromRealPath(Path file) {
         VFS4JValidationUtils.checkNotNull(file, VFS4JErrorMessages.PATH_IS_NULL);
-        List<String> nameList = vfs4JConfig.getNames();
+        List<String> nameList = config.getNames();
         if (nameList != null && !nameList.isEmpty()) {
             Path trouve = null;
             VFS4JPathName VFS4JPathNameTrouve = null;
             Path fileNormalized = file.normalize();
             for (String name : nameList) {
-                VFS4JParameter pathParameter = vfs4JConfig.getPath(name);
+                VFS4JParameter pathParameter = config.getPath(name);
                 if (pathParameter instanceof VFS4JPathParameter) {
                     VFS4JPathParameter parameter = (VFS4JPathParameter) pathParameter;
                     Path path = parameter.getPath();
@@ -132,11 +143,5 @@ public class VFS4JConvertFile {
         Path p = path.relativize(fileNormalized);
         VFS4JPathNameTrouve = new VFS4JPathName(name, p.toString());
         return VFS4JPathNameTrouve;
-    }
-
-    private Path getNormalizedPath(String path) {
-        Path p = Paths.get(path).normalize();
-        p = removeReferenceParentInBegin(p);
-        return p;
     }
 }

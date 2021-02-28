@@ -6,8 +6,7 @@ public class VFS4JConfigFactory {
     }
 
     public static VFS4JConfig createVfs4JConfig() {
-        VFS4JConfig vfs4JConfig = new VFS4JConfig();
-        return vfs4JConfig;
+        return new VFS4JConfig();
     }
 
     public static VFS4JConfig createVfs4JConfig(VFSConfigFile configFile) {
