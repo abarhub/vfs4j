@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MainTest {
 
@@ -30,5 +31,9 @@ class MainTest {
     void main() throws IOException {
         LOGGER.info("main");
         Main.main(null);
+
+        // Vérifications
+        Path p = Paths.get("./target/test");
+        assertTrue(Files.exists(p));
     }
 }
