@@ -41,12 +41,12 @@ public class ExempleAudit1Test {
         properties.setProperty("vfs.paths.rep01.readonly", "false");
         properties.setProperty("vfs.plugins.plugins1.class", "org.vfs.core.plugin.audit.VFS4JAuditPluginsFactory");
 
-        ParseConfigFile parseConfigFile = new ParseConfigFile();
-        FileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
+        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
+        VFS4JFileManagerBuilder fileManagerBuilder = VFS4JParseConfigFile.parse(properties);
 
         reinitConfig(fileManagerBuilder.build());
 
-        VFS4JConfig config = DefaultFileManager.get().getConfig();
+        VFS4JConfig config = VFS4JDefaultFileManager.get().getConfig();
 
         assertNotNull(config.getPath("rep01"));
         assertFalse(config.getPath("rep01").isReadonly());
@@ -68,7 +68,7 @@ public class ExempleAudit1Test {
         audit.addListener((x, y, z, t) -> listeAudit.add(x + ";" + y + ";" + MessageFormatter.arrayFormat(z, t).getMessage()));
 
         // methodes testées
-        VFS4JFiles.createFile(new PathName("rep01", "fichier01.txt"));
+        VFS4JFiles.createFile(new VFS4JPathName("rep01", "fichier01.txt"));
 
         assertTrue(Files.exists(file1));
 
@@ -97,12 +97,12 @@ public class ExempleAudit1Test {
         properties.setProperty("vfs.plugins.plugins1.operations", "COMMAND");
         properties.setProperty("vfs.plugins.plugins1.filterPath", "*.txt");
 
-        ParseConfigFile parseConfigFile = new ParseConfigFile();
-        FileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
+        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
+        VFS4JFileManagerBuilder fileManagerBuilder = VFS4JParseConfigFile.parse(properties);
 
         reinitConfig(fileManagerBuilder.build());
 
-        VFS4JConfig config = DefaultFileManager.get().getConfig();
+        VFS4JConfig config = VFS4JDefaultFileManager.get().getConfig();
 
         assertNotNull(config.getPath("rep01"));
         assertFalse(config.getPath("rep01").isReadonly());
@@ -129,9 +129,9 @@ public class ExempleAudit1Test {
         audit.addListener((x, y, z, t) -> listeAudit.add(x + ";" + y + ";" + MessageFormatter.arrayFormat(z, t).getMessage()));
 
         // methodes testées
-        VFS4JFiles.createFile(new PathName("rep01", "fichier01.txt"));
-        VFS4JFiles.createFile(new PathName("rep01", "fichier02.jpg"));
-        VFS4JFiles.createFile(new PathName("rep01", "fichier03.txt"));
+        VFS4JFiles.createFile(new VFS4JPathName("rep01", "fichier01.txt"));
+        VFS4JFiles.createFile(new VFS4JPathName("rep01", "fichier02.jpg"));
+        VFS4JFiles.createFile(new VFS4JPathName("rep01", "fichier03.txt"));
 
         // vérifications
 
@@ -164,12 +164,12 @@ public class ExempleAudit1Test {
         properties.setProperty("vfs.paths.rep03.readonly", "false");
         properties.setProperty("vfs.plugins.plugins3.class", "org.vfs.core.plugin.audit.VFS4JAuditPluginsFactory");
 
-        ParseConfigFile parseConfigFile = new ParseConfigFile();
-        FileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
+        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
+        VFS4JFileManagerBuilder fileManagerBuilder = VFS4JParseConfigFile.parse(properties);
 
         reinitConfig(fileManagerBuilder.build());
 
-        VFS4JConfig config = DefaultFileManager.get().getConfig();
+        VFS4JConfig config = VFS4JDefaultFileManager.get().getConfig();
 
         assertNotNull(config.getPath("rep03"));
         assertFalse(config.getPath("rep03").isReadonly());
@@ -193,7 +193,7 @@ public class ExempleAudit1Test {
         audit.addListener((x, y, z, t) -> listeAudit.add(x + ";" + y + ";" + MessageFormatter.arrayFormat(z, t).getMessage()));
 
         // methodes testées
-        FileAlreadyExistsException res = assertThrows(FileAlreadyExistsException.class, () -> VFS4JFiles.createFile(new PathName("rep03", "fichierErreur01.txt")));
+        FileAlreadyExistsException res = assertThrows(FileAlreadyExistsException.class, () -> VFS4JFiles.createFile(new VFS4JPathName("rep03", "fichierErreur01.txt")));
 
         assertNotNull(res);
         assertTrue(Files.exists(file1));
@@ -208,7 +208,7 @@ public class ExempleAudit1Test {
     // methodes utilitaires
 
     private void reinitConfig(VFS4JConfig vfs4JConfig) {
-        DefaultFileManager.get().setConfig(vfs4JConfig);
+        VFS4JDefaultFileManager.get().setConfig(vfs4JConfig);
         VFS4JFiles.reinit();
     }
 }

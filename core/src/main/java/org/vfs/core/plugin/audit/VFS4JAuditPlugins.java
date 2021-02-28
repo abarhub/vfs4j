@@ -6,7 +6,7 @@ import org.vfs.core.config.VFS4JConfig;
 import org.vfs.core.plugin.audit.operation.*;
 import org.vfs.core.plugin.common.VFS4JPlugins;
 import org.vfs.core.util.VFS4JLoggerFactory;
-import org.vfs.core.util.ValidationUtils;
+import org.vfs.core.util.VFS4JValidationUtils;
 
 import java.util.*;
 
@@ -14,9 +14,9 @@ public class VFS4JAuditPlugins implements VFS4JPlugins {
 
     private static final Logger LOGGER = VFS4JLoggerFactory.getLogger(VFS4JAuditPlugins.class);
 
-    private AuditLogLevel logLevel;
+    private VFS4JAuditLogLevel logLevel;
 
-    private Set<AuditOperation> listOperations;
+    private Set<VFS4JAuditOperation> listOperations;
 
     private List<String> filterPath;
 
@@ -29,20 +29,20 @@ public class VFS4JAuditPlugins implements VFS4JPlugins {
     }
 
     public void init(String name, Map<String, String> config, VFS4JConfig vfs4JConfig) {
-        ValidationUtils.checkNotNull(name, "Name is null");
-        ValidationUtils.checkNotNull(config, "Config is null");
-        ValidationUtils.checkNotNull(vfs4JConfig, "vfs4JConfig is null");
+        VFS4JValidationUtils.checkNotNull(name, "Name is null");
+        VFS4JValidationUtils.checkNotNull(config, "Config is null");
+        VFS4JValidationUtils.checkNotNull(vfs4JConfig, "vfs4JConfig is null");
         LOGGER.info("init VFS4JAuditPlugins: {}", name);
 
         this.vfs4JConfig = vfs4JConfig;
 
-        logLevel = AuditLogLevel.INFO;
+        logLevel = VFS4JAuditLogLevel.INFO;
         if (config.containsKey("loglevel")) {
             String s = config.get("loglevel");
             if (s != null && !s.trim().isEmpty()) {
                 s = s.trim();
-                AuditLogLevel trouve = null;
-                for (AuditLogLevel level : AuditLogLevel.values()) {
+                VFS4JAuditLogLevel trouve = null;
+                for (VFS4JAuditLogLevel level : VFS4JAuditLogLevel.values()) {
                     if (level.name().equalsIgnoreCase(s)) {
                         trouve = level;
                         break;
@@ -70,7 +70,7 @@ public class VFS4JAuditPlugins implements VFS4JPlugins {
             }
         } else {
             // non configuré => on ajoute tout
-            for (AuditOperation operation : AuditOperation.values()) {
+            for (VFS4JAuditOperation operation : VFS4JAuditOperation.values()) {
                 listOperations.add(operation);
             }
         }
@@ -97,11 +97,11 @@ public class VFS4JAuditPlugins implements VFS4JPlugins {
         }
     }
 
-    private void addOperation(Set<AuditOperation> listOperations, String s2) {
+    private void addOperation(Set<VFS4JAuditOperation> listOperations, String s2) {
         s2 = s2.trim();
         if (s2.length() > 0) {
             boolean trouve = false;
-            for (AuditGroupOperations groupeOperation : AuditGroupOperations.values()) {
+            for (VFS4JAuditGroupOperations groupeOperation : VFS4JAuditGroupOperations.values()) {
                 if (s2.equalsIgnoreCase(groupeOperation.name())) {
                     listOperations.addAll(groupeOperation.getOperations());
                     trouve = true;
@@ -109,7 +109,7 @@ public class VFS4JAuditPlugins implements VFS4JPlugins {
                 }
             }
             if (!trouve) {
-                for (AuditOperation operation : AuditOperation.values()) {
+                for (VFS4JAuditOperation operation : VFS4JAuditOperation.values()) {
                     if (s2.equalsIgnoreCase(operation.name())) {
                         listOperations.add(operation);
                         break;
@@ -120,31 +120,31 @@ public class VFS4JAuditPlugins implements VFS4JPlugins {
     }
 
     @Override
-    public Optional<Command> getCommand(Command command) {
-        return Optional.of(new AuditCommand(this, command));
+    public Optional<VFS4JCommand> getCommand(VFS4JCommand command) {
+        return Optional.of(new VFS4JAuditCommand(this, command));
     }
 
     @Override
-    public Optional<Attribute> getAttribute(Attribute attribute) {
-        return Optional.of(new AuditAttribute(this, attribute));
+    public Optional<VFS4JAttribute> getAttribute(VFS4JAttribute attribute) {
+        return Optional.of(new VFS4JAuditAttribute(this, attribute));
     }
 
     @Override
-    public Optional<Open> getOpen(Open open) {
-        return Optional.of(new AuditOpen(this, open));
+    public Optional<VFS4JOpen> getOpen(VFS4JOpen open) {
+        return Optional.of(new VFS4JAuditOpen(this, open));
     }
 
     @Override
-    public Optional<Query> getQuery(Query query) {
-        return Optional.of(new AuditQuery(this, query));
+    public Optional<VFS4JQuery> getQuery(VFS4JQuery query) {
+        return Optional.of(new VFS4JAuditQuery(this, query));
     }
 
     @Override
-    public Optional<Search> getSearch(Search search) {
-        return Optional.of(new AuditSearch(this, search));
+    public Optional<VFS4JSearch> getSearch(VFS4JSearch search) {
+        return Optional.of(new VFS4JAuditSearch(this, search));
     }
 
-    public AuditLogLevel getLogLevel() {
+    public VFS4JAuditLogLevel getLogLevel() {
         return logLevel;
     }
 
@@ -152,7 +152,7 @@ public class VFS4JAuditPlugins implements VFS4JPlugins {
         return vfs4JConfig;
     }
 
-    public Set<AuditOperation> getListOperations() {
+    public Set<VFS4JAuditOperation> getListOperations() {
         return listOperations;
     }
 
@@ -161,12 +161,12 @@ public class VFS4JAuditPlugins implements VFS4JPlugins {
     }
 
     public void addListener(VFS4JLogAudit logAudit) {
-        ValidationUtils.checkNotNull(logAudit, "logAudit is null");
+        VFS4JValidationUtils.checkNotNull(logAudit, "logAudit is null");
         listener.add(logAudit);
     }
 
     public void removeListener(VFS4JLogAudit logAudit) {
-        ValidationUtils.checkNotNull(logAudit, "logAudit is null");
+        VFS4JValidationUtils.checkNotNull(logAudit, "logAudit is null");
         listener.remove(logAudit);
     }
 

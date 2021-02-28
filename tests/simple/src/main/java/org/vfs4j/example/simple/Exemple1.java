@@ -4,9 +4,9 @@ import com.google.common.base.Verify;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vfs.core.api.*;
-import org.vfs.core.config.PathParameter;
 import org.vfs.core.config.VFS4JConfig;
 import org.vfs.core.config.VFS4JPathMode;
+import org.vfs.core.config.VFS4JPathParameter;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -38,9 +38,9 @@ public class Exemple1 {
         Verify.verify(!Files.exists(file1));
         Verify.verify(!Files.exists(file2));
 
-        FileManager fileManager = DefaultFileManager.get();
-        fileManager.getCommand().createFile(new PathName("dir1", "fichier1.txt"));
-        fileManager.getCommand().createFile(new PathName("dir2", "fichier2.txt"));
+        VFS4JFileManager fileManager = VFS4JDefaultFileManager.get();
+        fileManager.getCommand().createFile(new VFS4JPathName("dir1", "fichier1.txt"));
+        fileManager.getCommand().createFile(new VFS4JPathName("dir2", "fichier2.txt"));
 
         Verify.verify(Files.exists(file1));
         Verify.verify(Files.exists(file2));
@@ -68,8 +68,8 @@ public class Exemple1 {
         Verify.verify(!Files.exists(file1));
         Verify.verify(!Files.exists(file2));
 
-        VFS4JFiles.createFile(new PathName("dir1", "fichier3.txt"));
-        VFS4JFiles.createFile(new PathName("dir2", "fichier4.txt"));
+        VFS4JFiles.createFile(new VFS4JPathName("dir1", "fichier3.txt"));
+        VFS4JFiles.createFile(new VFS4JPathName("dir2", "fichier4.txt"));
 
         Verify.verify(Files.exists(file1));
         Verify.verify(Files.exists(file2));
@@ -97,18 +97,18 @@ public class Exemple1 {
         properties.setProperty("vfs.paths.rep02.mode", VFS4JPathMode.STANDARD.getName());
         properties.setProperty("vfs.paths.temp.mode", VFS4JPathMode.TEMPORARY.getName());
 
-        ParseConfigFile parseConfigFile = new ParseConfigFile();
-        FileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
+        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
+        VFS4JFileManagerBuilder fileManagerBuilder = VFS4JParseConfigFile.parse(properties);
 
-        DefaultFileManager.get().setConfig(fileManagerBuilder.build());
+        VFS4JDefaultFileManager.get().setConfig(fileManagerBuilder.build());
 
-        VFS4JConfig config = DefaultFileManager.get().getConfig();
+        VFS4JConfig config = VFS4JDefaultFileManager.get().getConfig();
 
         Verify.verifyNotNull(config.getPath("rep01"));
         Verify.verifyNotNull(config.getPath("rep02"));
         Verify.verifyNotNull(config.getPath("temp"));
 
-        PathParameter parameter = (PathParameter) config.getPath("temp");
+        VFS4JPathParameter parameter = (VFS4JPathParameter) config.getPath("temp");
         Path pathTemp = parameter.getPath();
 
 
@@ -128,9 +128,9 @@ public class Exemple1 {
         Verify.verify(!Files.exists(file2));
         Verify.verify(!Files.exists(file3));
 
-        VFS4JFiles.createFile(new PathName("rep01", "fichier01.txt"));
-        VFS4JFiles.createFile(new PathName("rep02", "fichier02.txt"));
-        VFS4JFiles.createFile(new PathName("temp", "fichier03.txt"));
+        VFS4JFiles.createFile(new VFS4JPathName("rep01", "fichier01.txt"));
+        VFS4JFiles.createFile(new VFS4JPathName("rep02", "fichier02.txt"));
+        VFS4JFiles.createFile(new VFS4JPathName("temp", "fichier03.txt"));
 
         Verify.verify(Files.exists(file1));
         Verify.verify(Files.exists(file2));

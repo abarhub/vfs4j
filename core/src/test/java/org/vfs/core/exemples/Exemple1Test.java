@@ -4,10 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vfs.core.api.*;
-import org.vfs.core.config.PathParameter;
 import org.vfs.core.config.VFS4JConfig;
-import org.vfs.core.config.VFS4JParameter;
 import org.vfs.core.config.VFS4JPathMode;
+import org.vfs.core.config.VFS4JPathParameter;
 import org.vfs.core.exception.VFS4JWriteException;
 
 import java.io.IOException;
@@ -42,18 +41,18 @@ public class Exemple1Test {
         properties.setProperty("vfs.paths.rep02.mode", VFS4JPathMode.STANDARD.getName());
         properties.setProperty("vfs.paths.temp.mode", VFS4JPathMode.TEMPORARY.getName());
 
-        ParseConfigFile parseConfigFile = new ParseConfigFile();
-        FileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
+        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
+        VFS4JFileManagerBuilder fileManagerBuilder = VFS4JParseConfigFile.parse(properties);
 
         reinitConfig(fileManagerBuilder.build());
 
-        VFS4JConfig config = DefaultFileManager.get().getConfig();
+        VFS4JConfig config = VFS4JDefaultFileManager.get().getConfig();
 
         assertNotNull(config.getPath("rep01"));
         assertNotNull(config.getPath("rep02"));
         assertNotNull(config.getPath("temp"));
 
-        PathParameter parameter = (PathParameter) config.getPath("temp");
+        VFS4JPathParameter parameter = (VFS4JPathParameter) config.getPath("temp");
         Path pathTemp = parameter.getPath();
 
 
@@ -74,9 +73,9 @@ public class Exemple1Test {
         assertFalse(Files.exists(file3));
 
         // methodes testées
-        VFS4JFiles.createFile(new PathName("rep01", "fichier01.txt"));
-        VFS4JFiles.createFile(new PathName("rep02", "fichier02.txt"));
-        VFS4JFiles.createFile(new PathName("temp", "fichier03.txt"));
+        VFS4JFiles.createFile(new VFS4JPathName("rep01", "fichier01.txt"));
+        VFS4JFiles.createFile(new VFS4JPathName("rep02", "fichier02.txt"));
+        VFS4JFiles.createFile(new VFS4JPathName("temp", "fichier03.txt"));
 
         // vérifications
         assertTrue(Files.exists(file1));
@@ -106,12 +105,12 @@ public class Exemple1Test {
         properties.setProperty("vfs.paths.rep02.path", path2.toString());
         properties.setProperty("vfs.paths.rep02.readonly", "true");
 
-        ParseConfigFile parseConfigFile = new ParseConfigFile();
-        FileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
+        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
+        VFS4JFileManagerBuilder fileManagerBuilder = VFS4JParseConfigFile.parse(properties);
 
         reinitConfig(fileManagerBuilder.build());
 
-        VFS4JConfig config = DefaultFileManager.get().getConfig();
+        VFS4JConfig config = VFS4JDefaultFileManager.get().getConfig();
 
         assertNotNull(config.getPath("rep01"));
         assertFalse(config.getPath("rep01").isReadonly());
@@ -131,9 +130,9 @@ public class Exemple1Test {
         assertFalse(Files.exists(file2));
 
         // methodes testées
-        VFS4JFiles.createFile(new PathName("rep01", "fichier01.txt"));
+        VFS4JFiles.createFile(new VFS4JPathName("rep01", "fichier01.txt"));
 
-        VFS4JWriteException exception = assertThrows(VFS4JWriteException.class, () -> VFS4JFiles.createFile(new PathName("rep02", "fichier02.txt")));
+        VFS4JWriteException exception = assertThrows(VFS4JWriteException.class, () -> VFS4JFiles.createFile(new VFS4JPathName("rep02", "fichier02.txt")));
 
         // vérifications
         assertEquals("write operation forbidden for createFile on rep02", exception.getMessage());
@@ -147,7 +146,7 @@ public class Exemple1Test {
     // methodes utilitaires
 
     private void reinitConfig(VFS4JConfig vfs4JConfig) {
-        DefaultFileManager.get().setConfig(vfs4JConfig);
+        VFS4JDefaultFileManager.get().setConfig(vfs4JConfig);
         VFS4JFiles.reinit();
     }
 }

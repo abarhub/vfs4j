@@ -4,23 +4,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.helpers.MessageFormatter;
 import org.vfs.core.api.*;
 import org.vfs.core.config.VFS4JConfig;
 import org.vfs.core.config.VFS4JPathMode;
 import org.vfs.core.exception.VFS4JException;
-import org.vfs.core.plugin.audit.VFS4JAuditPlugins;
-import org.vfs.core.plugin.common.VFS4JPlugins;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ExempleClasspathTest {
 
@@ -38,19 +31,19 @@ public class ExempleClasspathTest {
         properties.setProperty("vfs.paths.rep01.readonly", "true");
         properties.setProperty("vfs.paths.rep01.mode", VFS4JPathMode.CLASSPATH.getName());
 
-        ParseConfigFile parseConfigFile = new ParseConfigFile();
-        FileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
+        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
+        VFS4JFileManagerBuilder fileManagerBuilder = VFS4JParseConfigFile.parse(properties);
 
         reinitConfig(fileManagerBuilder.build());
 
-        VFS4JConfig config = DefaultFileManager.get().getConfig();
+        VFS4JConfig config = VFS4JDefaultFileManager.get().getConfig();
 
         assertNotNull(config.getPath("rep01"));
         assertTrue(config.getPath("rep01").isReadonly());
 
         try {
             // methodes testées
-            List<String> res = VFS4JFiles.readAllLines(new PathName("rep01", "/test_classpath01.txt"));
+            List<String> res = VFS4JFiles.readAllLines(new VFS4JPathName("rep01", "/test_classpath01.txt"));
 
         assertNotNull(res);
 
@@ -76,18 +69,18 @@ public class ExempleClasspathTest {
         properties.setProperty("vfs.paths.rep01.readonly", "true");
         properties.setProperty("vfs.paths.rep01.mode", VFS4JPathMode.CLASSPATH.getName());
 
-        ParseConfigFile parseConfigFile = new ParseConfigFile();
-        FileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
+        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
+        VFS4JFileManagerBuilder fileManagerBuilder = VFS4JParseConfigFile.parse(properties);
 
         reinitConfig(fileManagerBuilder.build());
 
-        VFS4JConfig config = DefaultFileManager.get().getConfig();
+        VFS4JConfig config = VFS4JDefaultFileManager.get().getConfig();
 
         assertNotNull(config.getPath("rep01"));
         assertTrue(config.getPath("rep01").isReadonly());
 
         // methodes testées
-        List<String> res = VFS4JFiles.readAllLines(new PathName("rep01", "/test_classpath/fichier01.txt"));
+        List<String> res = VFS4JFiles.readAllLines(new VFS4JPathName("rep01", "/test_classpath/fichier01.txt"));
 
         assertNotNull(res);
 
@@ -110,10 +103,10 @@ public class ExempleClasspathTest {
         properties.setProperty("vfs.paths.rep01.readonly", "false");
         properties.setProperty("vfs.paths.rep01.mode", VFS4JPathMode.CLASSPATH.getName());
 
-        ParseConfigFile parseConfigFile = new ParseConfigFile();
+        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
 
         // methode testée
-        VFS4JException exception = assertThrows(VFS4JException.class, () -> parseConfigFile.parse(properties));
+        VFS4JException exception = assertThrows(VFS4JException.class, () -> VFS4JParseConfigFile.parse(properties));
 
         assertNotNull(exception);
         assertEquals("Path for 'rep01' with classpatch mode and readonly to false",
@@ -134,18 +127,18 @@ public class ExempleClasspathTest {
         properties.setProperty("vfs.paths.rep01.readonly", "true");
         properties.setProperty("vfs.paths.rep01.mode", VFS4JPathMode.CLASSPATH.getName());
 
-        ParseConfigFile parseConfigFile = new ParseConfigFile();
-        FileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
+        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
+        VFS4JFileManagerBuilder fileManagerBuilder = VFS4JParseConfigFile.parse(properties);
 
         reinitConfig(fileManagerBuilder.build());
 
-        VFS4JConfig config = DefaultFileManager.get().getConfig();
+        VFS4JConfig config = VFS4JDefaultFileManager.get().getConfig();
 
         assertNotNull(config.getPath("rep01"));
         assertTrue(config.getPath("rep01").isReadonly());
 
         // methodes testées
-        List<String> res = VFS4JFiles.readAllLines(new PathName("rep01", "fichier01.txt"));
+        List<String> res = VFS4JFiles.readAllLines(new VFS4JPathName("rep01", "fichier01.txt"));
 
         assertNotNull(res);
 
@@ -161,7 +154,7 @@ public class ExempleClasspathTest {
     // methodes utilitaires
 
     private void reinitConfig(VFS4JConfig vfs4JConfig) {
-        DefaultFileManager.get().setConfig(vfs4JConfig);
+        VFS4JDefaultFileManager.get().setConfig(vfs4JConfig);
         VFS4JFiles.reinit();
     }
 }

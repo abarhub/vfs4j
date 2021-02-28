@@ -1,7 +1,7 @@
 package org.vfs.core.config;
 
 import org.slf4j.Logger;
-import org.vfs.core.api.ParseConfigFile;
+import org.vfs.core.api.VFS4JParseConfigFile;
 import org.vfs.core.exception.VFS4JConfigException;
 import org.vfs.core.exception.VFS4JErrorTemporaryCreationException;
 import org.vfs.core.exception.VFS4JPathNotExistsException;
@@ -9,7 +9,7 @@ import org.vfs.core.plugin.common.VFS4JPlugins;
 import org.vfs.core.plugin.common.VFS4JPluginsFactory;
 import org.vfs.core.util.VFS4JErrorMessages;
 import org.vfs.core.util.VFS4JLoggerFactory;
-import org.vfs.core.util.ValidationUtils;
+import org.vfs.core.util.VFS4JValidationUtils;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -34,8 +34,8 @@ public class VFS4JConfig {
     }
 
     public void init(VFSConfigFile configFile) {
-        ValidationUtils.checkNotNull(configFile, "configFile is null");
-        ValidationUtils.checkNotNull(configFile.getListeConfig(), "listeConfig is null");
+        VFS4JValidationUtils.checkNotNull(configFile, "configFile is null");
+        VFS4JValidationUtils.checkNotNull(configFile.getListeConfig(), "listeConfig is null");
         initListConfig(configFile);
     }
 
@@ -60,12 +60,12 @@ public class VFS4JConfig {
             if (param.getMode() == null) {
                 throw new VFS4JConfigException("Mode is empty for name '" + name + "'");
             } else if (param.getMode() == VFS4JPathMode.STANDARD) {
-                PathParameter path = (PathParameter) param;
+                VFS4JPathParameter path = (VFS4JPathParameter) param;
                 Path path2 = path.getPath();
                 if (!path2.isAbsolute()) {
                     path2 = path2.toAbsolutePath().normalize();
                 }
-                PathParameter param2 = new PathParameter(path2, param.isReadonly(), param.getMode());
+                VFS4JPathParameter param2 = new VFS4JPathParameter(path2, param.isReadonly(), param.getMode());
                 map.put(name, param2);
             } else if (param.getMode() == VFS4JPathMode.CLASSPATH) {
                 VFS4JClasspathParameter classpath = (VFS4JClasspathParameter) param;
@@ -73,7 +73,7 @@ public class VFS4JConfig {
                 map.put(name, param2);
             } else if (param.getMode() == VFS4JPathMode.TEMPORARY) {
                 Path path = createTempraryDiractory(name);
-                PathParameter param2 = new PathParameter(path, param.isReadonly(), param.getMode());
+                VFS4JPathParameter param2 = new VFS4JPathParameter(path, param.isReadonly(), param.getMode());
                 map.put(name, param2);
             } else {
                 throw new VFS4JConfigException("Mode is invalide for name '" + name + "'");
@@ -89,7 +89,7 @@ public class VFS4JConfig {
             Map<String, VFS4JPluginsFactory> mapFactory = new HashMap<>();
             for (String name : configFile.getListePlugins().keySet()) {
                 Map<String, String> mapConfig = configFile.getListePlugins().get(name);
-                String keyClass = ParseConfigFile.SUFFIX_CLASS_EXTENSION;
+                String keyClass = VFS4JParseConfigFile.SUFFIX_CLASS_EXTENSION;
                 if (mapConfig.containsKey(keyClass)) {
                     String className = mapConfig.get(keyClass);
                     if (className != null && !className.trim().isEmpty()) {
@@ -129,19 +129,19 @@ public class VFS4JConfig {
     }
 
     public void addPath(String name, Path path, boolean readonly) {
-        ValidationUtils.checkNotEmpty(name, VFS4JErrorMessages.NAME_IS_EMPTY);
-        ValidationUtils.checkNotNull(path, VFS4JErrorMessages.PATH_IS_NULL);
+        VFS4JValidationUtils.checkNotEmpty(name, VFS4JErrorMessages.NAME_IS_EMPTY);
+        VFS4JValidationUtils.checkNotNull(path, VFS4JErrorMessages.PATH_IS_NULL);
         addNewPath(name, path, readonly, VFS4JPathMode.STANDARD);
     }
 
     public void addPath(String name, Path path) {
-        ValidationUtils.checkNotEmpty(name, VFS4JErrorMessages.NAME_IS_EMPTY);
-        ValidationUtils.checkNotNull(path, VFS4JErrorMessages.PATH_IS_NULL);
+        VFS4JValidationUtils.checkNotEmpty(name, VFS4JErrorMessages.NAME_IS_EMPTY);
+        VFS4JValidationUtils.checkNotNull(path, VFS4JErrorMessages.PATH_IS_NULL);
         addNewPath(name, path, false, VFS4JPathMode.STANDARD);
     }
 
     public void addTemporaryPath(String name) throws VFS4JErrorTemporaryCreationException {
-        ValidationUtils.checkNotEmpty(name, VFS4JErrorMessages.NAME_IS_EMPTY);
+        VFS4JValidationUtils.checkNotEmpty(name, VFS4JErrorMessages.NAME_IS_EMPTY);
         Path path;
         path = createTempraryDiractory(name);
         addNewPath(name, path, false, VFS4JPathMode.TEMPORARY);
@@ -161,11 +161,11 @@ public class VFS4JConfig {
         if (Files.notExists(path)) {
             throw new VFS4JPathNotExistsException("Path '" + path + "' not exists for name '" + name + "'");
         }
-        listeConfig.put(name, new PathParameter(path, b, standard));
+        listeConfig.put(name, new VFS4JPathParameter(path, b, standard));
     }
 
     public VFS4JParameter getPath(String name) {
-        ValidationUtils.checkNotEmpty(name, VFS4JErrorMessages.NAME_IS_EMPTY);
+        VFS4JValidationUtils.checkNotEmpty(name, VFS4JErrorMessages.NAME_IS_EMPTY);
         return listeConfig.get(name);
     }
 
@@ -180,7 +180,7 @@ public class VFS4JConfig {
     }
 
     public VFS4JPlugins getPlugins(String name) {
-        ValidationUtils.checkNotEmpty(name, VFS4JErrorMessages.NAME_IS_EMPTY);
+        VFS4JValidationUtils.checkNotEmpty(name, VFS4JErrorMessages.NAME_IS_EMPTY);
         return listePlugins.get(name);
     }
 

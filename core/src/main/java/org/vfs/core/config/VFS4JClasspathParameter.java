@@ -1,13 +1,13 @@
 package org.vfs.core.config;
 
-import org.vfs.core.util.ValidationUtils;
+import org.vfs.core.util.VFS4JValidationUtils;
 
 public class VFS4JClasspathParameter implements VFS4JParameter {
 
     private final String path;
 
     public VFS4JClasspathParameter(String path) {
-        ValidationUtils.checkNotNull(path, "Path is null");
+        VFS4JValidationUtils.checkNotNull(path, "Path is null");
         this.path = path;
     }
 

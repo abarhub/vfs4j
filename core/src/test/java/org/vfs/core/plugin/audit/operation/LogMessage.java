@@ -1,12 +1,12 @@
 package org.vfs.core.plugin.audit.operation;
 
-import org.vfs.core.plugin.audit.AuditLogLevel;
+import org.vfs.core.plugin.audit.VFS4JAuditLogLevel;
 
 import java.util.List;
 
 public class LogMessage {
 
-    private AuditLogLevel logLevel;
+    private VFS4JAuditLogLevel logLevel;
 
     private boolean error;
 
@@ -14,7 +14,7 @@ public class LogMessage {
 
     private List<Object> parameters;
 
-    public LogMessage(AuditLogLevel logLevel, boolean error,
+    public LogMessage(VFS4JAuditLogLevel logLevel, boolean error,
                       String message, List<Object> parameters) {
         this.logLevel = logLevel;
         this.error = error;
@@ -22,7 +22,7 @@ public class LogMessage {
         this.parameters = parameters;
     }
 
-    public AuditLogLevel getLogLevel() {
+    public VFS4JAuditLogLevel getLogLevel() {
         return logLevel;
     }
 

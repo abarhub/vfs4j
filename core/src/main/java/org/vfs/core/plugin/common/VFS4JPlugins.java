@@ -6,14 +6,14 @@ import java.util.Optional;
 
 public interface VFS4JPlugins {
 
-    Optional<Command> getCommand(Command command);
+    Optional<VFS4JCommand> getCommand(VFS4JCommand command);
 
-    Optional<Attribute> getAttribute(Attribute attribute);
+    Optional<VFS4JAttribute> getAttribute(VFS4JAttribute attribute);
 
-    Optional<Open> getOpen(Open open);
+    Optional<VFS4JOpen> getOpen(VFS4JOpen open);
 
-    Optional<Query> getQuery(Query query);
+    Optional<VFS4JQuery> getQuery(VFS4JQuery query);
 
-    Optional<Search> getSearch(Search search);
+    Optional<VFS4JSearch> getSearch(VFS4JSearch search);
 
 }

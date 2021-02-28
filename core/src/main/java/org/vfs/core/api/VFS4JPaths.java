@@ -1,6 +1,6 @@
 package org.vfs.core.api;
 
-import org.vfs.core.util.ValidationUtils;
+import org.vfs.core.util.VFS4JValidationUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,18 +10,18 @@ public class VFS4JPaths {
     private VFS4JPaths() {
     }
 
-    public static PathName get(String name, String... path) {
-        ValidationUtils.checkNotEmpty(name, "Name is empty");
-        PathName pathName;
+    public static VFS4JPathName get(String name, String... path) {
+        VFS4JValidationUtils.checkNotEmpty(name, "Name is empty");
+        VFS4JPathName VFS4JPathName;
         if (path == null || path.length == 0) {
-            pathName = new PathName(name, "");
+            VFS4JPathName = new VFS4JPathName(name, "");
         } else if (path.length == 1) {
-            pathName = new PathName(name, path[0]);
+            VFS4JPathName = new VFS4JPathName(name, path[0]);
         } else {
             List<String> list = Arrays.asList(path);
             String paths = String.join("/", list);
-            pathName = new PathName(name, paths);
+            VFS4JPathName = new VFS4JPathName(name, paths);
         }
-        return pathName;
+        return VFS4JPathName;
     }
 }

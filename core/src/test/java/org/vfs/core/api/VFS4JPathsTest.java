@@ -18,7 +18,7 @@ class VFS4JPathsTest {
         final String pathRef = "";
 
         // methode testée
-        PathName res = VFS4JPaths.get(name);
+        VFS4JPathName res = VFS4JPaths.get(name);
 
         // vérifications
         assertNotNull(res);
@@ -46,7 +46,7 @@ class VFS4JPathsTest {
     void getWithPathOK(String name, String pathRef, String[] path) {
 
         // methode testée
-        PathName res = VFS4JPaths.get(name, path);
+        VFS4JPathName res = VFS4JPaths.get(name, path);
 
         // vérifications
         assertNotNull(res);

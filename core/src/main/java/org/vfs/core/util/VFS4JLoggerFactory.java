@@ -9,7 +9,7 @@ public class VFS4JLoggerFactory {
     }
 
     public static <T> Logger getLogger(Class<T> tClass) {
-        ValidationUtils.checkNotNull(tClass, "Null Class");
+        VFS4JValidationUtils.checkNotNull(tClass, "Null Class");
         return LoggerFactory.getLogger(tClass.getName());
 
     }

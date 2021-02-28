@@ -41,7 +41,7 @@ class VFS4JConfigTest {
         vfs4JConfig.addPath(nom, path, readOnly);
 
         // vérifications
-        PathParameter pathParameter = (PathParameter) vfs4JConfig.getPath(nom);
+        VFS4JPathParameter pathParameter = (VFS4JPathParameter) vfs4JConfig.getPath(nom);
         assertNotNull(pathParameter);
         assertEquals(path, pathParameter.getPath());
         assertEquals(readOnly, pathParameter.isReadonly());
@@ -60,7 +60,7 @@ class VFS4JConfigTest {
         vfs4JConfig.addPath(nom, path, readOnly);
 
         // methode testée
-        PathParameter pathParameter = (PathParameter) vfs4JConfig.getPath(nom);
+        VFS4JPathParameter pathParameter = (VFS4JPathParameter) vfs4JConfig.getPath(nom);
 
         // vérifications
         assertNotNull(pathParameter);
@@ -86,7 +86,7 @@ class VFS4JConfigTest {
         vfs4JConfig.addPath(nom2, path2, readonly2);
 
         // methode testée
-        PathParameter pathParameter = (PathParameter) vfs4JConfig.getPath(nom2);
+        VFS4JPathParameter pathParameter = (VFS4JPathParameter) vfs4JConfig.getPath(nom2);
 
         // vérifications
         assertNotNull(pathParameter);
@@ -174,7 +174,7 @@ class VFS4JConfigTest {
         }
 
         // methode testée
-        PathParameter pathParameter = (PathParameter) vfs4JConfig.getPath(nameRef);
+        VFS4JPathParameter pathParameter = (VFS4JPathParameter) vfs4JConfig.getPath(nameRef);
 
         // vérifications
         if (!existRef) {
