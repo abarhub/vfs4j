@@ -31,8 +31,8 @@ public class ExempleClasspathTest {
         properties.setProperty("vfs.paths.rep01.readonly", "true");
         properties.setProperty("vfs.paths.rep01.mode", VFS4JPathMode.CLASSPATH.getName());
 
-        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
-        VFS4JFileManagerBuilder fileManagerBuilder = VFS4JParseConfigFile.parse(properties);
+        VFS4JParseConfigFile parseConfigFile = new VFS4JParseConfigFile();
+        VFS4JFileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
 
         reinitConfig(fileManagerBuilder.build());
 
@@ -69,8 +69,8 @@ public class ExempleClasspathTest {
         properties.setProperty("vfs.paths.rep01.readonly", "true");
         properties.setProperty("vfs.paths.rep01.mode", VFS4JPathMode.CLASSPATH.getName());
 
-        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
-        VFS4JFileManagerBuilder fileManagerBuilder = VFS4JParseConfigFile.parse(properties);
+        VFS4JParseConfigFile parseConfigFile = new VFS4JParseConfigFile();
+        VFS4JFileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
 
         reinitConfig(fileManagerBuilder.build());
 
@@ -103,10 +103,10 @@ public class ExempleClasspathTest {
         properties.setProperty("vfs.paths.rep01.readonly", "false");
         properties.setProperty("vfs.paths.rep01.mode", VFS4JPathMode.CLASSPATH.getName());
 
-        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
+        VFS4JParseConfigFile parseConfigFile = new VFS4JParseConfigFile();
 
         // methode testée
-        VFS4JException exception = assertThrows(VFS4JException.class, () -> VFS4JParseConfigFile.parse(properties));
+        VFS4JException exception = assertThrows(VFS4JException.class, () -> parseConfigFile.parse(properties));
 
         assertNotNull(exception);
         assertEquals("Path for 'rep01' with classpatch mode and readonly to false",
@@ -127,8 +127,8 @@ public class ExempleClasspathTest {
         properties.setProperty("vfs.paths.rep01.readonly", "true");
         properties.setProperty("vfs.paths.rep01.mode", VFS4JPathMode.CLASSPATH.getName());
 
-        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
-        VFS4JFileManagerBuilder fileManagerBuilder = VFS4JParseConfigFile.parse(properties);
+        VFS4JParseConfigFile parseConfigFile = new VFS4JParseConfigFile();
+        VFS4JFileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
 
         reinitConfig(fileManagerBuilder.build());
 

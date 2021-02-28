@@ -34,10 +34,10 @@ class VFS4JParseConfigFileTest {
         Properties properties = new Properties();
         properties.put("vfs.paths.dir1.path", path1);
         properties.put("vfs.paths.dir2.path", path2);
-        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
+        VFS4JParseConfigFile parseConfigFile = new VFS4JParseConfigFile();
 
         // methode testée
-        VFS4JFileManagerBuilder res = VFS4JParseConfigFile.parse(properties);
+        VFS4JFileManagerBuilder res = parseConfigFile.parse(properties);
 
         // vérifications
         assertNotNull(res);
@@ -68,10 +68,10 @@ class VFS4JParseConfigFileTest {
         Properties properties = new Properties();
         properties.put("vfs.paths.dir1.path", path1);
         properties.put("vfs.paths.dir2.mode", VFS4JPathMode.TEMPORARY.getName());
-        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
+        VFS4JParseConfigFile parseConfigFile = new VFS4JParseConfigFile();
 
         // methode testée
-        VFS4JFileManagerBuilder res = VFS4JParseConfigFile.parse(properties);
+        VFS4JFileManagerBuilder res = parseConfigFile.parse(properties);
 
         // vérifications
         assertNotNull(res);
@@ -106,10 +106,10 @@ class VFS4JParseConfigFileTest {
         properties.put("vfs.paths.dir01.path", path1);
         properties.put("vfs.paths.dir01.mode", VFS4JPathMode.STANDARD.getName());
         properties.put("vfs.paths.dir02.mode", VFS4JPathMode.TEMPORARY.getName());
-        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
+        VFS4JParseConfigFile parseConfigFile = new VFS4JParseConfigFile();
 
         // methode testée
-        VFS4JFileManagerBuilder res = VFS4JParseConfigFile.parse(properties);
+        VFS4JFileManagerBuilder res = parseConfigFile.parse(properties);
 
         // vérifications
         assertNotNull(res);
@@ -146,10 +146,10 @@ class VFS4JParseConfigFileTest {
         properties.put("vfs.paths." + dir1 + ".readonly", "true");
         properties.put("vfs.paths." + dir2 + ".path", path2);
         properties.put("vfs.paths." + dir2 + ".readonly", "false");
-        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
+        VFS4JParseConfigFile parseConfigFile = new VFS4JParseConfigFile();
 
         // methode testée
-        VFS4JFileManagerBuilder res = VFS4JParseConfigFile.parse(properties);
+        VFS4JFileManagerBuilder res = parseConfigFile.parse(properties);
 
         // vérifications
         assertNotNull(res);
@@ -178,10 +178,10 @@ class VFS4JParseConfigFileTest {
         Properties properties = new Properties();
         properties.put("vfs.paths.dir01.readonly", "true");
         properties.put("vfs.paths.dir01.mode", VFS4JPathMode.CLASSPATH.getName());
-        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
+        VFS4JParseConfigFile parseConfigFile = new VFS4JParseConfigFile();
 
         // methode testée
-        VFS4JFileManagerBuilder res = VFS4JParseConfigFile.parse(properties);
+        VFS4JFileManagerBuilder res = parseConfigFile.parse(properties);
 
         // vérifications
         assertNotNull(res);
@@ -205,10 +205,10 @@ class VFS4JParseConfigFileTest {
         properties.put("vfs.paths.dir01.path", "/test1/");
         properties.put("vfs.paths.dir01.readonly", "true");
         properties.put("vfs.paths.dir01.mode", VFS4JPathMode.CLASSPATH.getName());
-        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
+        VFS4JParseConfigFile parseConfigFile = new VFS4JParseConfigFile();
 
         // methode testée
-        VFS4JFileManagerBuilder res = VFS4JParseConfigFile.parse(properties);
+        VFS4JFileManagerBuilder res = parseConfigFile.parse(properties);
 
         // vérifications
         assertNotNull(res);
@@ -230,11 +230,11 @@ class VFS4JParseConfigFileTest {
         Properties properties = new Properties();
         properties.put("vfs.paths.dir01.readonly", "false");
         properties.put("vfs.paths.dir01.mode", VFS4JPathMode.CLASSPATH.getName());
-        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
+        VFS4JParseConfigFile parseConfigFile = new VFS4JParseConfigFile();
 
         // methode testée
         VFS4JException exception = assertThrows(VFS4JException.class,
-                () -> VFS4JParseConfigFile.parse(properties));
+                () -> parseConfigFile.parse(properties));
 
         // vérifications
         assertNotNull(exception);

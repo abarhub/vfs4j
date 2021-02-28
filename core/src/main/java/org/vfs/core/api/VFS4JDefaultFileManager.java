@@ -29,8 +29,8 @@ public class VFS4JDefaultFileManager {
 
         if (properties != null && !properties.isEmpty()) {
             // construction de la map des propriétés (on enlève ce qui n'est pas de type string)
-            VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
-            fileManagerBuilder = VFS4JParseConfigFile.parse(properties);
+            VFS4JParseConfigFile parseConfigFile = new VFS4JParseConfigFile();
+            fileManagerBuilder = parseConfigFile.parse(properties);
         } else {
             fileManagerBuilder = new VFS4JFileManagerBuilder();
         }

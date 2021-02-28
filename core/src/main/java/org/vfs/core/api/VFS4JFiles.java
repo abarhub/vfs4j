@@ -142,28 +142,28 @@ public class VFS4JFiles {
         return getFileManager().getCommand().write(source, lines, cs, options);
     }
 
-    public static InputStream newInputStream(VFS4JPathName VFS4JPathName, OpenOption... options) throws IOException {
-        return getFileManager().getOpen().newInputStream(VFS4JPathName, options);
+    public static InputStream newInputStream(VFS4JPathName pathName, OpenOption... options) throws IOException {
+        return getFileManager().getOpen().newInputStream(pathName, options);
     }
 
-    public static OutputStream newOutputStream(VFS4JPathName VFS4JPathName, OpenOption... options) throws IOException {
-        return getFileManager().getOpen().newOutputStream(VFS4JPathName, options);
+    public static OutputStream newOutputStream(VFS4JPathName pathName, OpenOption... options) throws IOException {
+        return getFileManager().getOpen().newOutputStream(pathName, options);
     }
 
-    public static FileReader newReader(VFS4JPathName VFS4JPathName) throws IOException {
-        return getFileManager().getOpen().newReader(VFS4JPathName);
+    public static FileReader newReader(VFS4JPathName pathName) throws IOException {
+        return getFileManager().getOpen().newReader(pathName);
     }
 
-    public static FileWriter newWriter(VFS4JPathName VFS4JPathName, boolean append) throws IOException {
-        return getFileManager().getOpen().newWriter(VFS4JPathName, append);
+    public static FileWriter newWriter(VFS4JPathName pathName, boolean append) throws IOException {
+        return getFileManager().getOpen().newWriter(pathName, append);
     }
 
-    public static SeekableByteChannel newByteChannel(VFS4JPathName VFS4JPathName, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
-        return getFileManager().getOpen().newByteChannel(VFS4JPathName, options, attrs);
+    public static SeekableByteChannel newByteChannel(VFS4JPathName pathName, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
+        return getFileManager().getOpen().newByteChannel(pathName, options, attrs);
     }
 
-    public static DirectoryStream<VFS4JPathName> newDirectoryStream(VFS4JPathName VFS4JPathName, DirectoryStream.Filter<? super VFS4JPathName> filter) throws IOException {
-        return getFileManager().getOpen().newDirectoryStream(VFS4JPathName, filter);
+    public static DirectoryStream<VFS4JPathName> newDirectoryStream(VFS4JPathName pathName, DirectoryStream.Filter<? super VFS4JPathName> filter) throws IOException {
+        return getFileManager().getOpen().newDirectoryStream(pathName, filter);
     }
 
     public static boolean exists(VFS4JPathName file, LinkOption... options) {

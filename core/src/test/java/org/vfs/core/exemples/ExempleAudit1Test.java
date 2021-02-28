@@ -41,8 +41,8 @@ public class ExempleAudit1Test {
         properties.setProperty("vfs.paths.rep01.readonly", "false");
         properties.setProperty("vfs.plugins.plugins1.class", "org.vfs.core.plugin.audit.VFS4JAuditPluginsFactory");
 
-        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
-        VFS4JFileManagerBuilder fileManagerBuilder = VFS4JParseConfigFile.parse(properties);
+        VFS4JParseConfigFile parseConfigFile = new VFS4JParseConfigFile();
+        VFS4JFileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
 
         reinitConfig(fileManagerBuilder.build());
 
@@ -97,8 +97,8 @@ public class ExempleAudit1Test {
         properties.setProperty("vfs.plugins.plugins1.operations", "COMMAND");
         properties.setProperty("vfs.plugins.plugins1.filterPath", "*.txt");
 
-        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
-        VFS4JFileManagerBuilder fileManagerBuilder = VFS4JParseConfigFile.parse(properties);
+        VFS4JParseConfigFile parseConfigFile = new VFS4JParseConfigFile();
+        VFS4JFileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
 
         reinitConfig(fileManagerBuilder.build());
 
@@ -164,8 +164,8 @@ public class ExempleAudit1Test {
         properties.setProperty("vfs.paths.rep03.readonly", "false");
         properties.setProperty("vfs.plugins.plugins3.class", "org.vfs.core.plugin.audit.VFS4JAuditPluginsFactory");
 
-        VFS4JParseConfigFile VFS4JParseConfigFile = new VFS4JParseConfigFile();
-        VFS4JFileManagerBuilder fileManagerBuilder = VFS4JParseConfigFile.parse(properties);
+        VFS4JParseConfigFile parseConfigFile = new VFS4JParseConfigFile();
+        VFS4JFileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
 
         reinitConfig(fileManagerBuilder.build());
 
