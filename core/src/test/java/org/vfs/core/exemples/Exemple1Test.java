@@ -106,7 +106,7 @@ public class Exemple1Test {
         properties.setProperty("vfs.paths.rep02.readonly", "true");
 
         VFS4JParseConfigFile parseConfigFile = new VFS4JParseConfigFile();
-        VFS4JFileManagerBuilder fileManagerBuilder = VFS4JParseConfigFile.parse(properties);
+        VFS4JFileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
 
         reinitConfig(fileManagerBuilder.build());
 
