@@ -1,6 +1,5 @@
 package org.vfs.core.api;
 
-import org.vfs.core.config.PathParameter;
 import org.vfs.core.config.VFS4JParameter;
 import org.vfs.core.exception.VFS4JWriteException;
 

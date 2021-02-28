@@ -1,7 +1,6 @@
 package org.vfs.core.api;
 
 import org.vfs.core.api.operation.*;
-import org.vfs.core.config.PathParameter;
 import org.vfs.core.config.VFS4JConfig;
 import org.vfs.core.config.VFS4JParameter;
 import org.vfs.core.plugin.common.VFS4JPlugins;

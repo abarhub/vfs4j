@@ -17,6 +17,9 @@ public class DefaultFileManager {
 
     private static FileManager fileManager = createFileManager();
 
+    private DefaultFileManager() {
+    }
+
     protected static FileManager createFileManager() {
         FileManagerBuilder fileManagerBuilder;
 
@@ -44,45 +47,55 @@ public class DefaultFileManager {
 
         if (properties == null) {
             // lecture du fichier de configuration dans la propriété VFS_CONFIG
-            String vfsConfigPath = System.getProperty("VFS_CONFIG");
-            if (vfsConfigPath != null && !vfsConfigPath.trim().isEmpty()) {
-                Path path = Paths.get(vfsConfigPath);
-                if (Files.exists(path)) {
-                    LOGGER.info("VFS4J config file is '{}'", path);
-                    try (InputStream in = Files.newInputStream(path)) {
-                        properties = new Properties();
-                        properties.load(in);
-                    } catch (IOException e) {
-                        throw new VFS4JException("Error for reading file '" + vfsConfigPath + "'", e);
-                    }
-                } else {
-                    throw new VFS4JException("File '" + vfsConfigPath + "' not exists");
-                }
-            }
+            properties = getPropertiesFromSystemProperties(properties);
         }
 
         if (properties == null) {
             // lecture du fichier de configuration dans le classpath
-            URL url = DefaultFileManager.class.getResource("/vfs.properties");
-            if (url != null) {
-                File file = new File(url.getFile());
-                LOGGER.info("VFS4J config file is '{}'", file);
-                try (InputStream is = new FileInputStream(file)) {
-                    if (is != null) {
-                        properties = new Properties();
-                        properties.load(is);
-                    }
-                } catch (FileNotFoundException e) {
-                    properties = null;
-                    LOGGER.info("File vfs.properties not found in classpath");
-                } catch (IOException e) {
-                    throw new VFS4JException("Error in reading file vfs.properties in classpath", e);
-                }
-            }
+            properties = getPropertiesFromClasspath(properties);
         }
 
         if (properties == null) {
             LOGGER.info("no VFS4J config file found");
+        }
+        return properties;
+    }
+
+    private static Properties getPropertiesFromSystemProperties(Properties properties) {
+        String vfsConfigPath = System.getProperty("VFS_CONFIG");
+        if (vfsConfigPath != null && !vfsConfigPath.trim().isEmpty()) {
+            Path path = Paths.get(vfsConfigPath);
+            if (Files.exists(path)) {
+                LOGGER.info("VFS4J config file is '{}'", path);
+                try (InputStream in = Files.newInputStream(path)) {
+                    properties = new Properties();
+                    properties.load(in);
+                } catch (IOException e) {
+                    throw new VFS4JException("Error for reading file '" + vfsConfigPath + "'", e);
+                }
+            } else {
+                throw new VFS4JException("File '" + vfsConfigPath + "' not exists");
+            }
+        }
+        return properties;
+    }
+
+    private static Properties getPropertiesFromClasspath(Properties properties) {
+        URL url = DefaultFileManager.class.getResource("/vfs.properties");
+        if (url != null) {
+            File file = new File(url.getFile());
+            LOGGER.info("VFS4J config file is '{}'", file);
+            try (InputStream is = new FileInputStream(file)) {
+                if (is != null) {
+                    properties = new Properties();
+                    properties.load(is);
+                }
+            } catch (FileNotFoundException e) {
+                properties = null;
+                LOGGER.info("File vfs.properties not found in classpath");
+            } catch (IOException e) {
+                throw new VFS4JException("Error in reading file vfs.properties in classpath", e);
+            }
         }
         return properties;
     }

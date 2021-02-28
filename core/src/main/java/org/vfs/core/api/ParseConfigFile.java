@@ -8,7 +8,6 @@ import org.vfs.core.exception.VFS4JException;
 import org.vfs.core.exception.VFS4JInvalideConfigFileException;
 import org.vfs.core.util.VFS4JLoggerFactory;
 
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;

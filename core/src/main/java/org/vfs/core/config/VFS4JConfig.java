@@ -67,7 +67,7 @@ public class VFS4JConfig {
                 PathParameter param2 = new PathParameter(path2, param.isReadonly(), param.getMode());
                 map.put(name, param2);
             } else if (param.getMode() == VFS4JPathMode.CLASSPATH) {
-                VFS4JClasspathParameter classpath= (VFS4JClasspathParameter) param;
+                VFS4JClasspathParameter classpath = (VFS4JClasspathParameter) param;
                 VFS4JClasspathParameter param2 = new VFS4JClasspathParameter(classpath.getPath());
                 map.put(name, param2);
             } else if (param.getMode() == VFS4JPathMode.TEMPORARY) {
