@@ -48,9 +48,9 @@ vfs.paths.dir3.readonly=true
 Ensuite dans le code il faut faire :
 
 ```java
-VFS4JFiles.createFile(new PathName("dir1","file01.txt"));
-        VFS4JFiles.createDirectories(new PathName("dir2","direcory1/dir2/dir3"));
-        VFS4JFiles.copy(new PathName("dir1","file01.txt"),new PathName("dir2","file01.txt"));
+VFS4JFiles.createFile(new VFS4JPathName("dir1","file01.txt"));
+        VFS4JFiles.createDirectories(new VFS4JPathName("dir2","direcory1/dir2/dir3"));
+        VFS4JFiles.copy(new VFS4JPathName("dir1","file01.txt"),new PathName("dir2","file01.txt"));
 ```
 
 Il y a d'autres exemples [ici](./doc/guide_utilisation.md).
