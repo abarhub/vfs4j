@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.vfs.core.api.PathName;
 import org.vfs.core.config.*;
 import org.vfs.core.exception.VFS4JInvalideParameterException;
-import org.vfs.core.plugin.audit.VFS4JAuditPlugins;
 
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -32,19 +32,23 @@ public class ConvertFile {
         }
         Path path;
         if (p.getMode() == VFS4JPathMode.CLASSPATH) {
-            VFS4JClasspathParameter parameter= (VFS4JClasspathParameter) p;
+            VFS4JClasspathParameter parameter = (VFS4JClasspathParameter) p;
             try {
-                String directory="";
-                if(!Objects.equals(parameter.getPath(),"")){
-                    directory=parameter.getPath();
+                String directory = "";
+                LOGGER.info("parameter.getPath()={}", parameter.getPath());
+                if (!Objects.equals(parameter.getPath(), "")) {
+                    directory = parameter.getPath();
                 } else {
-                    directory="";
+                    directory = "";
                 }
                 if (file.getPath() == null || file.getPath().isEmpty()) {
                     path = Paths.get(ClassLoader.getSystemResource(directory).toURI());
                 } else {
-                    Path p2 = Paths.get(directory,file.getPath()).normalize();
+                    Path p2 = Paths.get(directory, file.getPath()).normalize();
                     p2 = removeReferenceParentInBegin(p2);
+                    LOGGER.info("p2={}", p2);
+                    URL url = ClassLoader.getSystemResource(p2.toString());
+                    LOGGER.info("getSystemResource={}", url);
                     path = Paths.get(ClassLoader.getSystemResource(p2.toString()).toURI());
                 }
             } catch (URISyntaxException e) {
@@ -96,8 +100,8 @@ public class ConvertFile {
             Path fileNormalized = file.normalize();
             for (String name : nameList) {
                 VFS4JParameter pathParameter = vfs4JConfig.getPath(name);
-                if( pathParameter instanceof PathParameter) {
-                    PathParameter parameter= (PathParameter) pathParameter;
+                if (pathParameter instanceof PathParameter) {
+                    PathParameter parameter = (PathParameter) pathParameter;
                     Path path = parameter.getPath();
                     if (fileNormalized.startsWith(path)) {
                         if (trouve == null) {
@@ -111,7 +115,7 @@ public class ConvertFile {
                         }
                     }
                 } else {
-                    throw new VFS4JInvalideParameterException("Invalide parameter "+name);
+                    throw new VFS4JInvalideParameterException("Invalide parameter " + name);
                 }
             }
             return Optional.ofNullable(pathNameTrouve);
