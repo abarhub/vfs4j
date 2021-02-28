@@ -35,31 +35,23 @@ public class ConvertFile {
             VFS4JClasspathParameter parameter = (VFS4JClasspathParameter) p;
             try {
                 String directory = "";
-                LOGGER.info("parameter.getPath()={}", parameter.getPath());
                 if (!Objects.equals(parameter.getPath(), "")) {
                     directory = parameter.getPath();
                 } else {
                     directory = "";
                 }
-                LOGGER.info("directory={}", directory);
                 if (file.getPath() == null || file.getPath().isEmpty()) {
                     path = Paths.get(ClassLoader.getSystemResource(directory).toURI());
                 } else {
-                    LOGGER.info("file.getPath()={}", file.getPath());
                     Path p2 = Paths.get(directory, file.getPath()).normalize();
                     p2 = removeReferenceParentInBegin(p2);
-                    LOGGER.info("p2={}", p2);
                     URL url = ClassLoader.getSystemResource(p2.toString());
-                    LOGGER.info("getSystemResource={}", url);
-                    LOGGER.info("getSystemResource2={}", ConvertFile.class.getResource(p2.toString()));
-                    LOGGER.info("getSystemResource3={}", ClassLoader.getSystemResource(p2.toString()));
                     if (url == null) {
+                        // file not found. Find in classpath from current class. For Linux
                         url = ConvertFile.class.getResource(p2.toString());
-                        //LOGGER.info("getSystemResource={}", url);
-                        LOGGER.info("correction url={}", url);
+                        LOGGER.debug("correct classpath url={}", url);
                     }
-                    LOGGER.info("url={}", url);
-                    //path = Paths.get(ClassLoader.getSystemResource(p2.toString()).toURI());
+                    LOGGER.debug("classpath url={}", url);
                     path = Paths.get(url.toURI());
                 }
             } catch (URISyntaxException e) {
