@@ -27,6 +27,6 @@ public class IteratorPathName implements Iterator<PathName> {
     public PathName next() {
         Path path = pathIterator.next();
         Optional<PathName> pathNameOpt = fileManager.convertFromRealPath(path);
-        return pathNameOpt.orElseThrow(() -> new VFS4JException("Invalid path"));
+        return pathNameOpt.orElseThrow(() -> new VFS4JException(VFS4JErrorMessages.INVALIDE_PATH));
     }
 }

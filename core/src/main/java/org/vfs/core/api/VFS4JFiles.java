@@ -15,6 +15,9 @@ public class VFS4JFiles {
 
     protected static FileManager fileManager = DefaultFileManager.get();
 
+    private VFS4JFiles() {
+    }
+
     private static FileManager getFileManager() {
         return fileManager;
     }

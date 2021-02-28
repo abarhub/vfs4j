@@ -4,6 +4,7 @@ import org.vfs.core.api.AbstractOperation;
 import org.vfs.core.api.FileManager;
 import org.vfs.core.api.PathName;
 import org.vfs.core.exception.VFS4JInvalidPathException;
+import org.vfs.core.util.VFS4JErrorMessages;
 import org.vfs.core.util.ValidationUtils;
 
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class SimpleCommand extends AbstractOperation implements Command {
 
     @Override
     public PathName createFile(PathName file, FileAttribute<?>... attrs) throws IOException {
-        ValidationUtils.checkNotNull(file, "Path is null");
+        ValidationUtils.checkNotNull(file, VFS4JErrorMessages.PATH_IS_NULL);
         writeOperation(file, "createFile");
         Path p = getRealFile(file);
         Path pathRes = Files.createFile(p, attrs);
@@ -34,7 +35,7 @@ public class SimpleCommand extends AbstractOperation implements Command {
 
     @Override
     public PathName createDirectory(PathName file, FileAttribute<?>... attrs) throws IOException {
-        ValidationUtils.checkNotNull(file, "Path is null");
+        ValidationUtils.checkNotNull(file, VFS4JErrorMessages.PATH_IS_NULL);
         writeOperation(file, "createDirectory");
         Path p = getRealFile(file);
         Path pathRes = Files.createDirectory(p, attrs);
@@ -43,7 +44,7 @@ public class SimpleCommand extends AbstractOperation implements Command {
 
     @Override
     public PathName createDirectories(PathName file, FileAttribute<?>... attrs) throws IOException {
-        ValidationUtils.checkNotNull(file, "Path is null");
+        ValidationUtils.checkNotNull(file, VFS4JErrorMessages.PATH_IS_NULL);
         writeOperation(file, "createDirectories");
         Path p = getRealFile(file);
         Path pathRes = Files.createDirectories(p, attrs);
@@ -52,7 +53,7 @@ public class SimpleCommand extends AbstractOperation implements Command {
 
     @Override
     public void delete(PathName file) throws IOException {
-        ValidationUtils.checkNotNull(file, "Path is null");
+        ValidationUtils.checkNotNull(file, VFS4JErrorMessages.PATH_IS_NULL);
         writeOperation(file, "delete");
         Path p = getRealFile(file);
         Files.delete(p);
@@ -60,7 +61,7 @@ public class SimpleCommand extends AbstractOperation implements Command {
 
     @Override
     public boolean deleteIfExists(PathName file) throws IOException {
-        ValidationUtils.checkNotNull(file, "Path is null");
+        ValidationUtils.checkNotNull(file, VFS4JErrorMessages.PATH_IS_NULL);
         writeOperation(file, "deleteIfExists");
         Path p = getRealFile(file);
         return Files.deleteIfExists(p);
@@ -68,8 +69,8 @@ public class SimpleCommand extends AbstractOperation implements Command {
 
     @Override
     public PathName createLink(PathName file, PathName target) throws IOException {
-        ValidationUtils.checkNotNull(file, "Path is null");
-        ValidationUtils.checkNotNull(file, "target is null");
+        ValidationUtils.checkNotNull(file, VFS4JErrorMessages.PATH_IS_NULL);
+        ValidationUtils.checkNotNull(file, VFS4JErrorMessages.TARGET_IS_NULL);
         writeOperation(file, "createLink");
         Path p = getRealFile(file);
         Path targetPath = getRealFile(target);
@@ -79,8 +80,8 @@ public class SimpleCommand extends AbstractOperation implements Command {
 
     @Override
     public PathName createSymbolicLink(PathName link, PathName target, FileAttribute<?>... attrs) throws IOException {
-        ValidationUtils.checkNotNull(link, "Path is null");
-        ValidationUtils.checkNotNull(target, "target is null");
+        ValidationUtils.checkNotNull(link, VFS4JErrorMessages.PATH_IS_NULL);
+        ValidationUtils.checkNotNull(target, VFS4JErrorMessages.TARGET_IS_NULL);
         writeOperation(link, "createSymbolicLink");
         Path p = getRealFile(link);
         Path targetPath = getRealFile(target);
@@ -90,25 +91,25 @@ public class SimpleCommand extends AbstractOperation implements Command {
 
     @Override
     public long copy(InputStream input, PathName target, CopyOption... options) throws IOException {
-        ValidationUtils.checkNotNull(input, "input is null");
-        ValidationUtils.checkNotNull(target, "target is null");
+        ValidationUtils.checkNotNull(input, VFS4JErrorMessages.SOURCE_IS_NULL);
+        ValidationUtils.checkNotNull(target, VFS4JErrorMessages.TARGET_IS_NULL);
         writeOperation(target, "copy");
         Path targetPath = getRealFile(target);
         return Files.copy(input, targetPath, options);
     }
 
     @Override
-    public long copy(PathName source, OutputStream out) throws IOException {
-        ValidationUtils.checkNotNull(source, "source is null");
-        ValidationUtils.checkNotNull(out, "out is null");
+    public long copy(PathName source, OutputStream target) throws IOException {
+        ValidationUtils.checkNotNull(source, VFS4JErrorMessages.SOURCE_IS_NULL);
+        ValidationUtils.checkNotNull(target, VFS4JErrorMessages.TARGET_IS_NULL);
         Path sourcePath = getRealFile(source);
-        return Files.copy(sourcePath, out);
+        return Files.copy(sourcePath, target);
     }
 
     @Override
     public PathName copy(PathName source, PathName target, CopyOption... options) throws IOException {
-        ValidationUtils.checkNotNull(source, "source is null");
-        ValidationUtils.checkNotNull(target, "target is null");
+        ValidationUtils.checkNotNull(source, VFS4JErrorMessages.SOURCE_IS_NULL);
+        ValidationUtils.checkNotNull(target, VFS4JErrorMessages.TARGET_IS_NULL);
         writeOperation(target, "copy");
         Path sourcePath = getRealFile(source);
         Path targetPath = getRealFile(target);
@@ -118,8 +119,8 @@ public class SimpleCommand extends AbstractOperation implements Command {
 
     @Override
     public PathName move(PathName source, PathName target, CopyOption... options) throws IOException {
-        ValidationUtils.checkNotNull(source, "source is null");
-        ValidationUtils.checkNotNull(target, "target is null");
+        ValidationUtils.checkNotNull(source, VFS4JErrorMessages.SOURCE_IS_NULL);
+        ValidationUtils.checkNotNull(target, VFS4JErrorMessages.TARGET_IS_NULL);
         writeOperation(source, "move");
         writeOperation(target, "move");
         Path sourcePath = getRealFile(source);
@@ -130,7 +131,7 @@ public class SimpleCommand extends AbstractOperation implements Command {
 
     @Override
     public PathName write(PathName target, byte[] bytes, OpenOption... options) throws IOException {
-        ValidationUtils.checkNotNull(target, "target is null");
+        ValidationUtils.checkNotNull(target, VFS4JErrorMessages.TARGET_IS_NULL);
         ValidationUtils.checkNotNull(bytes, "bytes is null");
         writeOperation(target, "target");
         Path sourcePath = getRealFile(target);
@@ -140,7 +141,7 @@ public class SimpleCommand extends AbstractOperation implements Command {
 
     @Override
     public PathName write(PathName target, Iterable<? extends CharSequence> lines, Charset cs, OpenOption... options) throws IOException {
-        ValidationUtils.checkNotNull(target, "target is null");
+        ValidationUtils.checkNotNull(target, VFS4JErrorMessages.TARGET_IS_NULL);
         ValidationUtils.checkNotNull(lines, "lines is null");
         ValidationUtils.checkNotNull(cs, "cs is null");
         writeOperation(target, "target");
@@ -150,6 +151,6 @@ public class SimpleCommand extends AbstractOperation implements Command {
     }
 
     private Supplier<VFS4JInvalidPathException> throwInvalidePath(Path pathRes) {
-        return () -> new VFS4JInvalidPathException("Invalide Path", pathRes);
+        return () -> new VFS4JInvalidPathException(VFS4JErrorMessages.INVALIDE_PATH, pathRes);
     }
 }

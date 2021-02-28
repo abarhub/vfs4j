@@ -5,6 +5,7 @@ import org.vfs.core.api.FileManager;
 import org.vfs.core.api.PathName;
 import org.vfs.core.exception.VFS4JInvalidPathException;
 import org.vfs.core.util.DirectoryStreamPathName;
+import org.vfs.core.util.VFS4JErrorMessages;
 import org.vfs.core.util.ValidationUtils;
 
 import java.io.*;
@@ -22,14 +23,14 @@ public class SimpleOpen extends AbstractOperation implements Open {
 
     @Override
     public InputStream newInputStream(PathName pathName, OpenOption... options) throws IOException {
-        ValidationUtils.checkNotNull(pathName, "Path is null");
+        ValidationUtils.checkNotNull(pathName, VFS4JErrorMessages.PATH_IS_NULL);
         Path path = getRealFile(pathName);
         return Files.newInputStream(path, options);
     }
 
     @Override
     public OutputStream newOutputStream(PathName pathName, OpenOption... options) throws IOException {
-        ValidationUtils.checkNotNull(pathName, "Path is null");
+        ValidationUtils.checkNotNull(pathName, VFS4JErrorMessages.PATH_IS_NULL);
         writeOperation(pathName, "newOutputStream");
         Path path = getRealFile(pathName);
         return Files.newOutputStream(path, options);
@@ -37,7 +38,7 @@ public class SimpleOpen extends AbstractOperation implements Open {
 
     @Override
     public FileReader newReader(PathName pathName) throws IOException {
-        ValidationUtils.checkNotNull(pathName, "Path is null");
+        ValidationUtils.checkNotNull(pathName, VFS4JErrorMessages.PATH_IS_NULL);
         Path path = getRealFile(pathName);
         // TODO: voir comment gérer l'encodage des caractères
         return new FileReader(path.toFile());
@@ -45,7 +46,7 @@ public class SimpleOpen extends AbstractOperation implements Open {
 
     @Override
     public FileWriter newWriter(PathName pathName, boolean append) throws IOException {
-        ValidationUtils.checkNotNull(pathName, "Path is null");
+        ValidationUtils.checkNotNull(pathName, VFS4JErrorMessages.PATH_IS_NULL);
         writeOperation(pathName, "newWriter");
         Path path = getRealFile(pathName);
         // TODO: voir comment gérer l'encodage des caractères
@@ -54,7 +55,7 @@ public class SimpleOpen extends AbstractOperation implements Open {
 
     @Override
     public SeekableByteChannel newByteChannel(PathName pathName, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
-        ValidationUtils.checkNotNull(pathName, "Path is null");
+        ValidationUtils.checkNotNull(pathName, VFS4JErrorMessages.PATH_IS_NULL);
         if (options != null && options.contains(StandardOpenOption.WRITE)) {
             writeOperation(pathName, "newByteChannel");
         }
@@ -64,7 +65,7 @@ public class SimpleOpen extends AbstractOperation implements Open {
 
     @Override
     public DirectoryStream<PathName> newDirectoryStream(PathName pathName, DirectoryStream.Filter<? super PathName> filter) throws IOException {
-        ValidationUtils.checkNotNull(pathName, "Path is null");
+        ValidationUtils.checkNotNull(pathName, VFS4JErrorMessages.PATH_IS_NULL);
         Path path = getRealFile(pathName);
         DirectoryStream.Filter<? super Path> filter2 = null;
         if (filter != null) {
@@ -73,7 +74,7 @@ public class SimpleOpen extends AbstractOperation implements Open {
                 if (res.isPresent()) {
                     return filter.accept(res.get());
                 } else {
-                    throw new VFS4JInvalidPathException("Path invalide", p);
+                    throw new VFS4JInvalidPathException(VFS4JErrorMessages.INVALIDE_PATH, p);
                 }
             };
         }

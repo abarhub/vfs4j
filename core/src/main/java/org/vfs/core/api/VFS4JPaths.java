@@ -7,6 +7,9 @@ import java.util.List;
 
 public class VFS4JPaths {
 
+    private VFS4JPaths() {
+    }
+
     public static PathName get(String name, String... path) {
         ValidationUtils.checkNotEmpty(name, "Name is empty");
         PathName pathName;

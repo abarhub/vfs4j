@@ -22,8 +22,8 @@ public class ParseConfigFile {
     public static final String SUFFIX_PATH = ".path";
     public static final String SUFFIX_MODE = ".mode";
     public static final String SUFFIX_READONLY = ".readonly";
-    public static final String SUFFIX_CLASS2 = "class";
-    public static final String SUFFIX_CLASS = "." + SUFFIX_CLASS2;
+    public static final String SUFFIX_CLASS_EXTENSION = "class";
+    public static final String SUFFIX_CLASS = "." + SUFFIX_CLASS_EXTENSION;
     public static final String VALIDE_NAME = "[a-zA-Z][a-zA-Z0-9]*";
 
     // construction de la map des propriétés (on enlève ce qui n'est pas de type string)
@@ -152,7 +152,7 @@ public class ParseConfigFile {
                 String classe = map.get(keyClass);
 
                 Map<String, String> mapConfigPlugins = new HashMap<>();
-                mapConfigPlugins.put("class", classe);
+                mapConfigPlugins.put(SUFFIX_CLASS_EXTENSION, classe);
 
                 String debut = PREFIX_PLUGINS + nom + ".";
                 for (Map.Entry<String, String> entry : map.entrySet()) {

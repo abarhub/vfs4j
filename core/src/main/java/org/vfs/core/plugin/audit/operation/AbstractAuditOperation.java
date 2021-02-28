@@ -87,16 +87,7 @@ public abstract class AbstractAuditOperation {
             if (vfs4JAuditPlugins.getFilterPath() != null &&
                     !vfs4JAuditPlugins.getFilterPath().isEmpty() &&
                     pathNames != null && pathNames.length > 0) {
-                FileSystem fs = FileSystems.getDefault();
-                for (String glob : vfs4JAuditPlugins.getFilterPath()) {
-                    PathMatcher pathMatcher = fs.getPathMatcher("glob:" + glob);
-                    for (PathName p : pathNames) {
-                        if (pathMatcher.matches(Paths.get(p.getPath()))) {
-                            return true;
-                        }
-                    }
-                }
-                return false;
+                return isFilterPathMatch(pathNames);
             } else {
                 return true;
             }
@@ -104,5 +95,18 @@ public abstract class AbstractAuditOperation {
             // l'operation n'est pas dans la liste => on ne fait rien
             return false;
         }
+    }
+
+    private boolean isFilterPathMatch(PathName[] pathNames) {
+        FileSystem fs = FileSystems.getDefault();
+        for (String glob : vfs4JAuditPlugins.getFilterPath()) {
+            PathMatcher pathMatcher = fs.getPathMatcher("glob:" + glob);
+            for (PathName p : pathNames) {
+                if (pathMatcher.matches(Paths.get(p.getPath()))) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

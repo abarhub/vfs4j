@@ -25,7 +25,7 @@ public class ConvertFile {
     }
 
     public Path getRealFile(PathName file) {
-        ValidationUtils.checkNotNull(file, "Path is null");
+        ValidationUtils.checkNotNull(file, VFS4JErrorMessages.PATH_IS_NULL);
         VFS4JParameter p = vfs4JConfig.getPath(file.getName());
         if (p == null) {
             throw new VFS4JInvalideParameterException("PathName '" + file.getName() + "' doesn't exist");
@@ -81,7 +81,7 @@ public class ConvertFile {
      * @return
      */
     private Path removeReferenceParentInBegin(Path path) {
-        ValidationUtils.checkNotNull(path, "Path is null");
+        ValidationUtils.checkNotNull(path, VFS4JErrorMessages.PATH_IS_NULL);
         boolean aucunTraitement;
         do {
             aucunTraitement = true;
@@ -95,7 +95,7 @@ public class ConvertFile {
     }
 
     public Optional<PathName> convertFromRealPath(Path file) {
-        ValidationUtils.checkNotNull(file, "Path is null");
+        ValidationUtils.checkNotNull(file, VFS4JErrorMessages.PATH_IS_NULL);
         List<String> nameList = vfs4JConfig.getNames();
         if (nameList != null && !nameList.isEmpty()) {
             Path trouve = null;
