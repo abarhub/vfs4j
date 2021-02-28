@@ -2,6 +2,9 @@ package org.vfs.core.util;
 
 public class VFS4JErrorMessages {
 
+    private VFS4JErrorMessages() {
+    }
+
     public static final String PATH_IS_NULL = "Path is null";
 
     public static final String ATTRIBUTE_IS_EMPTY = "attribute is empty";

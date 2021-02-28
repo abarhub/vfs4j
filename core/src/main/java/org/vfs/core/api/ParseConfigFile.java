@@ -33,7 +33,7 @@ public class ParseConfigFile {
         Set<Object> keys = properties.keySet();
         Map<String, String> map = new HashMap<>();
         for (Object o : keys) {
-            if (o != null && o instanceof String) {
+            if (o instanceof String) {
                 Object o2 = properties.get(o);
                 if (o2 instanceof String) {
                     String key = (String) o;

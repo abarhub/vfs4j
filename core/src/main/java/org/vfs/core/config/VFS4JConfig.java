@@ -52,9 +52,9 @@ public class VFS4JConfig {
     }
 
     private Map<String, VFS4JParameter> initPaths(VFSConfigFile configFile) {
-        Map<String, VFS4JParameter> listeConfig = configFile.getListeConfig();
+        Map<String, VFS4JParameter> config = configFile.getListeConfig();
         Map<String, VFS4JParameter> map = new HashMap<>();
-        for (Map.Entry<String, VFS4JParameter> entry : listeConfig.entrySet()) {
+        for (Map.Entry<String, VFS4JParameter> entry : config.entrySet()) {
             String name = entry.getKey();
             VFS4JParameter param = entry.getValue();
             if (param.getMode() == null) {

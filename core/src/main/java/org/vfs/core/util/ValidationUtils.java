@@ -4,6 +4,9 @@ import org.vfs.core.exception.VFS4JInvalideParameterException;
 
 public class ValidationUtils {
 
+    private ValidationUtils() {
+    }
+
     public static void checkNotNull(Object o, String msgError) {
         if (o == null) {
             throw new VFS4JInvalideParameterException(msgError);

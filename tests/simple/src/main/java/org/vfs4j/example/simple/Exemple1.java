@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.vfs.core.api.*;
 import org.vfs.core.config.PathParameter;
 import org.vfs.core.config.VFS4JConfig;
-import org.vfs.core.config.VFS4JParameter;
 import org.vfs.core.config.VFS4JPathMode;
 
 import java.io.IOException;
@@ -82,23 +81,23 @@ public class Exemple1 {
 
         LOGGER.info("exemple3 ...");
 
-        Path temp=Files.createTempDirectory("junit_test_vfs4j");
+        Path temp = Files.createTempDirectory("junit_test_vfs4j");
 
-        Path path1=temp.resolve("rep01");
+        Path path1 = temp.resolve("rep01");
         Files.createDirectories(path1);
 
-        Path path2=temp.resolve("rep02");
+        Path path2 = temp.resolve("rep02");
         Files.createDirectories(path2);
 
-        Properties properties=new Properties();
+        Properties properties = new Properties();
 
-        properties.setProperty("vfs.paths.rep01.path",path1.toString());
+        properties.setProperty("vfs.paths.rep01.path", path1.toString());
         properties.setProperty("vfs.paths.rep01.mode", VFS4JPathMode.STANDARD.getName());
-        properties.setProperty("vfs.paths.rep02.path",path2.toString());
+        properties.setProperty("vfs.paths.rep02.path", path2.toString());
         properties.setProperty("vfs.paths.rep02.mode", VFS4JPathMode.STANDARD.getName());
         properties.setProperty("vfs.paths.temp.mode", VFS4JPathMode.TEMPORARY.getName());
 
-        ParseConfigFile parseConfigFile=new ParseConfigFile();
+        ParseConfigFile parseConfigFile = new ParseConfigFile();
         FileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
 
         DefaultFileManager.get().setConfig(fileManagerBuilder.build());

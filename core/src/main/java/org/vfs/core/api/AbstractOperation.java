@@ -10,7 +10,7 @@ public abstract class AbstractOperation {
 
     private final FileManager fileManager;
 
-    public AbstractOperation(FileManager fileManager) {
+    protected AbstractOperation(FileManager fileManager) {
         this.fileManager = fileManager;
     }
 

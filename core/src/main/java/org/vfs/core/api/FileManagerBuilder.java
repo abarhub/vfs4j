@@ -1,6 +1,7 @@
 package org.vfs.core.api;
 
 import org.vfs.core.config.*;
+import org.vfs.core.util.VFS4JErrorMessages;
 import org.vfs.core.util.ValidationUtils;
 
 import java.nio.file.Path;
@@ -19,33 +20,31 @@ public class FileManagerBuilder {
     }
 
     public FileManagerBuilder addPath(String name, Path path, boolean readonly) {
-        ValidationUtils.checkNotEmpty(name, "Name is empty");
-        ValidationUtils.checkNotNull(path, "Path is null");
+        ValidationUtils.checkNotEmpty(name, VFS4JErrorMessages.NAME_IS_EMPTY);
+        ValidationUtils.checkNotNull(path, VFS4JErrorMessages.PATH_IS_NULL);
         listeConfig.put(name, new PathParameter(path, readonly, VFS4JPathMode.STANDARD));
         return this;
     }
 
     public FileManagerBuilder addPath(String name, VFS4JParameter parameter) {
-        ValidationUtils.checkNotEmpty(name, "Name is empty");
+        ValidationUtils.checkNotEmpty(name, VFS4JErrorMessages.NAME_IS_EMPTY);
         ValidationUtils.checkNotNull(parameter, "Paramater is null");
         listeConfig.put(name, parameter);
         return this;
     }
 
     public FileManagerBuilder addPlugins(String name, Map<String, String> configPlugins) {
-        ValidationUtils.checkNotEmpty(name, "Name is empty");
+        ValidationUtils.checkNotEmpty(name, VFS4JErrorMessages.NAME_IS_EMPTY);
         ValidationUtils.checkNotNull(configPlugins, "Config is null");
         listePlugins.put(name, configPlugins);
         return this;
     }
 
     public VFS4JConfig build() {
-        Map<String, VFS4JParameter> confPaths = new HashMap<>();
-        confPaths.putAll(listeConfig);
+        Map<String, VFS4JParameter> confPaths = new HashMap<>(listeConfig);
         VFSConfigFile vfsConfigFile = new VFSConfigFile();
         vfsConfigFile.setListeConfig(confPaths);
-        Map<String, Map<String, String>> confPlugins = new HashMap<>();
-        confPlugins.putAll(listePlugins);
+        Map<String, Map<String, String>> confPlugins = new HashMap<>(listePlugins);
         vfsConfigFile.setListePlugins(confPlugins);
         return VFS4JConfigFactory.createVfs4JConfig(vfsConfigFile);
     }
