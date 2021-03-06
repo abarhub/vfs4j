@@ -33,17 +33,15 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
 
     public static final String PATH1 = "path1";
 
-    private VFS4JAuditPlugins vfs4JAuditPlugins;
-
-    private VFS4JAttribute attribute = mock(VFS4JAttribute.class);
+    private final VFS4JAttribute attribute = mock(VFS4JAttribute.class);
 
     private VFS4JAuditAttribute auditAttribute;
 
-    private List<LogMessage> listLog = new ArrayList<>();
+    private final List<LogMessage> listLog = new ArrayList<>();
 
     @BeforeEach
     void setUp() {
-        vfs4JAuditPlugins = new VFS4JAuditPlugins();
+        VFS4JAuditPlugins vfs4JAuditPlugins = new VFS4JAuditPlugins();
         vfs4JAuditPlugins.addListener(this);
         Map<String, String> config = defautConfig();
         VFS4JConfig config2 = new VFS4JConfig();
@@ -118,7 +116,6 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
             VFS4JPathName VFS4JPathNameRes = getPathName("abc2.txt");
             when(attribute.setAttribute(VFS4JPathName, attributName, valeur)).thenReturn(VFS4JPathNameRes);
 
-
             // methode testée
             VFS4JPathName res = auditAttribute.setAttribute(VFS4JPathName, attributName, valeur);
 
@@ -143,7 +140,6 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
             VFS4JPathName VFS4JPathNameRes = getPathName("abc2.jpg");
             when(attribute.setAttribute(VFS4JPathName, attributName, valeur)).thenReturn(VFS4JPathNameRes);
 
-
             // methode testée
             VFS4JPathName res = auditAttribute.setAttribute(VFS4JPathName, attributName, valeur);
 
@@ -161,7 +157,6 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
             final Object valeur = new Object();
             VFS4JPathName VFS4JPathName = getPathName("abc.txt");
             when(attribute.setAttribute(VFS4JPathName, attributName, valeur)).thenThrow(new IOException("Error setAttribut"));
-
 
             // methode testée
             IOException exception = assertThrows(IOException.class, () -> auditAttribute.setAttribute(VFS4JPathName, attributName, valeur));
@@ -190,7 +185,6 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
             final Object valeur = new Object();
             VFS4JPathName VFS4JPathName = getPathName("abc.txt");
             when(attribute.getAttribute(VFS4JPathName, attributName)).thenReturn(valeur);
-
 
             // methode testée
             Object res = auditAttribute.getAttribute(VFS4JPathName, attributName);
@@ -234,7 +228,6 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
             final String attributName = "nom";
             VFS4JPathName VFS4JPathName = getPathName("abc.txt");
             when(attribute.getAttribute(VFS4JPathName, attributName)).thenThrow(new IOException("Error getAttribut"));
-
 
             // methode testée
             IOException exception = assertThrows(IOException.class, () -> auditAttribute.getAttribute(VFS4JPathName, attributName));
@@ -307,7 +300,6 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
             FileTime fileTime = getFileTime();
             when(attribute.setLastModifiedTime(VFS4JPathName, fileTime)).thenThrow(new IOException("Error setLastModifiedTime"));
 
-
             // methode testée
             IOException exception = assertThrows(IOException.class, () -> auditAttribute.setLastModifiedTime(VFS4JPathName, fileTime));
 
@@ -335,7 +327,6 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
             VFS4JPathName VFS4JPathName = getPathName("abc.txt");
             FileTime fileTime = getFileTime();
             when(attribute.getLastModifiedTime(VFS4JPathName)).thenReturn(fileTime);
-
 
             // methode testée
             FileTime res = auditAttribute.getLastModifiedTime(VFS4JPathName);
@@ -377,7 +368,6 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
             final String attributName = "nom";
             VFS4JPathName VFS4JPathName = getPathName("abc.txt");
             when(attribute.getLastModifiedTime(VFS4JPathName)).thenThrow(new IOException("Error getLastModifiedTime"));
-
 
             // methode testée
             IOException exception = assertThrows(IOException.class, () -> auditAttribute.getLastModifiedTime(VFS4JPathName));
