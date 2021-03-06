@@ -33,7 +33,7 @@ public interface VFS4JAttribute {
 
     boolean isHidden(VFS4JPathName path) throws IOException;
 
-    boolean isWritable(VFS4JPathName file);
+    boolean isWritable(VFS4JPathName file) throws IOException;
 
     Map<String, Object> readAttributes(VFS4JPathName file, String attribute, LinkOption... options) throws IOException;
 

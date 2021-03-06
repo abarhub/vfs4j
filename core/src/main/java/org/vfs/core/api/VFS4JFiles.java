@@ -78,7 +78,7 @@ public class VFS4JFiles {
         return getFileManager().getAttribute().isHidden(path);
     }
 
-    public static boolean isWritable(VFS4JPathName file) {
+    public static boolean isWritable(VFS4JPathName file) throws IOException {
         return getFileManager().getAttribute().isWritable(file);
     }
 

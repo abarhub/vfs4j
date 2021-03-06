@@ -266,7 +266,7 @@ class VFS4JFilesTest {
     }
 
     @Test
-    void isWritable() {
+    void isWritable() throws IOException {
         LOGGER.info("isWritable");
         VFS4JPathName VFS4JPathName = getPathName();
 

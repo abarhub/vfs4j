@@ -120,7 +120,7 @@ public class VFS4JSimpleAttribute extends VFS4JAbstractOperation implements VFS4
     }
 
     @Override
-    public boolean isWritable(VFS4JPathName file) {
+    public boolean isWritable(VFS4JPathName file) throws IOException {
         VFS4JValidationUtils.checkNotNull(file, VFS4JErrorMessages.PATH_IS_NULL);
         Path p = getRealFile(file);
         return Files.isWritable(p);

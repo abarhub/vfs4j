@@ -225,12 +225,17 @@ public class VFS4JAuditAttribute extends VFS4JAbstractAuditOperation implements 
     }
 
     @Override
-    public boolean isWritable(VFS4JPathName file) {
+    public boolean isWritable(VFS4JPathName file) throws IOException {
         boolean active = isActive(VFS4JAuditOperation.IS_WRITABLE, file);
         if (active) {
-            boolean res = attribute.isWritable(file);
-            log("isWritable for file {}", file);
-            return res;
+            try {
+                boolean res = attribute.isWritable(file);
+                log("isWritable for file {}", file);
+                return res;
+            } catch (IOException e) {
+                logError("Error for isWritable for file {}", e, file);
+                throw e;
+            }
         } else {
             return attribute.isWritable(file);
         }
