@@ -41,6 +41,7 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
 
     @BeforeEach
     void setUp() {
+        LOGGER.info("setUp");
         VFS4JAuditPlugins vfs4JAuditPlugins = new VFS4JAuditPlugins();
         vfs4JAuditPlugins.addListener(this);
         Map<String, String> config = defautConfig();
@@ -59,13 +60,11 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
             VFS4JPathName VFS4JPathName2 = getPathName("abc.txt");
             VFS4JPathName VFS4JPathNameRes = getPathName("abc2.txt");
 
-            MethodeATester methodeATester = new MethodeATester("setAttribute",
+            return new MethodeATester("setAttribute",
                     Arrays.asList(VFS4JPathName2, attributName, valeur, null), VFS4JPathNameRes,
                     Arrays.asList(VFS4JPathName.class, String.class, Object.class, LinkOption[].class), VFS4JPathName.class,
                     "setAttribute for file {} with attribute {} to {}",
                     Arrays.asList(VFS4JPathName2, attributName, valeur));
-
-            return methodeATester;
         };
         liste.add(Arguments.of(supplier.get()));
 
@@ -323,7 +322,6 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
 
         @Test
         void getLastModifiedTimeOK() throws IOException {
-            final String attributName = "nom";
             VFS4JPathName VFS4JPathName = getPathName("abc.txt");
             FileTime fileTime = getFileTime();
             when(attribute.getLastModifiedTime(VFS4JPathName)).thenReturn(fileTime);
@@ -365,7 +363,6 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
 
         @Test
         void getLastModifiedTimeException() throws IOException {
-            final String attributName = "nom";
             VFS4JPathName VFS4JPathName = getPathName("abc.txt");
             when(attribute.getLastModifiedTime(VFS4JPathName)).thenThrow(new IOException("Error getLastModifiedTime"));
 
@@ -753,7 +750,7 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("isExecutable for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
@@ -789,7 +786,7 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for isExecutable for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -814,7 +811,7 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("isReadable for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
@@ -850,7 +847,7 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for isReadable for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -875,7 +872,7 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("isHidden for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
@@ -911,7 +908,7 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for isHidden for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -936,7 +933,7 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("isWritable for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
@@ -972,7 +969,7 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for isWritable for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -1058,7 +1055,6 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
         @Test
         void readAttributesOK() throws IOException {
             VFS4JPathName VFS4JPathName = getPathName("abc.txt");
-            Map<String, Object> map = new HashMap<>();
             BasicFileAttributes fileAttributes = mock(BasicFileAttributes.class);
             when(attribute.readAttributes(VFS4JPathName, BasicFileAttributes.class)).thenReturn(fileAttributes);
 
@@ -1153,7 +1149,7 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
         return FileTime.from(10, TimeUnit.MINUTES);
     }
 
-    private UserPrincipal getUserPrincipal() throws IOException {
+    private UserPrincipal getUserPrincipal() {
         return mock(UserPrincipal.class);
     }
 

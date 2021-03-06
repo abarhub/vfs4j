@@ -33,6 +33,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
 
     @BeforeEach
     void setUp() {
+        LOGGER.info("setUp");
         VFS4JAuditPlugins vfs4JAuditPlugins = new VFS4JAuditPlugins();
         vfs4JAuditPlugins.addListener(this);
         Map<String, String> config = defautConfig();
@@ -62,7 +63,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("createFile for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
@@ -100,7 +101,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for createFile for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -127,7 +128,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("createDirectory for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
@@ -165,7 +166,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for createDirectory for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -192,7 +193,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("createDirectories for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
@@ -230,7 +231,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for createDirectories for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -253,7 +254,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("delete for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
@@ -287,7 +288,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for delete for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -312,7 +313,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("deleteIfExists for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
@@ -348,7 +349,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for deleteIfExists for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -376,7 +377,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("createLink for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(source), logMessage.getParameters());
+            assertEquals(Collections.singletonList(source), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
@@ -416,7 +417,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for createLink for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(source), logMessage.getParameters());
+            assertEquals(Collections.singletonList(source), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -444,7 +445,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("createSymbolicLink for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(source), logMessage.getParameters());
+            assertEquals(Collections.singletonList(source), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
@@ -484,7 +485,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for createSymbolicLink for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(source), logMessage.getParameters());
+            assertEquals(Collections.singletonList(source), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -579,7 +580,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("copy to file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(target), logMessage.getParameters());
+            assertEquals(Collections.singletonList(target), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
@@ -618,7 +619,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for copy to file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(target), logMessage.getParameters());
+            assertEquals(Collections.singletonList(target), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -645,7 +646,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("copy from file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(source), logMessage.getParameters());
+            assertEquals(Collections.singletonList(source), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
@@ -684,7 +685,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for copy from file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(source), logMessage.getParameters());
+            assertEquals(Collections.singletonList(source), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -780,7 +781,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("write for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(source), logMessage.getParameters());
+            assertEquals(Collections.singletonList(source), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
@@ -820,7 +821,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for write for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(source), logMessage.getParameters());
+            assertEquals(Collections.singletonList(source), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -848,7 +849,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("write for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(source), logMessage.getParameters());
+            assertEquals(Collections.singletonList(source), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
@@ -888,7 +889,7 @@ class VFS4JAuditCommandTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for write for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(source), logMessage.getParameters());
+            assertEquals(Collections.singletonList(source), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 

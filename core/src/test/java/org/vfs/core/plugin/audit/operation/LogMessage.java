@@ -6,13 +6,13 @@ import java.util.List;
 
 public class LogMessage {
 
-    private VFS4JAuditLogLevel logLevel;
+    private final VFS4JAuditLogLevel logLevel;
 
-    private boolean error;
+    private final boolean error;
 
-    private String message;
+    private final String message;
 
-    private List<Object> parameters;
+    private final List<Object> parameters;
 
     public LogMessage(VFS4JAuditLogLevel logLevel, boolean error,
                       String message, List<Object> parameters) {

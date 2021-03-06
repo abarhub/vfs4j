@@ -34,6 +34,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
 
     @BeforeEach
     void setUp() {
+        LOGGER.info("setUp");
         VFS4JAuditPlugins vfs4JAuditPlugins = new VFS4JAuditPlugins();
         vfs4JAuditPlugins.addListener(this);
         Map<String, String> config = defautConfig();
@@ -46,7 +47,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
     class TestExists {
 
         @Test
-        void existsOK() throws IOException {
+        void existsOK() {
             VFS4JPathName VFS4JPathName = getPathName("abc.txt");
             when(query.exists(VFS4JPathName)).thenReturn(true);
 
@@ -61,12 +62,12 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("exists for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
         @Test
-        void existsDisabled() throws IOException {
+        void existsDisabled() {
             VFS4JPathName VFS4JPathName = getPathName("abc.jpg");
             when(query.exists(VFS4JPathName)).thenReturn(true);
 
@@ -81,7 +82,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
         }
 
         @Test
-        void existsException() throws IOException {
+        void existsException() {
             VFS4JPathName VFS4JPathName = getPathName("abc.txt");
             when(query.exists(VFS4JPathName)).thenThrow(new RuntimeException("Error exists"));
 
@@ -97,7 +98,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for exists for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -107,7 +108,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
     class TestIsDirectory {
 
         @Test
-        void isDirectoryOK() throws IOException {
+        void isDirectoryOK() {
             VFS4JPathName VFS4JPathName = getPathName("abc.txt");
             when(query.isDirectory(VFS4JPathName)).thenReturn(true);
 
@@ -122,12 +123,12 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("isDirectory for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
         @Test
-        void isDirectoryDisabled() throws IOException {
+        void isDirectoryDisabled() {
             VFS4JPathName VFS4JPathName = getPathName("abc.jpg");
             when(query.isDirectory(VFS4JPathName)).thenReturn(true);
 
@@ -142,7 +143,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
         }
 
         @Test
-        void isDirectoryException() throws IOException {
+        void isDirectoryException() {
             VFS4JPathName VFS4JPathName = getPathName("abc.txt");
             when(query.isDirectory(VFS4JPathName)).thenThrow(new RuntimeException("Error isDirectory"));
 
@@ -158,7 +159,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for isDirectory for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -168,7 +169,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
     class TestIsRegularFile {
 
         @Test
-        void isRegularFileOK() throws IOException {
+        void isRegularFileOK() {
             VFS4JPathName VFS4JPathName = getPathName("abc.txt");
             when(query.isRegularFile(VFS4JPathName)).thenReturn(true);
 
@@ -183,12 +184,12 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("isRegularFile for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
         @Test
-        void isRegularFileDisabled() throws IOException {
+        void isRegularFileDisabled() {
             VFS4JPathName VFS4JPathName = getPathName("abc.jpg");
             when(query.isRegularFile(VFS4JPathName)).thenReturn(true);
 
@@ -203,7 +204,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
         }
 
         @Test
-        void isRegularFileException() throws IOException {
+        void isRegularFileException() {
             VFS4JPathName VFS4JPathName = getPathName("abc.txt");
             when(query.isRegularFile(VFS4JPathName)).thenThrow(new RuntimeException("Error isRegularFile"));
 
@@ -219,7 +220,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for isRegularFile for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -293,7 +294,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
     class TestIsSymbolicLink {
 
         @Test
-        void isSymbolicLinkOK() throws IOException {
+        void isSymbolicLinkOK() {
             VFS4JPathName VFS4JPathName = getPathName("abc.txt");
             when(query.isSymbolicLink(VFS4JPathName)).thenReturn(true);
 
@@ -308,12 +309,12 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("isSymbolicLink for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
         @Test
-        void isSymbolicLinkDisabled() throws IOException {
+        void isSymbolicLinkDisabled() {
             VFS4JPathName VFS4JPathName = getPathName("abc.jpg");
             when(query.isSymbolicLink(VFS4JPathName)).thenReturn(true);
 
@@ -328,7 +329,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
         }
 
         @Test
-        void isSymbolicLinkException() throws IOException {
+        void isSymbolicLinkException() {
             VFS4JPathName VFS4JPathName = getPathName("abc.txt");
             when(query.isSymbolicLink(VFS4JPathName)).thenThrow(new RuntimeException("Error isSymbolicLink"));
 
@@ -344,7 +345,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for isSymbolicLink for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -371,7 +372,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("lines for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
@@ -409,7 +410,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for lines for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -436,7 +437,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("lines for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
@@ -474,7 +475,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for lines for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -484,7 +485,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
     class TestNotExists {
 
         @Test
-        void isSymbolicLinkOK() throws IOException {
+        void isSymbolicLinkOK() {
             VFS4JPathName VFS4JPathName = getPathName("abc.txt");
             when(query.notExists(VFS4JPathName)).thenReturn(true);
 
@@ -499,12 +500,12 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("notExists for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
         @Test
-        void notExistsDisabled() throws IOException {
+        void notExistsDisabled() {
             VFS4JPathName VFS4JPathName = getPathName("abc.jpg");
             when(query.notExists(VFS4JPathName)).thenReturn(true);
 
@@ -519,7 +520,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
         }
 
         @Test
-        void notExistsException() throws IOException {
+        void notExistsException() {
             VFS4JPathName VFS4JPathName = getPathName("abc.txt");
             when(query.notExists(VFS4JPathName)).thenThrow(new RuntimeException("Error notExists"));
 
@@ -535,7 +536,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for notExists for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -562,7 +563,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("readAllBytes for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
@@ -600,7 +601,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for readAllBytes for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -627,7 +628,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("readAllLines for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
@@ -665,7 +666,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for readAllLines for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -692,7 +693,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("readAllLines for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
@@ -730,7 +731,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for readAllLines for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
@@ -749,7 +750,6 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             long res = auditQuery.size(VFS4JPathName);
 
             // vérifications
-            assertNotNull(res);
             assertEquals(size, res);
             verify(query).size(VFS4JPathName);
             verifyNoMoreInteractions(query);
@@ -757,12 +757,12 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("size for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertFalse(logMessage.isError());
         }
 
         @Test
-        void readAllLinesDisabled() throws IOException {
+        void sizeDisabled() throws IOException {
             VFS4JPathName VFS4JPathName = getPathName("abc.jpg");
             long size = 50;
             when(query.size(VFS4JPathName)).thenReturn(size);
@@ -771,7 +771,6 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             long res = auditQuery.size(VFS4JPathName);
 
             // vérifications
-            assertNotNull(res);
             assertEquals(size, res);
             verify(query).size(VFS4JPathName);
             verifyNoMoreInteractions(query);
@@ -779,7 +778,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
         }
 
         @Test
-        void readAllLinesException() throws IOException {
+        void sizeException() throws IOException {
             VFS4JPathName VFS4JPathName = getPathName("abc.txt");
             when(query.size(VFS4JPathName)).thenThrow(new IOException("Error size"));
 
@@ -795,7 +794,7 @@ class VFS4JAuditQueryTest implements VFS4JLogAudit {
             LogMessage logMessage = listLog.get(0);
             assertEquals(VFS4JAuditLogLevel.INFO, logMessage.getLogLevel());
             assertEquals("Error for size for file {}", logMessage.getMessage());
-            assertEquals(Arrays.asList(VFS4JPathName), logMessage.getParameters());
+            assertEquals(Collections.singletonList(VFS4JPathName), logMessage.getParameters());
             assertTrue(logMessage.isError());
         }
 
