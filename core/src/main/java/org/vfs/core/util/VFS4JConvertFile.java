@@ -128,6 +128,8 @@ public class VFS4JConvertFile {
                             }
                         }
                     }
+                } else if (pathParameter instanceof VFS4JClasspathParameter) {
+                    // on ignore
                 } else {
                     throw new VFS4JInvalideParameterException("Invalide parameter " + name);
                 }
