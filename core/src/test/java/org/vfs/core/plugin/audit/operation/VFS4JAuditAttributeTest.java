@@ -1127,12 +1127,12 @@ class VFS4JAuditAttributeTest implements VFS4JLogAudit {
     }
 
     @Override
-    public void log(VFS4JAuditLogLevel logLevel, boolean error, String message, Object... parameters) {
+    public void log(VFS4JAuditLogLevel logLevel, boolean error, String message, Exception exception, Object... parameters) {
         LogMessage logMessage;
         if (parameters != null && parameters.length > 0) {
-            logMessage = new LogMessage(logLevel, error, message, Arrays.asList(parameters));
+            logMessage = new LogMessage(logLevel, error, message, Arrays.asList(parameters), exception);
         } else {
-            logMessage = new LogMessage(logLevel, error, message, new ArrayList<>());
+            logMessage = new LogMessage(logLevel, error, message, new ArrayList<>(), exception);
         }
         listLog.add(logMessage);
     }

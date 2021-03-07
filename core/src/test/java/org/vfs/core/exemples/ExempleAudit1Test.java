@@ -65,7 +65,7 @@ public class ExempleAudit1Test {
         VFS4JAuditPlugins audit = (VFS4JAuditPlugins) plugins;
         assertNotNull(audit);
         List<String> listeAudit = new ArrayList<>();
-        audit.addListener((x, y, z, t) -> listeAudit.add(x + ";" + y + ";" + MessageFormatter.arrayFormat(z, t).getMessage()));
+        audit.addListener((x, y, z, e, t) -> listeAudit.add(x + ";" + y + ";" + MessageFormatter.arrayFormat(z, t).getMessage()));
 
         // methodes testées
         VFS4JFiles.createFile(new VFS4JPathName("rep01", "fichier01.txt"));
@@ -126,7 +126,7 @@ public class ExempleAudit1Test {
         VFS4JAuditPlugins audit = (VFS4JAuditPlugins) plugins;
         assertNotNull(audit);
         List<String> listeAudit = new ArrayList<>();
-        audit.addListener((x, y, z, t) -> listeAudit.add(x + ";" + y + ";" + MessageFormatter.arrayFormat(z, t).getMessage()));
+        audit.addListener((x, y, z, e, t) -> listeAudit.add(x + ";" + y + ";" + MessageFormatter.arrayFormat(z, t).getMessage()));
 
         // methodes testées
         VFS4JFiles.createFile(new VFS4JPathName("rep01", "fichier01.txt"));
@@ -190,7 +190,7 @@ public class ExempleAudit1Test {
         VFS4JAuditPlugins audit = (VFS4JAuditPlugins) plugins;
         assertNotNull(audit);
         List<String> listeAudit = new ArrayList<>();
-        audit.addListener((x, y, z, t) -> listeAudit.add(x + ";" + y + ";" + MessageFormatter.arrayFormat(z, t).getMessage()));
+        audit.addListener((x, y, z, e, t) -> listeAudit.add(x + ";" + y + ";" + MessageFormatter.arrayFormat(z, t).getMessage()));
 
         // methodes testées
         FileAlreadyExistsException res = assertThrows(FileAlreadyExistsException.class, () -> VFS4JFiles.createFile(new VFS4JPathName("rep03", "fichierErreur01.txt")));

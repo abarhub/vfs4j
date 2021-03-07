@@ -29,7 +29,7 @@ public abstract class VFS4JAbstractAuditOperation {
     }
 
     protected void log(String message, Object... parameters) {
-        sendMessageToListener(false, message, parameters);
+        sendMessageToListener(false, message, null, parameters);
         switch (auditPlugins.getLogLevel()) {
             case ERROR:
                 LOGGER.error(message, parameters);
@@ -49,32 +49,32 @@ public abstract class VFS4JAbstractAuditOperation {
         }
     }
 
-    protected void logError(String message, Exception e, Object... parameters) {
-        sendMessageToListener(true, message, parameters);
+    protected void logError(String message, Exception exception, Object... parameters) {
+        sendMessageToListener(true, message, exception, parameters);
         switch (auditPlugins.getLogLevel()) {
             case ERROR:
-                LOGGER.error(message, parameters, e);
+                LOGGER.error(message, parameters, exception);
                 break;
             case WARN:
-                LOGGER.warn(message, parameters, e);
+                LOGGER.warn(message, parameters, exception);
                 break;
             case INFO:
-                LOGGER.info(message, parameters, e);
+                LOGGER.info(message, parameters, exception);
                 break;
             case DEBUG:
-                LOGGER.debug(message, parameters, e);
+                LOGGER.debug(message, parameters, exception);
                 break;
             case TRACE:
-                LOGGER.trace(message, parameters, e);
+                LOGGER.trace(message, parameters, exception);
                 break;
         }
     }
 
-    private void sendMessageToListener(boolean error, String message, Object[] parameters) {
+    private void sendMessageToListener(boolean error, String message, Exception exception, Object[] parameters) {
         if (auditPlugins.getListener() != null &&
                 !auditPlugins.getListener().isEmpty()) {
             for (VFS4JLogAudit logAudit : auditPlugins.getListener()) {
-                logAudit.log(auditPlugins.getLogLevel(), error, message, parameters);
+                logAudit.log(auditPlugins.getLogLevel(), error, message, exception, parameters);
             }
         }
     }
