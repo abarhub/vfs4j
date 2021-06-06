@@ -30,27 +30,27 @@ Les options :
 
 ## Manipulation des fichiers et répertoires
 
-La création du chemin d'accès se fait avec la classe `org.vfs.core.api.VFS4JPathName`. Le 1er paramètre est le nom du
+La création du chemin d'accès se fait avec la classe `com.github.abarhub.vfs.core.api.VFS4JPathName`. Le 1er paramètre est le nom du
 path. Les autres paramètres sont le chemin à partir de ce nom. Il est conséillé d'utiliser toujours le / pour que le
-chemin fonctionne sous Linux et Windows. On peut aussi utiliser la classe utilitaire `org.vfs.core.api.VFS4JPaths`.
+chemin fonctionne sous Linux et Windows. On peut aussi utiliser la classe utilitaire `com.github.abarhub.vfs.core.api.VFS4JPaths`.
 
 Exemples :
 
 ```java
 VFS4JPathName path=VFS4JPaths.get("app","messages.properties");
-        VFS4JPathName path2=VFS4JPaths.get("app","directory","config/messages.properties");
-        VFS4JPathName path3=new VFS4JPathName("dir1","mydirectory","file01.txt");
+VFS4JPathName path2=VFS4JPaths.get("app","directory","config/messages.properties");
+VFS4JPathName path3=new VFS4JPathName("dir1","mydirectory","file01.txt");
 ```
 
-Ensuite, une fois l'objet créé, il faut utiliser les methodes de la classe `org.vfs.core.api.VFS4JFiles`. Les methodes
+Ensuite, une fois l'objet créé, il faut utiliser les methodes de la classe `com.github.abarhub.vfs.core.api.VFS4JFiles`. Les methodes
 correspondent à celles de la classe `Files`.
 
 Exemples :
 
 ```java
 VFS4JFiles.createFile(path);
-        VFS4JFiles.createDirectories(directory);
-        VFS4JFiles.copy(file1,file2);
+VFS4JFiles.createDirectories(directory);
+VFS4JFiles.copy(file1,file2);
 ```
 
 ## Plugins
@@ -58,8 +58,8 @@ VFS4JFiles.createFile(path);
 ## Création d'un plugin
 
 Pour créer un plugin, il faut créer une classe qui implémente
-l'interface `org.vfs.core.plugin.common.VFS4JPluginsFactory` et une autre pour
-l'interface `org.vfs.core.plugin.common.VFS4JPlugins`. Ensuite, pour activer le plugin, il faut aller dans
+l'interface `com.github.abarhub.vfs.core.plugin.common.VFS4JPluginsFactory` et une autre pour
+l'interface `com.github.abarhub.vfs.core.plugin.common.VFS4JPlugins`. Ensuite, pour activer le plugin, il faut aller dans
 
 ### Plugins Audit
 

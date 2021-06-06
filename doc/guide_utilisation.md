@@ -27,7 +27,7 @@ Il faut créer le fichier de configuration suivant :
 ```code
 vfs.paths.dir1.path=/var/local/dir
 vfs.paths.dir1.readonly=false
-vfs.plugins.plugins1.class=org.vfs.core.plugin.audit.VFS4JAuditPluginsFactory
+vfs.plugins.plugins1.class=com.github.abarhub.vfs.core.plugin.audit.VFS4JAuditPluginsFactory
 vfs.plugins.plugins1.operations=COMMAND
 vfs.plugins.plugins1.filterPath=*.txt
 ```
