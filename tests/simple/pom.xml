@@ -11,7 +11,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.github.abarhub.vfs4j</groupId>
     <artifactId>vfs4j-tests-simple</artifactId>
 
     <properties>

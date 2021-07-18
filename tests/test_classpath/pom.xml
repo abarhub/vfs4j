@@ -10,7 +10,6 @@
         <version>0.3.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.github.abarhub.vfs4j</groupId>
     <artifactId>vfs4j-tests-classpath</artifactId>
 
     <properties>
