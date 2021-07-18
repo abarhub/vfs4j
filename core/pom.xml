@@ -22,28 +22,6 @@
         <mockito-core.version>3.3.3</mockito-core.version>
     </properties>
 
-    <licenses>
-        <license>
-            <name>The Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-    </licenses>
-
-    <developers>
-        <developer>
-            <id>alain.barret</id>
-            <name>Alain Barret</name>
-            <email>abarhub@gmail.com</email>
-        </developer>
-    </developers>
-
-    <scm>
-        <connection>scm:git:https://github.com/abarhub/vfs4j.git</connection>
-        <developerConnection>scm:git:https://github.com/abarhub/vfs4j.git</developerConnection>
-        <url>git:https://github.com/abarhub/filerw.git</url>
-    </scm>
-
-
     <dependencies>
 
         <!-- tests -->
