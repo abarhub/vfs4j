@@ -5,9 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.github.abarhub.vfs4j</groupId>
+        <groupId>io.github.abarhub</groupId>
         <artifactId>vfs4j-tests-parent</artifactId>
-        <version>0.3.0</version>
+        <version>0.3.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>vfs4j-tests-classpath</artifactId>
@@ -63,7 +64,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.vfs4j</groupId>
+            <groupId>io.github.abarhub</groupId>
             <artifactId>vfs4j-core</artifactId>
             <version>${vfs4j-core.version}</version>
         </dependency>
