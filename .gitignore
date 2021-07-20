@@ -33,3 +33,4 @@ tests/vfs4j-tests-parent.iml
 tests/simple/vfs4j-tests.iml
 /tests/test_classpath/target/
 /tests/test_classpath/test_classpath.iml
+core/vfs4j-core.iml

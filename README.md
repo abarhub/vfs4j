@@ -5,6 +5,7 @@
 
 [![codecov](https://codecov.io/gh/abarhub/vfs4j/branch/master/graph/badge.svg)](https://codecov.io/gh/abarhub/vfs4j)
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.abarhub/vfs4j-core/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.github.abarhub/vfs4j-core)
 
 # VFS4J
 C'est une librairie pour virtualiser le systeme de fichier.
