@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.github.abarhub.vfs4j</groupId>
+        <groupId>io.github.abarhub</groupId>
         <artifactId>vfs4j-parent</artifactId>
         <version>0.3.0</version>
     </parent>
@@ -27,6 +27,22 @@
         <junit-jupiter.version>5.5.1</junit-jupiter.version>
         <mockito-core.version>3.3.3</mockito-core.version>
     </properties>
+
+    <distributionManagement>
+
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Repository</name>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Sonatype Repository</name>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+
+    </distributionManagement>
 
     <dependencies>
 

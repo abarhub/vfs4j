@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.github.abarhub.vfs4j</groupId>
+        <groupId>io.github.abarhub</groupId>
         <artifactId>vfs4j-parent</artifactId>
         <version>0.3.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>io.github.abarhub.vfs4j</groupId>
+    <groupId>io.github.abarhub</groupId>
     <artifactId>vfs4j-tests-parent</artifactId>
     <packaging>pom</packaging>
 
