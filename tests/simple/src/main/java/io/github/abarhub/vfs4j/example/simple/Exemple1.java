@@ -4,6 +4,12 @@ import com.google.common.base.Verify;
 import io.github.abarhub.vfs.core.config.VFS4JConfig;
 import io.github.abarhub.vfs.core.config.VFS4JPathMode;
 import io.github.abarhub.vfs.core.config.VFS4JPathParameter;
+import io.github.abarhub.vfs.core.api.VFS4JPathName;
+import io.github.abarhub.vfs.core.api.VFS4JFiles;
+import io.github.abarhub.vfs.core.api.VFS4JDefaultFileManager;
+import io.github.abarhub.vfs.core.api.VFS4JParseConfigFile;
+import io.github.abarhub.vfs.core.api.VFS4JFileManager;
+import io.github.abarhub.vfs.core.api.VFS4JFileManagerBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
