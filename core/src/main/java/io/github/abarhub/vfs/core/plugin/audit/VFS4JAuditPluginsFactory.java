@@ -13,7 +13,7 @@ public class VFS4JAuditPluginsFactory implements VFS4JPluginsFactory {
     private static final Logger LOGGER = VFS4JLoggerFactory.getLogger(VFS4JAuditPluginsFactory.class);
 
     public VFS4JAuditPluginsFactory() {
-        LOGGER.info("create");
+        LOGGER.debug("create");
     }
 
     @Override
