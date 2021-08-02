@@ -1,6 +1,8 @@
 package io.github.abarhub.vfs.core.plugin.unclosed.open;
 
+import io.github.abarhub.vfs.core.api.VFS4JPathName;
 import io.github.abarhub.vfs.core.plugin.unclosed.UnclosableRunnable;
+import io.github.abarhub.vfs.core.plugin.unclosed.VFS4JUnclosedOperation;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -10,9 +12,9 @@ public class UnclosedWriter extends Writer implements UnclosedObjectFinalizer {
     private final Writer writer;
     private final UnclosedFinalizer unclosedFinalizer;
 
-    public UnclosedWriter(Writer writer, UnclosableRunnable unclosableRunnable) {
+    public UnclosedWriter(Writer writer, UnclosableRunnable unclosableRunnable, VFS4JPathName pathName) {
         this.writer = writer;
-        this.unclosedFinalizer = unclosableRunnable.newUnclosedFinalizer(this);
+        this.unclosedFinalizer = unclosableRunnable.newUnclosedFinalizer(this, pathName, VFS4JUnclosedOperation.NEW_WRITER);
         unclosableRunnable.add(this);
     }
 

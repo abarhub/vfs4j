@@ -1,7 +1,7 @@
 package io.github.abarhub.vfs.core.plugin.unclosed;
 
+import io.github.abarhub.vfs.core.api.VFS4JPathName;
 import io.github.abarhub.vfs.core.plugin.unclosed.open.UnclosedFinalizer;
-import io.github.abarhub.vfs.core.plugin.unclosed.open.UnclosedInputStream;
 import io.github.abarhub.vfs.core.plugin.unclosed.open.UnclosedObjectFinalizer;
 import io.github.abarhub.vfs.core.util.VFS4JLoggerFactory;
 import org.slf4j.Logger;
@@ -18,10 +18,14 @@ public class UnclosableRunnable implements Runnable {
     private final ReferenceQueue<UnclosedFinalizer> referenceQueue;
     private boolean stop = false;
     private final List<UnclosedFinalizer> listReference;
+    private final UnclosedConfig config;
+    private final VFS4JUnclosedPlugins vfs4JUnclosedPlugins;
 
-    public UnclosableRunnable() {
+    public UnclosableRunnable(UnclosedConfig config, VFS4JUnclosedPlugins vfs4JUnclosedPlugins) {
         this.referenceQueue = new ReferenceQueue<>();
         listReference = new CopyOnWriteArrayList<>();
+        this.config = config;
+        this.vfs4JUnclosedPlugins = vfs4JUnclosedPlugins;
     }
 
     @Override
@@ -53,7 +57,7 @@ public class UnclosableRunnable implements Runnable {
         listReference.add(tmp.getUnclosedFinalizer());
     }
 
-    public UnclosedFinalizer newUnclosedFinalizer(UnclosedObjectFinalizer object) {
-        return new UnclosedFinalizer(object, this.referenceQueue);
+    public UnclosedFinalizer newUnclosedFinalizer(UnclosedObjectFinalizer object, VFS4JPathName pathName, VFS4JUnclosedOperation operation) {
+        return new UnclosedFinalizer(object, this.referenceQueue, pathName, config, operation, vfs4JUnclosedPlugins);
     }
 }

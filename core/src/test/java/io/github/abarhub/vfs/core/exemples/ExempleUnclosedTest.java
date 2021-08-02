@@ -6,9 +6,10 @@ import io.github.abarhub.vfs.core.api.VFS4JPathName;
 import io.github.abarhub.vfs.core.api.operation.VFS4JOpen;
 import io.github.abarhub.vfs.core.config.VFS4JConfig;
 import io.github.abarhub.vfs.core.plugin.unclosed.UnclosableRunnable;
+import io.github.abarhub.vfs.core.plugin.unclosed.UnclosedConfig;
+import io.github.abarhub.vfs.core.plugin.unclosed.VFS4JUnclosedOperation;
 import io.github.abarhub.vfs.core.plugin.unclosed.VFS4JUnclosedPlugins;
 import io.github.abarhub.vfs.core.plugin.unclosed.open.UnclosedFinalizer;
-import io.github.abarhub.vfs.core.plugin.unclosed.open.UnclosedInputStream;
 import io.github.abarhub.vfs.core.plugin.unclosed.open.UnclosedObjectFinalizer;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
@@ -273,10 +274,19 @@ public class ExempleUnclosedTest {
     }
 
     private VFS4JUnclosedPlugins getVfs4JUnclosedPlugins(List<Long> listObject, List<Long> listObjectNotClosed) {
-        UnclosableRunnable unclosableRunnable = new UnclosableRunnable() {
+        UnclosedConfig config = new UnclosedConfig();
+        UnclosableRunnable tab[] = new UnclosableRunnable[1];
+
+        VFS4JUnclosedPlugins vfs4JUnclosedPlugins = new VFS4JUnclosedPlugins() {
             @Override
-            public UnclosedFinalizer newUnclosedFinalizer(UnclosedObjectFinalizer unclosedInputStream) {
-                return new UnclosedFinalizer(unclosedInputStream, getReferenceQueue()) {
+            protected UnclosableRunnable newUnclosableRunnable(UnclosedConfig unclosedConfig) {
+                return tab[0];
+            }
+        };
+        UnclosableRunnable unclosableRunnable = new UnclosableRunnable(config, vfs4JUnclosedPlugins) {
+            @Override
+            public UnclosedFinalizer newUnclosedFinalizer(UnclosedObjectFinalizer unclosedInputStream, VFS4JPathName pathName, VFS4JUnclosedOperation operation) {
+                return new UnclosedFinalizer(unclosedInputStream, getReferenceQueue(), pathName, config, operation, vfs4JUnclosedPlugins) {
                     @Override
                     public void finalizeResources() {
                         super.finalizeResources();
@@ -288,13 +298,8 @@ public class ExempleUnclosedTest {
                 };
             }
         };
+        tab[0] = unclosableRunnable;
 
-        VFS4JUnclosedPlugins vfs4JUnclosedPlugins = new VFS4JUnclosedPlugins() {
-            @Override
-            protected UnclosableRunnable newUnclosableRunnable() {
-                return unclosableRunnable;
-            }
-        };
         return vfs4JUnclosedPlugins;
     }
 }

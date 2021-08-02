@@ -1,6 +1,8 @@
 package io.github.abarhub.vfs.core.plugin.unclosed.open;
 
+import io.github.abarhub.vfs.core.api.VFS4JPathName;
 import io.github.abarhub.vfs.core.plugin.unclosed.UnclosableRunnable;
+import io.github.abarhub.vfs.core.plugin.unclosed.VFS4JUnclosedOperation;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -10,9 +12,9 @@ public class UnclosedOutputStream extends OutputStream implements UnclosedObject
     private final OutputStream outputStream;
     private final UnclosedFinalizer unclosedFinalizer;
 
-    public UnclosedOutputStream(OutputStream outputStream, UnclosableRunnable unclosableRunnable) {
+    public UnclosedOutputStream(OutputStream outputStream, UnclosableRunnable unclosableRunnable, VFS4JPathName pathName) {
         this.outputStream = outputStream;
-        this.unclosedFinalizer = unclosableRunnable.newUnclosedFinalizer(this);
+        this.unclosedFinalizer = unclosableRunnable.newUnclosedFinalizer(this, pathName, VFS4JUnclosedOperation.NEW_OUTPUT_STREAM);
         unclosableRunnable.add(this);
     }
 
@@ -35,6 +37,7 @@ public class UnclosedOutputStream extends OutputStream implements UnclosedObject
     public void close() throws IOException {
         unclosedFinalizer.closed();
         outputStream.close();
+        super.close();
     }
 
     @Override

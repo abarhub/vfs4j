@@ -1,6 +1,8 @@
 package io.github.abarhub.vfs.core.plugin.unclosed.open;
 
+import io.github.abarhub.vfs.core.api.VFS4JPathName;
 import io.github.abarhub.vfs.core.plugin.unclosed.UnclosableRunnable;
+import io.github.abarhub.vfs.core.plugin.unclosed.VFS4JUnclosedOperation;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -11,9 +13,9 @@ public class UnclosedReader extends Reader implements UnclosedObjectFinalizer {
     private final Reader reader;
     private final UnclosedFinalizer unclosedFinalizer;
 
-    public UnclosedReader(Reader reader, UnclosableRunnable unclosableRunnable) {
+    public UnclosedReader(Reader reader, UnclosableRunnable unclosableRunnable, VFS4JPathName pathName) {
         this.reader = reader;
-        this.unclosedFinalizer = unclosableRunnable.newUnclosedFinalizer(this);
+        this.unclosedFinalizer = unclosableRunnable.newUnclosedFinalizer(this, pathName, VFS4JUnclosedOperation.NEW_READER);
         unclosableRunnable.add(this);
     }
 

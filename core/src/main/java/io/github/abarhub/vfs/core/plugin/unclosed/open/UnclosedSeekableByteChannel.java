@@ -1,6 +1,8 @@
 package io.github.abarhub.vfs.core.plugin.unclosed.open;
 
+import io.github.abarhub.vfs.core.api.VFS4JPathName;
 import io.github.abarhub.vfs.core.plugin.unclosed.UnclosableRunnable;
+import io.github.abarhub.vfs.core.plugin.unclosed.VFS4JUnclosedOperation;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -11,9 +13,9 @@ public class UnclosedSeekableByteChannel implements SeekableByteChannel, Unclose
     private final SeekableByteChannel seekableByteChannel;
     private final UnclosedFinalizer unclosedFinalizer;
 
-    public UnclosedSeekableByteChannel(SeekableByteChannel seekableByteChannel, UnclosableRunnable unclosableRunnable) {
+    public UnclosedSeekableByteChannel(SeekableByteChannel seekableByteChannel, UnclosableRunnable unclosableRunnable, VFS4JPathName pathName) {
         this.seekableByteChannel = seekableByteChannel;
-        this.unclosedFinalizer = unclosableRunnable.newUnclosedFinalizer(this);
+        this.unclosedFinalizer = unclosableRunnable.newUnclosedFinalizer(this, pathName, VFS4JUnclosedOperation.NEW_BYTE_CHANNEL);
         unclosableRunnable.add(this);
     }
 

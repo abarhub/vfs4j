@@ -25,31 +25,31 @@ public class VFS4JUnclosedOpen implements VFS4JOpen {
 
     @Override
     public InputStream newInputStream(VFS4JPathName pathName, OpenOption... options) throws IOException {
-        return new UnclosedInputStream(open.newInputStream(pathName, options), this.unclosableRunnable);
+        return new UnclosedInputStream(open.newInputStream(pathName, options), this.unclosableRunnable, pathName);
     }
 
     @Override
     public OutputStream newOutputStream(VFS4JPathName pathName, OpenOption... options) throws IOException {
-        return new UnclosedOutputStream(open.newOutputStream(pathName, options), this.unclosableRunnable);
+        return new UnclosedOutputStream(open.newOutputStream(pathName, options), this.unclosableRunnable, pathName);
     }
 
     @Override
     public Reader newReader(VFS4JPathName pathName) throws IOException {
-        return new UnclosedReader(open.newReader(pathName), this.unclosableRunnable);
+        return new UnclosedReader(open.newReader(pathName), this.unclosableRunnable, pathName);
     }
 
     @Override
     public Writer newWriter(VFS4JPathName pathName, boolean append) throws IOException {
-        return new UnclosedWriter(open.newWriter(pathName, append), this.unclosableRunnable);
+        return new UnclosedWriter(open.newWriter(pathName, append), this.unclosableRunnable, pathName);
     }
 
     @Override
     public SeekableByteChannel newByteChannel(VFS4JPathName pathName, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
-        return new UnclosedSeekableByteChannel(open.newByteChannel(pathName, options, attrs), this.unclosableRunnable);
+        return new UnclosedSeekableByteChannel(open.newByteChannel(pathName, options, attrs), this.unclosableRunnable, pathName);
     }
 
     @Override
     public DirectoryStream<VFS4JPathName> newDirectoryStream(VFS4JPathName pathName, DirectoryStream.Filter<? super VFS4JPathName> filter) throws IOException {
-        return new UnclosedDirectoryStream(open.newDirectoryStream(pathName, filter), this.unclosableRunnable);
+        return new UnclosedDirectoryStream(open.newDirectoryStream(pathName, filter), this.unclosableRunnable, pathName);
     }
 }
