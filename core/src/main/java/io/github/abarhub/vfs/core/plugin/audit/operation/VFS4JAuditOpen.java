@@ -56,12 +56,12 @@ public class VFS4JAuditOpen extends VFS4JAbstractAuditOperation implements VFS4J
     }
 
     @Override
-    public FileReader newReader(VFS4JPathName pathName) throws IOException {
+    public Reader newReader(VFS4JPathName pathName) throws IOException {
         boolean active = isActive(VFS4JAuditOperation.NEW_READER, pathName);
         if (active) {
 
             try {
-                FileReader res = open.newReader(pathName);
+                Reader res = open.newReader(pathName);
                 log("newReader for file {}", pathName);
                 return res;
             } catch (IOException e) {
@@ -74,11 +74,11 @@ public class VFS4JAuditOpen extends VFS4JAbstractAuditOperation implements VFS4J
     }
 
     @Override
-    public FileWriter newWriter(VFS4JPathName pathName, boolean append) throws IOException {
+    public Writer newWriter(VFS4JPathName pathName, boolean append) throws IOException {
         boolean active = isActive(VFS4JAuditOperation.NEW_WRITER, pathName);
         if (active) {
             try {
-                FileWriter res = open.newWriter(pathName, append);
+                Writer res = open.newWriter(pathName, append);
                 log("newWriter for file {}", pathName);
                 return res;
             } catch (IOException e) {

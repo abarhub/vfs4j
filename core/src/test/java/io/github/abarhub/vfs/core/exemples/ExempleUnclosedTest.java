@@ -9,6 +9,7 @@ import io.github.abarhub.vfs.core.plugin.unclosed.UnclosableRunnable;
 import io.github.abarhub.vfs.core.plugin.unclosed.VFS4JUnclosedPlugins;
 import io.github.abarhub.vfs.core.plugin.unclosed.open.UnclosedFinalizer;
 import io.github.abarhub.vfs.core.plugin.unclosed.open.UnclosedInputStream;
+import io.github.abarhub.vfs.core.plugin.unclosed.open.UnclosedObjectFinalizer;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -251,7 +252,7 @@ public class ExempleUnclosedTest {
         }
 
         @Override
-        public FileReader newReader(VFS4JPathName pathName) throws IOException {
+        public Reader newReader(VFS4JPathName pathName) throws IOException {
             return null;
         }
 
@@ -274,7 +275,7 @@ public class ExempleUnclosedTest {
     private VFS4JUnclosedPlugins getVfs4JUnclosedPlugins(List<Long> listObject, List<Long> listObjectNotClosed) {
         UnclosableRunnable unclosableRunnable = new UnclosableRunnable() {
             @Override
-            public UnclosedFinalizer newUnclosedFinalizer(UnclosedInputStream unclosedInputStream) {
+            public UnclosedFinalizer newUnclosedFinalizer(UnclosedObjectFinalizer unclosedInputStream) {
                 return new UnclosedFinalizer(unclosedInputStream, getReferenceQueue()) {
                     @Override
                     public void finalizeResources() {

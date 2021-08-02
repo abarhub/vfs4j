@@ -2,7 +2,7 @@ package io.github.abarhub.vfs.core.plugin.unclosed;
 
 import io.github.abarhub.vfs.core.api.VFS4JPathName;
 import io.github.abarhub.vfs.core.api.operation.VFS4JOpen;
-import io.github.abarhub.vfs.core.plugin.unclosed.open.UnclosedInputStream;
+import io.github.abarhub.vfs.core.plugin.unclosed.open.*;
 
 import java.io.*;
 import java.nio.channels.SeekableByteChannel;
@@ -30,26 +30,26 @@ public class VFS4JUnclosedOpen implements VFS4JOpen {
 
     @Override
     public OutputStream newOutputStream(VFS4JPathName pathName, OpenOption... options) throws IOException {
-        return null;
+        return new UnclosedOutputStream(open.newOutputStream(pathName, options), this.unclosableRunnable);
     }
 
     @Override
-    public FileReader newReader(VFS4JPathName pathName) throws IOException {
-        return null;
+    public Reader newReader(VFS4JPathName pathName) throws IOException {
+        return new UnclosedReader(open.newReader(pathName), this.unclosableRunnable);
     }
 
     @Override
-    public FileWriter newWriter(VFS4JPathName pathName, boolean append) throws IOException {
-        return null;
+    public Writer newWriter(VFS4JPathName pathName, boolean append) throws IOException {
+        return new UnclosedWriter(open.newWriter(pathName, append), this.unclosableRunnable);
     }
 
     @Override
     public SeekableByteChannel newByteChannel(VFS4JPathName pathName, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
-        return null;
+        return new UnclosedSeekableByteChannel(open.newByteChannel(pathName, options, attrs), this.unclosableRunnable);
     }
 
     @Override
     public DirectoryStream<VFS4JPathName> newDirectoryStream(VFS4JPathName pathName, DirectoryStream.Filter<? super VFS4JPathName> filter) throws IOException {
-        return null;
+        return new UnclosedDirectoryStream(open.newDirectoryStream(pathName, filter), this.unclosableRunnable);
     }
 }

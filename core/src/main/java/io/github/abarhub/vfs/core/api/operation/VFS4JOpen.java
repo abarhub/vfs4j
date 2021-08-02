@@ -14,9 +14,9 @@ public interface VFS4JOpen {
 
     OutputStream newOutputStream(VFS4JPathName pathName, OpenOption... options) throws IOException;
 
-    FileReader newReader(VFS4JPathName pathName) throws IOException;
+    Reader newReader(VFS4JPathName pathName) throws IOException;
 
-    FileWriter newWriter(VFS4JPathName pathName, boolean append) throws IOException;
+    Writer newWriter(VFS4JPathName pathName, boolean append) throws IOException;
 
     SeekableByteChannel newByteChannel(VFS4JPathName pathName, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException;
 

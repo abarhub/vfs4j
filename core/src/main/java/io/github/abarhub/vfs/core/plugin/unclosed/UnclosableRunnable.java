@@ -2,6 +2,7 @@ package io.github.abarhub.vfs.core.plugin.unclosed;
 
 import io.github.abarhub.vfs.core.plugin.unclosed.open.UnclosedFinalizer;
 import io.github.abarhub.vfs.core.plugin.unclosed.open.UnclosedInputStream;
+import io.github.abarhub.vfs.core.plugin.unclosed.open.UnclosedObjectFinalizer;
 import io.github.abarhub.vfs.core.util.VFS4JLoggerFactory;
 import org.slf4j.Logger;
 
@@ -48,11 +49,11 @@ public class UnclosableRunnable implements Runnable {
         this.stop = true;
     }
 
-    public void add(UnclosedInputStream tmp) {
+    public void add(UnclosedObjectFinalizer tmp) {
         listReference.add(tmp.getUnclosedFinalizer());
     }
 
-    public UnclosedFinalizer newUnclosedFinalizer(UnclosedInputStream unclosedInputStream) {
-        return new UnclosedFinalizer(unclosedInputStream, this.referenceQueue);
+    public UnclosedFinalizer newUnclosedFinalizer(UnclosedObjectFinalizer object) {
+        return new UnclosedFinalizer(object, this.referenceQueue);
     }
 }

@@ -150,11 +150,11 @@ public class VFS4JFiles {
         return getFileManager().getOpen().newOutputStream(pathName, options);
     }
 
-    public static FileReader newReader(VFS4JPathName pathName) throws IOException {
+    public static Reader newReader(VFS4JPathName pathName) throws IOException {
         return getFileManager().getOpen().newReader(pathName);
     }
 
-    public static FileWriter newWriter(VFS4JPathName pathName, boolean append) throws IOException {
+    public static Writer newWriter(VFS4JPathName pathName, boolean append) throws IOException {
         return getFileManager().getOpen().newWriter(pathName, append);
     }
 

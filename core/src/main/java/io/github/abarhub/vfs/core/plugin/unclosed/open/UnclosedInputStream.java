@@ -5,7 +5,7 @@ import io.github.abarhub.vfs.core.plugin.unclosed.UnclosableRunnable;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class UnclosedInputStream extends InputStream {
+public class UnclosedInputStream extends InputStream implements UnclosedObjectFinalizer {
 
     private final InputStream inputStream;
     private final UnclosedFinalizer unclosedFinalizer;

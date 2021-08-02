@@ -590,7 +590,7 @@ class VFS4JFilesTest {
         when(fileManager.getOpen().newReader(VFS4JPathName)).thenReturn(fileReader);
 
         // methode testée
-        FileReader res = VFS4JFiles.newReader(VFS4JPathName);
+        Reader res = VFS4JFiles.newReader(VFS4JPathName);
 
         // vérification
         assertEquals(fileReader, res);
@@ -609,7 +609,7 @@ class VFS4JFilesTest {
         when(fileManager.getOpen().newWriter(VFS4JPathName, append)).thenReturn(fileWriter);
 
         // methode testée
-        FileWriter res = VFS4JFiles.newWriter(VFS4JPathName, append);
+        Writer res = VFS4JFiles.newWriter(VFS4JPathName, append);
 
         // vérification
         assertEquals(fileWriter, res);
