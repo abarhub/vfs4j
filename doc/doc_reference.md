@@ -65,6 +65,7 @@ l'interface `VFS4JPlugins`. Ensuite, pour activer le plugin, il faut aller dans
 Il existe un plugin pour auditer les opérations. Cela permet de logger les actions qui sont faites sur le FS. 
 
 
+## Plugins Unclosed
 
-
+Il existe un plugin pour détecter si un fichier ouvert n'a pas été fermé.
 

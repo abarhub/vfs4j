@@ -16,8 +16,8 @@ Ensuite dans le code il faut faire :
 
 ```java
 VFS4JFiles.createFile(new VFS4JPathName("dir1","file01.txt"));
-        VFS4JFiles.createDirectories(new VFS4JPathName("dir2","direcory1/dir2/dir3"));
-        VFS4JFiles.copy(new VFS4JPathName("dir1","file01.txt"),new VFS4JPathName("dir2","file01.txt"));
+VFS4JFiles.createDirectories(new VFS4JPathName("dir2","direcory1/dir2/dir3"));
+VFS4JFiles.copy(new VFS4JPathName("dir1","file01.txt"),new VFS4JPathName("dir2","file01.txt"));
 ```
 
 ## Exemple plugin audit
