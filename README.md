@@ -17,7 +17,7 @@ Pour ajouter la dépendance, il faut ajouter dans le pom de maven :
 <dependency>
   <groupId>io.github.abarhub</groupId>
   <artifactId>vfs4j-core</artifactId>
-  <version>0.3.0</version>
+  <version>0.4.0</version>
 </dependency>
 ```
 

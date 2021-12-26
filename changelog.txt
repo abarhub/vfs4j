@@ -1,3 +1,7 @@
 * version 0.3.0 : 18/07/2021
 -deploy maven central
 -change package to io.github.abarhub.vfs4j for maven deploiment
+
+* version 0.4.0 : 26/12/2021
+-correction de la version de log4j dans les tests pour utiliser la version 2.17.0
+-ajout d'un plugin pour détecter les fichiers non fermés
