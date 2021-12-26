@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>vfs4j-core</artifactId>
-    <version>0.4.0</version>
+    <version>0.4.0-SNAPSHOT</version>
 
     <scm>
         <connection>scm:git:https://github.com/abarhub/vfs4j.git</connection>
