@@ -64,8 +64,118 @@ l'interface `VFS4JPlugins`. Ensuite, pour activer le plugin, il faut aller dans
 
 Il existe un plugin pour auditer les opérations. Cela permet de logger les actions qui sont faites sur le FS. 
 
+Pour l'activer, il faut ajouter le parametre :
+```properties
+vfs.plugins.XXX.class=io.github.abarhub.vfs.core.plugin.audit.VFS4JAuditPluginsFactory
+```
+en remplaçant XXX par le nom du plugin.
 
-## Plugins Unclosed
+Voici un exemple d'utilisation :
+```properties
+vfs.plugins.plugins1.class=io.github.abarhub.vfs.core.plugin.audit.VFS4JAuditPluginsFactory
+vfs.plugins.plugins1.operations=COMMAND
+vfs.plugins.plugins1.filterPath=*.txt
+```
 
-Il existe un plugin pour détecter si un fichier ouvert n'a pas été fermé.
+La liste des paramètres est :
+
+| Nom du Parametre | Valeurs possibles          | Description                                                                       |
+|------------------|----------------------------|-----------------------------------------------------------------------------------|
+| operations       | COMMAND, ...               | La liste des opérations ou des groupes d'opérations. Le séparateur est la virgule |
+| filterPath       | \*.txt, /etc/\*\*/\*.ini   | Un glob. Le séparateur est la virgule. Par défaut, tout est logué                 |
+| loglevel         | INFO, ERROR, DEBUG, etc... | Le niveau de log. Par défaut, le niveau de log est info                           |
+
+Les logs sont associés à `io.github.abarhub.vfs.core.plugin.audit.VFS4JAuditPlugins`
+La liste des opération défini plus bas.
+
+Exemple de log :
+```
+16:56:51.409 [main] INFO  io.github.abarhub.vfs.core.plugin.audit.VFS4JAuditPlugins - createFile for file rep01:fichier01.txt
+```
+
+### Plugins Unclosed
+
+Il existe un plugin pour détecter si un fichier ouvert n'a pas été fermé. Il détecte si un fichier n'est pas fermé 
+alors qu'il n'est plus utilisé.
+
+Voici un exemple de paramétrage :
+```properties
+vfs.plugins.plugins1.class=io.github.abarhub.vfs.core.plugin.audit.VFS4JUnclosedPluginsFactory
+vfs.plugins.plugins1.operations=NEW_INPUT_STREAM,NEW_OUTPUT_STREAM
+vfs.plugins.plugins1.loglevel=WARN
+vfs.plugins.plugins1.filterPath=*.txt
+vfs.plugins.plugins1.logopen=true
+vfs.plugins.plugins1.logclose=true
+vfs.plugins.plugins1.exceptionlogopen=true
+vfs.plugins.plugins1.exceptionlogclose=true
+vfs.plugins.plugins1.logIfNotClosedAfterMs=2500
+```
+
+La liste des paramètres est :
+
+| Nom du Parametre      | Valeurs possibles          | Description                                                                                                    |
+|-----------------------|----------------------------|----------------------------------------------------------------------------------------------------------------|
+| operations            | COMMAND, ...               | La liste des opérations ou des groupes d'opérations. Le séparateur est la virgule                              |
+| filterPath            | \*.txt, /etc/\*\*/\*.ini   | Un glob. Le séparateur est la virgule. Par défaut, tout est logué                                              |
+| loglevel              | INFO, ERROR, DEBUG, etc... | Le niveau de log. Par défaut, le niveau de log est info                                                        |
+| logopen               | true/false                 | Si à true, les ouvertures sont loguées                                                                         |
+| logclose              | true/false                 | Si à true, les fermetures sont loguées                                                                         |
+| exceptionlogopen      | true/false                 | Si à true, les ouvertures sont loguées avec une exception ce qui permet de savoir quel code a fait l'ouverture |
+| exceptionlogclose     | true/false                 | Si à true, les fermetures sont loguées avec une exception ce qui permet de savoir quel code a fait l'ouverture |
+| logIfNotClosedAfterMs | true/false                 | Si à true, les ouvertures qui ne sont pas fermé au bout de ce temps sont loguées                               |
+
+##  Les opérations
+
+
+La liste des opérations :
+* Les opération d'ouverture ou vermeture de flux (groupe d'opération COMMAND) : 
+  * NEW_INPUT_STREAM, 
+  * NEW_OUTPUT_STREAM, 
+  * NEW_READER, 
+  * NEW_WRITER, 
+  * NEW_BYTE_CHANNEL, 
+  * NEW_DIRECTORY_STREAM,
+* Les opération de modification de fichiers (groupe d'opération ATTRIBUTE) :
+  * CREATE_FILE, 
+  * CREATE_DIRECTORY, 
+  * CREATE_DIRECTORIES, 
+  * DELETE, 
+  * DELETE_IF_EXISTS, 
+  * CREATE_LINK, 
+  * CREATE_SYMBOLIC_LINK, 
+  * COPY,   
+  * MOVE, 
+  * WRITE,
+* Les opération sur les attributs de fichiers (groupe d'opération OPEN) :
+  * SET_ATTRIBUTE, 
+  * SET_LAST_MODIFIED_TIME, 
+  * SET_OWNER, 
+  * SET_POSIX_FILE_PERMISSIONS, 
+  * GET_ATTRIBUTE, 
+  * GET_FILE_ATTRIBUTE_VIEW,
+  * GET_LAST_MODIFIED_TIME, 
+  * GET_OWNER,
+  * GET_POSIX_FILE_PERMISSIONS,
+  * IS_EXECUTABLE,
+  * IS_READABLE,
+  * IS_HIDDEN,
+  * IS_WRITABLE,
+  * READ_ATTRIBUTES,
+* Les opération de parcourt de fichier (groupe d'opération SEARCH) :
+  * LIST, 
+  * WALK,
+  * FIND,
+* Les opérations de lecture (groupe d'opération QUERY) :
+  * EXISTS,
+  * IS_DIRECTORY,
+  * IS_REGULAR_FILE,
+  * IS_SAME_FILE,
+  * IS_SYMBOLIC_LINK,
+  * LINES,
+  * NOT_EXISTS,
+  * READ_ALL_BYTES,
+  * READ_ALL_LINES,
+  * SIZE
+
+
 
