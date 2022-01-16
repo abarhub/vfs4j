@@ -5,3 +5,7 @@
 * version 0.4.0 : 26/12/2021
 -correction de la version de log4j dans les tests pour utiliser la version 2.17.0
 -ajout d'un plugin pour détecter les fichiers non fermés
+
+* version 0.5.0 : 16/01/2022
+-ajout des méthodes pour manipuler le path dans la classe VFS4JPathName
+-amélioration de la documentation
