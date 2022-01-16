@@ -5,6 +5,8 @@ import io.github.abarhub.vfs.core.util.VFS4JValidationUtils;
 import java.util.Arrays;
 import java.util.List;
 
+import static io.github.abarhub.vfs.core.util.VFS4JConstants.PATH_SEPARATOR;
+
 public class VFS4JPaths {
 
     private VFS4JPaths() {
@@ -19,7 +21,7 @@ public class VFS4JPaths {
             pathName = new VFS4JPathName(name, path[0]);
         } else {
             List<String> list = Arrays.asList(path);
-            String paths = String.join("/", list);
+            String paths = String.join(PATH_SEPARATOR, list);
             pathName = new VFS4JPathName(name, paths);
         }
         return pathName;
