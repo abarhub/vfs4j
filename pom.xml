@@ -6,7 +6,7 @@
 
     <groupId>io.github.abarhub</groupId>
     <artifactId>vfs4j-parent</artifactId>
-    <version>0.5.0-SNAPSHOT</version>
+    <version>0.5.0</version>
     <packaging>pom</packaging>
 
     <licenses>
