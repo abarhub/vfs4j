@@ -50,10 +50,15 @@ public class VFS4JPathName {
             return this;
         } else {
             int pos = path.lastIndexOf(VFS4JConstants.PATH_SEPARATOR);
-            if (pos == -1) {
+            int pos2 = path.lastIndexOf(VFS4JConstants.PATH_WINDOWS_SEPARATOR);
+            if (pos == -1 && pos2 == -1) {
                 return new VFS4JPathName(name, "");
-            } else {
+            } else if (pos != -1 && pos2 == -1) {
                 return new VFS4JPathName(name, path.substring(0, pos));
+            } else if (pos == -1 && pos2 != -1) {
+                return new VFS4JPathName(name, path.substring(0, pos2));
+            } else {
+                return new VFS4JPathName(name, path.substring(0, Math.max(pos, pos2)));
             }
         }
     }
@@ -62,7 +67,7 @@ public class VFS4JPathName {
      * Return a new VFS4JPathName with :
      * name = this.name
      * path = this.path+"/"+path
-     * if path end with "/" or path start with "/", "/" is not added
+     * if path end with "/" ou "\\" or path start with "/" or "\\", "/" is not added
      *
      * @param path path to append
      * @return a new VFS4JPathName
@@ -72,8 +77,8 @@ public class VFS4JPathName {
             return this;
         } else {
             String pathComplet = this.path;
-            if (pathComplet.endsWith(VFS4JConstants.PATH_SEPARATOR) ||
-                    path.startsWith(VFS4JConstants.PATH_SEPARATOR)) {
+            if (endsWithSeparator(pathComplet) ||
+                    startsWithSeparator(path)) {
                 pathComplet += path;
             } else {
                 pathComplet += VFS4JConstants.PATH_SEPARATOR + path;
@@ -89,10 +94,10 @@ public class VFS4JPathName {
      */
     public int getNameCount() {
         String path = this.path;
-        if (path.startsWith(VFS4JConstants.PATH_SEPARATOR)) {
+        if (startsWithSeparator(path)) {
             path = path.substring(1);
         }
-        String[] pathList = path.split(VFS4JConstants.PATH_SEPARATOR);
+        String[] pathList = splitPath(path);
         return pathList.length;
     }
 
@@ -105,10 +110,10 @@ public class VFS4JPathName {
     public String getName(int no) {
         VFS4JValidationUtils.checkParameter(no >= 0 && no < getNameCount(), "No is invalid");
         String path = this.path;
-        if (path.startsWith(VFS4JConstants.PATH_SEPARATOR)) {
+        if (startsWithSeparator(path)) {
             path = path.substring(1);
         }
-        String[] pathList = path.split(VFS4JConstants.PATH_SEPARATOR);
+        String[] pathList = splitPath(path);
         return pathList[no];
     }
 
@@ -123,16 +128,16 @@ public class VFS4JPathName {
         } else {
             String path = this.path;
             String begin = "";
-            while (path.startsWith(VFS4JConstants.PATH_SEPARATOR)) {
+            while (startsWithSeparator(path)) {
                 begin = begin + path.substring(0, 1);
                 path = path.substring(1);
             }
             String end = "";
-            while (path.endsWith(VFS4JConstants.PATH_SEPARATOR)) {
+            while (endsWithSeparator(path)) {
                 end = path.substring(path.length() - 1) + end;
                 path = path.substring(0, path.length() - 1);
             }
-            String[] pathArray = path.split(VFS4JConstants.PATH_SEPARATOR);
+            String[] pathArray = splitPath(path);
             List<String> pathList = new ArrayList<>();
             for (String s : pathArray) {
                 if (s != null) {
@@ -152,6 +157,18 @@ public class VFS4JPathName {
         }
     }
 
+    private boolean startsWithSeparator(String path) {
+        return path != null && (path.startsWith(VFS4JConstants.PATH_SEPARATOR) || path.startsWith(VFS4JConstants.PATH_WINDOWS_SEPARATOR));
+    }
+
+    private boolean endsWithSeparator(String path) {
+        return path != null && (path.endsWith(VFS4JConstants.PATH_SEPARATOR) || path.endsWith(VFS4JConstants.PATH_WINDOWS_SEPARATOR));
+    }
+
+    private String[] splitPath(String path) {
+        return path.split("[" + VFS4JConstants.PATH_SEPARATOR + "\\" + VFS4JConstants.PATH_WINDOWS_SEPARATOR + "]");
+    }
+
     /**
      * Return relative path.
      * Example :
@@ -164,7 +181,7 @@ public class VFS4JPathName {
         VFS4JValidationUtils.checkNotEmpty(other, "Path must not be empty");
         VFS4JValidationUtils.checkParameter(other.startsWith(this.path), "Path parameter must start with path");
         String pathResult = other.substring(this.path.length());
-        while (pathResult.startsWith(VFS4JConstants.PATH_SEPARATOR)) {
+        while (startsWithSeparator(pathResult)) {
             pathResult = pathResult.substring(1);
         }
         return pathResult;

@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static io.github.abarhub.vfs.core.util.VFS4JConstants.PATH_SEPARATOR;
+import static io.github.abarhub.vfs.core.util.VFS4JConstants.PATH_WINDOWS_SEPARATOR;
+
 public class VFS4JConvertFile {
 
     private static final Logger LOGGER = VFS4JLoggerFactory.getLogger(VFS4JConvertFile.class);
@@ -78,7 +81,11 @@ public class VFS4JConvertFile {
         if (file.getPath() == null || file.getPath().isEmpty()) {
             path = pathParameter.getPath();
         } else {
-            Path p2 = Paths.get(file.getPath()).normalize();
+            String s = file.getPath();
+            while (!s.isEmpty() && (s.startsWith(PATH_SEPARATOR) || s.startsWith(PATH_WINDOWS_SEPARATOR))) {
+                s = s.substring(1);
+            }
+            Path p2 = Paths.get(s).normalize();
             p2 = removeReferenceParentInBegin(p2);
             path = pathParameter.getPath().resolve(p2);
         }

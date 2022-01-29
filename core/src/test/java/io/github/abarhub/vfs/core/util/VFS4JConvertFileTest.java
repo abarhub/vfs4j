@@ -17,8 +17,7 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class VFS4JConvertFileTest {
 
@@ -68,7 +67,10 @@ class VFS4JConvertFileTest {
                 Arguments.of("nom2", "/tmp/test", "temp/fichier.txt", "/tmp/test/temp/fichier.txt", tempDir),
                 Arguments.of("nom2", "/tmp/test2", "temp/monfichier.txt", "/tmp/test2/temp/monfichier.txt", tempDir),
                 Arguments.of("nom3", "/tmp/test3", "temp/../monfichier3.txt", "/tmp/test3/monfichier3.txt", tempDir),
-                Arguments.of("nom4", "/tmp", "../monfichier4.txt", "/tmp/monfichier4.txt", tempDir)
+                Arguments.of("nom4", "/tmp", "../monfichier4.txt", "/tmp/monfichier4.txt", tempDir),
+                Arguments.of("nom", "/tmp/test", "/fichier.txt", "/tmp/test/fichier.txt", tempDir),
+                Arguments.of("nom", "/tmp/test", "/test2/fichier.txt", "/tmp/test/test2/fichier.txt", tempDir),
+                Arguments.of("nom", "/tmp/test", "\\fichier.txt", "/tmp/test/fichier.txt", tempDir)
         );
     }
 
@@ -91,6 +93,7 @@ class VFS4JConvertFileTest {
         LOGGER.info("pathRes={}", pathRes);
         assertNotNull(pathRes);
         assertEquals(concatPath(tempDir, pathRef), pathRes);
+        assertTrue(pathRes.startsWith(tempDir));
     }
 
     private static Stream<Arguments> convertFromRealPath_test() throws IOException {
@@ -149,6 +152,26 @@ class VFS4JConvertFileTest {
         // vérifications
         LOGGER.info("pathRes={}", pathRes);
         assertEquals(pathRef, pathRes);
+    }
+
+    @Test
+    void test1() throws IOException {
+//        VFS4JConfig vfs4JConfig=createVFSConfig(tempDir, "nom", "/tmp/aaa/bbb");
+
+        String nameRef="aaa";
+        String pathRoot=tempDir.toString();
+        String path="\\abc\\temp\\doc.txt";
+        LOGGER.info("pathRoot={}", pathRoot);
+        LOGGER.info("path={}", path);
+        VFS4JConfig vfs4JConfig;
+        vfs4JConfig = new VFS4JConfig();
+        vfs4JConfig.addPath(nameRef, createPath(concatPath(tempDir, pathRoot)), false);
+        VFS4JConvertFile convertFile = new VFS4JConvertFile(vfs4JConfig);
+
+        // methode testée
+        Path pathRes = convertFile.getRealFile(new VFS4JPathName(nameRef, path));
+
+        LOGGER.info("pathRes={}", pathRes);
     }
 
     // methodes utilitaires

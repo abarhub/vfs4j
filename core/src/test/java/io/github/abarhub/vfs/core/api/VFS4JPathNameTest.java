@@ -62,15 +62,11 @@ class VFS4JPathNameTest {
     @ParameterizedTest
     @MethodSource("provideTestConstructeurParametersKO")
     void testConstructeurParametersKO(final String name, final String path, String messageError) {
-        try {
-            // methode testée
-            VFS4JPathName VFS4JPathName = new VFS4JPathName(name, path);
+        // methode testée
+        VFS4JInvalideParameterException e = assertThrows(VFS4JInvalideParameterException.class, () -> new VFS4JPathName(name, path));
 
-            fail("Erreur");
-
-        } catch (VFS4JInvalideParameterException e) {
-            assertEquals(messageError, e.getMessage());
-        }
+        // vérifications
+        assertEquals(messageError, e.getMessage());
     }
 
     private static Stream<Arguments> provideTestGetParent() {
@@ -81,7 +77,8 @@ class VFS4JPathNameTest {
                 Arguments.of("path1", "/", ""),
                 Arguments.of("path1", "", ""),
                 Arguments.of("path1", "/aaa/bbb/ccc/", "/aaa/bbb/ccc"),
-                Arguments.of("path1", "/aaa/bbb/ccc/..", "/aaa/bbb/ccc")
+                Arguments.of("path1", "/aaa/bbb/ccc/..", "/aaa/bbb/ccc"),
+                Arguments.of("path1", "\\aaa\\bbb\\ccc", "\\aaa\\bbb")
         );
     }
 
@@ -111,7 +108,13 @@ class VFS4JPathNameTest {
                 Arguments.of("path1", "", "/aaa/bbb/ccc", "/aaa/bbb/ccc"),
                 Arguments.of("path1", "", "", ""),
                 Arguments.of("path1", "/", "", "/"),
-                Arguments.of("path1", "", "/", "/")
+                Arguments.of("path1", "", "/", "/"),
+                Arguments.of("path1", "/aaa/bbb\\ccc", "ddd", "/aaa/bbb\\ccc/ddd"),
+                Arguments.of("path1", "/aaa/bbb/ccc\\", "ddd", "/aaa/bbb/ccc\\ddd"),
+                Arguments.of("path1", "\\aaa\\bbb\\ccc", "ddd", "\\aaa\\bbb\\ccc/ddd"),
+                Arguments.of("path1", "\\aaa\\bbb\\ccc", "\\ddd", "\\aaa\\bbb\\ccc\\ddd"),
+                Arguments.of("path1", "\\aaa\\bbb\\ccc", "\\ddd\\ee", "\\aaa\\bbb\\ccc\\ddd\\ee"),
+                Arguments.of("path1", "aaa/bbb/ccc", "\\", "aaa/bbb/ccc\\")
         );
     }
 
@@ -164,7 +167,13 @@ class VFS4JPathNameTest {
                 Arguments.of("path1", "aaa/bbb/ccc", 0, "aaa"),
                 Arguments.of("path1", "aaa/bbb/ccc", 1, "bbb"),
                 Arguments.of("path1", "aaa/bbb/ccc", 2, "ccc"),
-                Arguments.of("path1", "aaa//bbb/ccc/", 1, "")
+                Arguments.of("path1", "aaa//bbb/ccc/", 1, ""),
+                Arguments.of("path1", "aaa\\bbb\\ccc", 0, "aaa"),
+                Arguments.of("path1", "aaa\\bbb\\ccc", 1, "bbb"),
+                Arguments.of("path1", "aaa\\bbb\\ccc", 2, "ccc"),
+                Arguments.of("path1", "aaa/bbb\\ccc", 0, "aaa"),
+                Arguments.of("path1", "aaa/bbb\\ccc", 1, "bbb"),
+                Arguments.of("path1", "aaa/bbb\\ccc", 2, "ccc")
         );
     }
 
@@ -219,7 +228,8 @@ class VFS4JPathNameTest {
                 Arguments.of("path1", ".", ""),
                 Arguments.of("path1", "././.", ""),
                 Arguments.of("path1", "../../..", ""),
-                Arguments.of("path1", "aaa//bbb/ccc/", "aaa/bbb/ccc/")
+                Arguments.of("path1", "aaa//bbb/ccc/", "aaa/bbb/ccc/"),
+                Arguments.of("path1", "\\aaa\\bbb\\ccc", "\\aaa/bbb/ccc")
         );
     }
 
@@ -243,7 +253,8 @@ class VFS4JPathNameTest {
                 Arguments.of("path1", "aaa/bbb", "aaa/bbb/ccc", "ccc"),
                 Arguments.of("path1", "aaa/bbb/", "aaa/bbb/ccc", "ccc"),
                 Arguments.of("path1", "aaa", "aaa/bbb/ccc", "bbb/ccc"),
-                Arguments.of("path1", "", "aaa/bbb/ccc", "aaa/bbb/ccc")
+                Arguments.of("path1", "", "aaa/bbb/ccc", "aaa/bbb/ccc"),
+                Arguments.of("path1", "aaa\\bbb", "aaa\\bbb\\ccc", "ccc")
         );
     }
 
@@ -292,7 +303,9 @@ class VFS4JPathNameTest {
                 Arguments.of("path1", "aaa/bbb/ccc", "aaa/bbb", true),
                 Arguments.of("path1", "aaa/bbb/ccc", "aaa/bbb/", true),
                 Arguments.of("path1", "aaa/bbb/ccc", "aaa/bbb/ccc", true),
-                Arguments.of("path1", "aaa/bbb/ccc", "aaa/bbb2/ccc", false)
+                Arguments.of("path1", "aaa/bbb/ccc", "aaa/bbb2/ccc", false),
+                Arguments.of("path1", "aaa\\bbb\\ccc", "aaa", true),
+                Arguments.of("path1", "aaa\\bbb\\ccc", "aaa2", false)
         );
     }
 
