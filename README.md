@@ -1,11 +1,9 @@
 # vfs4j
 
-[![Build Status](https://travis-ci.com/abarhub/vfs4j.svg?branch=master)](https://travis-ci.com/abarhub/vfs4j)
-
-
-[![codecov](https://codecov.io/gh/abarhub/vfs4j/branch/master/graph/badge.svg)](https://codecov.io/gh/abarhub/vfs4j)
-
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.abarhub/vfs4j-core/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.github.abarhub/vfs4j-core)
+[![Build Status](https://travis-ci.com/abarhub/vfs4j.svg?branch=master)](https://travis-ci.com/abarhub/vfs4j) 
+[![codecov](https://codecov.io/gh/abarhub/vfs4j/branch/master/graph/badge.svg)](https://codecov.io/gh/abarhub/vfs4j) 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.abarhub/vfs4j-core/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.github.abarhub/vfs4j-core) 
+[![javadoc](https://javadoc.io/badge2/io.github.abarhub/vfs4j-core/javadoc.svg)](https://javadoc.io/doc/io.github.abarhub/vfs4j-core)
 
 # VFS4J
 C'est une librairie pour virtualiser le systeme de fichier.
@@ -17,9 +15,13 @@ Pour ajouter la dépendance, il faut ajouter dans le pom de maven :
 <dependency>
   <groupId>io.github.abarhub</groupId>
   <artifactId>vfs4j-core</artifactId>
-  <version>0.4.0</version>
+  <version>0.6.0</version>
 </dependency>
 ```
+
+La documentation de référence est [ici](./doc/doc_reference.md).
+Il y a d'autres exemples [ici](./doc/guide_utilisation.md).
+La javadoc est [ici](https://javadoc.io/doc/io.github.abarhub/vfs4j-core)
 
 ## Fonctionnalitées
 
@@ -65,5 +67,6 @@ La documentation de référence est [ici](./doc/doc_reference.md).
 - [Issue tracker: Report a defect or feature request](https://github.com/abarhub/vfs4j/issues/new)
 - [Guide d'utilisation](./doc/guide_utilisation.md)
 - [Documentation de référence](./doc/doc_reference.md)
+- [Javadoc](https://javadoc.io/doc/io.github.abarhub/vfs4j-core)
 
 
