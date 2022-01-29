@@ -53,6 +53,53 @@ VFS4JFiles.createDirectories(directory);
 VFS4JFiles.copy(file1,file2);
 ```
 
+La classe ```VFS4JPathName``` à des méthodes pour manipuler les fichiers.
+
+
+| Nom de la méthode  | Type de retour | Description                                         |
+|--------------------|----------------|-----------------------------------------------------|
+| getParent()        | VFS4JPathName  | Retourne le répertoire parent                       | 
+| resolve(String)    | VFS4JPathName  | Ajoute à la fin du chemin un autre chemin           | 
+| relativize(String) | VFS4JPathName  | Retourne le chemin relatif                          |  
+| normalize()        | VFS4JPathName  | Normalise le chemin en enlevant les "." et les ".." | 
+| getNameCount()     | int            | Retourne le nombre délément.                        | 
+| getName(int)       | String         | Retourne le ieme élément. I commence à 1.           | 
+
+
+Exemples :
+```java
+VFS4JPathName path=VFS4JPaths.get("app","dir1/dir2/dir3");
+
+assertEquals(VFS4JPaths.get("app","dir1/dir2"),path.getParent());
+
+assertEquals(VFS4JPaths.get("app","dir1/dir2/dir3/directory/file.txt"), path.resolve("directory/file.txt");
+
+assertEquals("dir4", path.relativize("dir1/dir2/dir3/dir4");
+
+VFS4JPathName path2=VFS4JPaths.get("app","dir1/../dir3");
+assertEquals(VFS4JPaths.get("app","dir1/dir3"),path.normalize());
+
+assertEquals(3, path.getNameCount());
+assertEquals("dir2",path.getName(2));
+```
+
+Pour le chemin dans le code, il est conseillé d'utiliser toujours le séparateur / à la unix. S'il y a des \\, la librairie peut 
+les gérer, mais il y a des cas particuliers qui ne marcheront pas.
+
+La classe ```VFS4JFileManager``` gère la configuration. On peut y accéder avec la méthode ```VFS4JDefaultFileManager.get()```.
+Par défaut, elle récupère le fichier de configuration. Il est possible de réinitialiser la configuration de la façon suivante :
+```java
+Properties properties = new Properties();
+
+properties.setProperty("vfs.paths.dir.path", directorySource.toString());
+properties.setProperty("vfs.paths.dir.readonly", "false");
+
+VFS4JParseConfigFile parseConfigFile = new VFS4JParseConfigFile();
+VFS4JFileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
+VFS4JDefaultFileManager.get().setConfig(fileManagerBuilder.build());
+VFS4JFiles.reinit();
+```
+
 ## Plugins
 
 ## Création d'un plugin

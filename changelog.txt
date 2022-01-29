@@ -9,3 +9,10 @@
 * version 0.5.0 : 16/01/2022
 -ajout des méthodes pour manipuler le path dans la classe VFS4JPathName
 -amélioration de la documentation
+
+* version 0.6.0 :
+-correction pour les chemins windows (\\)
+-mis à public de la méthode VFS4JFileManager.getRealFile
+-amélioration de la documentation
+
+
