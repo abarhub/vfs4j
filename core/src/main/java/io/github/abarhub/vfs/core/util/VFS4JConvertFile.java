@@ -29,6 +29,7 @@ public class VFS4JConvertFile {
 
     public Path getRealFile(VFS4JPathName file) {
         VFS4JValidationUtils.checkNotNull(file, VFS4JErrorMessages.PATH_IS_NULL);
+        LOGGER.trace("getRealFile for {}", file);
         VFS4JParameter p = config.getPath(file.getName());
         if (p == null) {
             throw new VFS4JInvalideParameterException("PathName '" + file.getName() + "' doesn't exist");

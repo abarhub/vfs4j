@@ -87,7 +87,7 @@ public class VFS4JFileManager {
         return vfs4JConfig.getPath(name);
     }
 
-    protected Path getRealFile(VFS4JPathName file) {
+    public Path getRealFile(VFS4JPathName file) {
         VFS4JValidationUtils.checkNotNull(file, "Path is null");
         return convertFile.getRealFile(file);
     }
