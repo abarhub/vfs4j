@@ -14,7 +14,7 @@
     <scm>
         <connection>scm:git:https://github.com/abarhub/vfs4j.git</connection>
         <developerConnection>scm:git:https://github.com/abarhub/vfs4j.git</developerConnection>
-        <url>git:https://github.com/abarhub/filerw.git</url>
+        <url>git:https://github.com/abarhub/vfs4j.git</url>
       <tag>v0.6.0</tag>
   </scm>
 
