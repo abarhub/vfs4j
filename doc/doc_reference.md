@@ -30,19 +30,20 @@ Les options :
 
 ## Manipulation des fichiers et répertoires
 
-La création du chemin d'accès se fait avec la classe `VFS4JPathName`. Le 1er paramètre est le nom du path. Les autres
-paramètres sont le chemin à partir de ce nom. Il est conséillé d'utiliser toujours le / pour que le chemin fonctionne
-sous Linux et Windows. On peut aussi utiliser la classe utilitaire `VFS4JPaths`.
+Le chemin d'accès se fait avec la méthode `VFS4JPaths.get(String name, String... paths)` qui retourne l'interface `VFS4JPathName`. Le 1er paramètre est le nom du path. Les autres
+paramètres sont le chemin à partir de ce nom. Il est conseillé d'utiliser toujours le / pour que le chemin fonctionne
+sous Linux et Windows. On peut aussi utiliser la classe utilitaire `VFS4JPaths`. Sous windows, le séparateur chemin `/` 
+sera convertie par `\`.
 
 Exemples :
 
 ```java
 VFS4JPathName path=VFS4JPaths.get("app","messages.properties");
 VFS4JPathName path2=VFS4JPaths.get("app","directory","config/messages.properties");
-VFS4JPathName path3=new VFS4JPathName("dir1","mydirectory","file01.txt");
+VFS4JPathName path3=VFS4JPaths.get("dir1","mydirectory","file01.txt");
 ```
 
-Ensuite, une fois l'objet créé, il faut utiliser les methodes de la classe `VFS4JFiles`. Les methodes correspondent à
+Ensuite, une fois l'objet créé, il faut utiliser les méthodes de la classe `VFS4JFiles`. Les méthodes correspondent à
 celles de la classe `Files`.
 
 Exemples :
@@ -53,7 +54,7 @@ VFS4JFiles.createDirectories(directory);
 VFS4JFiles.copy(file1,file2);
 ```
 
-La classe ```VFS4JPathName``` à des méthodes pour manipuler les fichiers.
+L'interface ```VFS4JPathName``` à des méthodes pour manipuler les fichiers.
 
 
 | Nom de la méthode  | Type de retour | Description                                         |
@@ -84,7 +85,7 @@ assertEquals("dir2",path.getName(2));
 ```
 
 Pour le chemin dans le code, il est conseillé d'utiliser toujours le séparateur / à la unix. S'il y a des \\, la librairie peut 
-les gérer, mais il y a des cas particuliers qui ne marcheront pas.
+les gérer, mais il y a des cas particuliers qui peuvent ne pas marcher.
 
 La classe ```VFS4JFileManager``` gère la configuration. On peut y accéder avec la méthode ```VFS4JDefaultFileManager.get()```.
 Par défaut, elle récupère le fichier de configuration. Il est possible de réinitialiser la configuration de la façon suivante :
@@ -143,7 +144,7 @@ Exemple de log :
 ### Plugins Unclosed
 
 Il existe un plugin pour détecter si un fichier ouvert n'a pas été fermé. Il détecte si un fichier n'est pas fermé 
-alors qu'il n'est plus utilisé.
+alors qu'il n'est plus accéssible.
 
 Voici un exemple de paramétrage :
 ```properties

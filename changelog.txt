@@ -15,4 +15,7 @@
 -mis à public de la méthode VFS4JFileManager.getRealFile
 -amélioration de la documentation
 
+* version 0.7.0 :
+-le constructeur de la classe VFS4JPathName devient privé. Pour construire un objet, il faut utiliser la méthode VFS4JPaths.get
+-correction du nom de la méthode VFS4JConfig.createTemporaryDirectory
 
