@@ -1,6 +1,7 @@
 package io.github.abarhub.vfs.core.util;
 
 import io.github.abarhub.vfs.core.api.VFS4JPathName;
+import io.github.abarhub.vfs.core.api.VFS4JPaths;
 import io.github.abarhub.vfs.core.config.*;
 import io.github.abarhub.vfs.core.exception.VFS4JInvalideParameterException;
 import org.slf4j.Logger;
@@ -151,7 +152,7 @@ public class VFS4JConvertFile {
     private VFS4JPathName createPathName(Path fileNormalized, String name, Path path) {
         VFS4JPathName VFS4JPathNameTrouve;
         Path p = path.relativize(fileNormalized);
-        VFS4JPathNameTrouve = new VFS4JPathName(name, p.toString());
+        VFS4JPathNameTrouve = VFS4JPaths.get(name, p.toString());
         return VFS4JPathNameTrouve;
     }
 }

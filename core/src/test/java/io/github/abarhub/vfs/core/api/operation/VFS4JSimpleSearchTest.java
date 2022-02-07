@@ -2,6 +2,7 @@ package io.github.abarhub.vfs.core.api.operation;
 
 import io.github.abarhub.vfs.core.api.VFS4JFileManager;
 import io.github.abarhub.vfs.core.api.VFS4JPathName;
+import io.github.abarhub.vfs.core.api.VFS4JPaths;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -155,7 +156,7 @@ class VFS4JSimpleSearchTest {
     // methodes utilitaires
 
     public VFS4JPathName getPathName(String filename) {
-        return new VFS4JPathName(PATH1, filename);
+        return VFS4JPaths.get(PATH1, filename);
     }
 
     public List<String> liste(String... str) {

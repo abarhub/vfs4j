@@ -73,9 +73,9 @@ public class Exemple1Test {
         assertFalse(Files.exists(file3));
 
         // methodes testées
-        VFS4JFiles.createFile(new VFS4JPathName("rep01", "fichier01.txt"));
-        VFS4JFiles.createFile(new VFS4JPathName("rep02", "fichier02.txt"));
-        VFS4JFiles.createFile(new VFS4JPathName("temp", "fichier03.txt"));
+        VFS4JFiles.createFile(VFS4JPaths.get("rep01", "fichier01.txt"));
+        VFS4JFiles.createFile(VFS4JPaths.get("rep02", "fichier02.txt"));
+        VFS4JFiles.createFile(VFS4JPaths.get("temp", "fichier03.txt"));
 
         // vérifications
         assertTrue(Files.exists(file1));
@@ -130,9 +130,9 @@ public class Exemple1Test {
         assertFalse(Files.exists(file2));
 
         // methodes testées
-        VFS4JFiles.createFile(new VFS4JPathName("rep01", "fichier01.txt"));
+        VFS4JFiles.createFile(VFS4JPaths.get("rep01", "fichier01.txt"));
 
-        VFS4JWriteException exception = assertThrows(VFS4JWriteException.class, () -> VFS4JFiles.createFile(new VFS4JPathName("rep02", "fichier02.txt")));
+        VFS4JWriteException exception = assertThrows(VFS4JWriteException.class, () -> VFS4JFiles.createFile(VFS4JPaths.get("rep02", "fichier02.txt")));
 
         // vérifications
         assertEquals("write operation forbidden for createFile on rep02", exception.getMessage());

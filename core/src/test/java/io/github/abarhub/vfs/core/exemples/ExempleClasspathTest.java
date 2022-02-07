@@ -43,7 +43,7 @@ public class ExempleClasspathTest {
 
         try {
             // methodes testées
-            List<String> res = VFS4JFiles.readAllLines(new VFS4JPathName("rep01", "/test_classpath01.txt"));
+            List<String> res = VFS4JFiles.readAllLines(VFS4JPaths.get("rep01", "/test_classpath01.txt"));
 
         assertNotNull(res);
 
@@ -80,7 +80,7 @@ public class ExempleClasspathTest {
         assertTrue(config.getPath("rep01").isReadonly());
 
         // methodes testées
-        List<String> res = VFS4JFiles.readAllLines(new VFS4JPathName("rep01", "/test_classpath/fichier01.txt"));
+        List<String> res = VFS4JFiles.readAllLines(VFS4JPaths.get("rep01", "/test_classpath/fichier01.txt"));
 
         assertNotNull(res);
 
@@ -138,7 +138,7 @@ public class ExempleClasspathTest {
         assertTrue(config.getPath("rep01").isReadonly());
 
         // methodes testées
-        List<String> res = VFS4JFiles.readAllLines(new VFS4JPathName("rep01", "fichier01.txt"));
+        List<String> res = VFS4JFiles.readAllLines(VFS4JPaths.get("rep01", "fichier01.txt"));
 
         assertNotNull(res);
 

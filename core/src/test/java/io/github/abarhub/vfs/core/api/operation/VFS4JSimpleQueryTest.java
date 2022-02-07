@@ -2,6 +2,7 @@ package io.github.abarhub.vfs.core.api.operation;
 
 import io.github.abarhub.vfs.core.api.VFS4JFileManager;
 import io.github.abarhub.vfs.core.api.VFS4JPathName;
+import io.github.abarhub.vfs.core.api.VFS4JPaths;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
@@ -18,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -334,15 +336,13 @@ class VFS4JSimpleQueryTest {
     // methodes utilitaires
 
     public VFS4JPathName getPathName(String filename) {
-        return new VFS4JPathName(PATH1, filename);
+        return VFS4JPaths.get(PATH1, filename);
     }
 
     public List<String> liste(String... str) {
         List<String> list = new ArrayList<>();
         if (str != null) {
-            for (String s : str) {
-                list.add(s);
-            }
+            list.addAll(Arrays.asList(str));
         }
         return list;
     }

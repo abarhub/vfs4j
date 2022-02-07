@@ -37,7 +37,7 @@ class VFS4JFileManagerTest {
         LOGGER.info("Le fichier {} n'existe pas", p);
 
         // methode testée
-        fileManager.getCommand().createFile(new VFS4JPathName("path1", pathRef));
+        fileManager.getCommand().createFile(VFS4JPaths.get("path1", pathRef));
 
         // vérifications
         assertTrue(Files.exists(p));
@@ -66,7 +66,7 @@ class VFS4JFileManagerTest {
         LOGGER.info("Le repertoire {} n'existe pas", p);
 
         // methode testée
-        fileManager.getCommand().createDirectory(new VFS4JPathName("path1", pathRef));
+        fileManager.getCommand().createDirectory(VFS4JPaths.get("path1", pathRef));
 
         // vérifications
         assertTrue(Files.exists(p));
@@ -95,7 +95,7 @@ class VFS4JFileManagerTest {
         LOGGER.info("Le repertoire {} n'existe pas", p);
 
         // methode testée
-        fileManager.getCommand().createDirectories(new VFS4JPathName("path1", pathRef));
+        fileManager.getCommand().createDirectories(VFS4JPaths.get("path1", pathRef));
 
         // vérifications
         assertTrue(Files.exists(p));
@@ -125,7 +125,7 @@ class VFS4JFileManagerTest {
         LOGGER.info("Le repertoire {} existe", p);
 
         // methode testée
-        fileManager.getCommand().delete(new VFS4JPathName("path1", pathRef));
+        fileManager.getCommand().delete(VFS4JPaths.get("path1", pathRef));
 
         // vérifications
         assertFalse(Files.exists(p));
@@ -155,7 +155,7 @@ class VFS4JFileManagerTest {
         LOGGER.info("Le repertoire {} existe", p);
 
         // methode testée
-        fileManager.getCommand().deleteIfExists(new VFS4JPathName("path1", pathRef));
+        fileManager.getCommand().deleteIfExists(VFS4JPaths.get("path1", pathRef));
 
         // vérifications
         assertFalse(Files.exists(p));

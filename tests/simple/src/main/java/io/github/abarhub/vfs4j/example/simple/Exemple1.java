@@ -1,15 +1,10 @@
 package io.github.abarhub.vfs4j.example.simple;
 
 import com.google.common.base.Verify;
+import io.github.abarhub.vfs.core.api.*;
 import io.github.abarhub.vfs.core.config.VFS4JConfig;
 import io.github.abarhub.vfs.core.config.VFS4JPathMode;
 import io.github.abarhub.vfs.core.config.VFS4JPathParameter;
-import io.github.abarhub.vfs.core.api.VFS4JPathName;
-import io.github.abarhub.vfs.core.api.VFS4JFiles;
-import io.github.abarhub.vfs.core.api.VFS4JDefaultFileManager;
-import io.github.abarhub.vfs.core.api.VFS4JParseConfigFile;
-import io.github.abarhub.vfs.core.api.VFS4JFileManager;
-import io.github.abarhub.vfs.core.api.VFS4JFileManagerBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,8 +39,8 @@ public class Exemple1 {
         Verify.verify(!Files.exists(file2));
 
         VFS4JFileManager fileManager = VFS4JDefaultFileManager.get();
-        fileManager.getCommand().createFile(new VFS4JPathName("dir1", "fichier1.txt"));
-        fileManager.getCommand().createFile(new VFS4JPathName("dir2", "fichier2.txt"));
+        fileManager.getCommand().createFile(VFS4JPaths.get("dir1", "fichier1.txt"));
+        fileManager.getCommand().createFile(VFS4JPaths.get("dir2", "fichier2.txt"));
 
         Verify.verify(Files.exists(file1));
         Verify.verify(Files.exists(file2));
@@ -73,8 +68,8 @@ public class Exemple1 {
         Verify.verify(!Files.exists(file1));
         Verify.verify(!Files.exists(file2));
 
-        VFS4JFiles.createFile(new VFS4JPathName("dir1", "fichier3.txt"));
-        VFS4JFiles.createFile(new VFS4JPathName("dir2", "fichier4.txt"));
+        VFS4JFiles.createFile(VFS4JPaths.get("dir1", "fichier3.txt"));
+        VFS4JFiles.createFile(VFS4JPaths.get("dir2", "fichier4.txt"));
 
         Verify.verify(Files.exists(file1));
         Verify.verify(Files.exists(file2));
@@ -133,9 +128,9 @@ public class Exemple1 {
         Verify.verify(!Files.exists(file2));
         Verify.verify(!Files.exists(file3));
 
-        VFS4JFiles.createFile(new VFS4JPathName("rep01", "fichier01.txt"));
-        VFS4JFiles.createFile(new VFS4JPathName("rep02", "fichier02.txt"));
-        VFS4JFiles.createFile(new VFS4JPathName("temp", "fichier03.txt"));
+        VFS4JFiles.createFile(VFS4JPaths.get("rep01", "fichier01.txt"));
+        VFS4JFiles.createFile(VFS4JPaths.get("rep02", "fichier02.txt"));
+        VFS4JFiles.createFile(VFS4JPaths.get("temp", "fichier03.txt"));
 
         Verify.verify(Files.exists(file1));
         Verify.verify(Files.exists(file2));

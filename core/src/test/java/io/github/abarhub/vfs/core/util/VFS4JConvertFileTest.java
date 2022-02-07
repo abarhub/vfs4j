@@ -1,6 +1,7 @@
 package io.github.abarhub.vfs.core.util;
 
 import io.github.abarhub.vfs.core.api.VFS4JPathName;
+import io.github.abarhub.vfs.core.api.VFS4JPaths;
 import io.github.abarhub.vfs.core.config.VFS4JConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,7 @@ class VFS4JConvertFileTest {
         VFS4JConvertFile convertFile = new VFS4JConvertFile(vfs4JConfig);
 
         // methode testée
-        Path path = convertFile.getRealFile(new VFS4JPathName("nom", "fichier.txt"));
+        Path path = convertFile.getRealFile(VFS4JPaths.get("nom", "fichier.txt"));
 
         // vérifications
         assertNotNull(path);
@@ -53,7 +54,7 @@ class VFS4JConvertFileTest {
         VFS4JConvertFile convertFile = new VFS4JConvertFile(vfs4JConfig);
 
         // methode testée
-        Path path = convertFile.getRealFile(new VFS4JPathName("nom", "doc/fichier2.txt"));
+        Path path = convertFile.getRealFile(VFS4JPaths.get("nom", "doc/fichier2.txt"));
 
         // vérifications
         assertNotNull(path);
@@ -87,7 +88,7 @@ class VFS4JConvertFileTest {
         VFS4JConvertFile convertFile = new VFS4JConvertFile(vfs4JConfig);
 
         // methode testée
-        Path pathRes = convertFile.getRealFile(new VFS4JPathName(nameRef, path));
+        Path pathRes = convertFile.getRealFile(VFS4JPaths.get(nameRef, path));
 
         // vérifications
         LOGGER.info("pathRes={}", pathRes);
@@ -169,7 +170,7 @@ class VFS4JConvertFileTest {
         VFS4JConvertFile convertFile = new VFS4JConvertFile(vfs4JConfig);
 
         // methode testée
-        Path pathRes = convertFile.getRealFile(new VFS4JPathName(nameRef, path));
+        Path pathRes = convertFile.getRealFile(VFS4JPaths.get(nameRef, path));
 
         LOGGER.info("pathRes={}", pathRes);
     }
@@ -195,7 +196,7 @@ class VFS4JConvertFileTest {
     private static VFS4JPathName createPathName(String name, String path) {
         assertNotNull(name);
         assertNotNull(path);
-        return new VFS4JPathName(name, path);
+        return VFS4JPaths.get(name, path);
     }
 
     private static Path createPath(Path path) throws IOException {

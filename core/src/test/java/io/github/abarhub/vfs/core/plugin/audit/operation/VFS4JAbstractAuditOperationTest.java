@@ -1,6 +1,7 @@
 package io.github.abarhub.vfs.core.plugin.audit.operation;
 
 import io.github.abarhub.vfs.core.api.VFS4JPathName;
+import io.github.abarhub.vfs.core.api.VFS4JPaths;
 import io.github.abarhub.vfs.core.config.VFS4JConfig;
 import io.github.abarhub.vfs.core.plugin.audit.VFS4JAuditLogLevel;
 import io.github.abarhub.vfs.core.plugin.audit.VFS4JAuditOperation;
@@ -175,7 +176,7 @@ class VFS4JAbstractAuditOperationTest implements VFS4JLogAudit {
     }
 
     private static VFS4JPathName getPathName(String filename) {
-        return new VFS4JPathName(PATH1, filename);
+        return VFS4JPaths.get(PATH1, filename);
     }
 
     private static <T> List<T> list() {

@@ -3,6 +3,7 @@ package io.github.abarhub.vfs.core.exemples;
 import io.github.abarhub.vfs.core.api.VFS4JDefaultFileManager;
 import io.github.abarhub.vfs.core.api.VFS4JFiles;
 import io.github.abarhub.vfs.core.api.VFS4JPathName;
+import io.github.abarhub.vfs.core.api.VFS4JPaths;
 import io.github.abarhub.vfs.core.api.operation.VFS4JOpen;
 import io.github.abarhub.vfs.core.config.VFS4JConfig;
 import io.github.abarhub.vfs.core.plugin.unclosed.UnclosableRunnable;
@@ -72,7 +73,7 @@ public class ExempleUnclosedTest {
 
         assertTrue(test2.isPresent());
         VFS4JOpen test3 = test2.get();
-        VFS4JPathName filename = new VFS4JPathName("rep01", "fichier01.txt");
+        VFS4JPathName filename = VFS4JPaths.get("rep01", "fichier01.txt");
         InputStream res = test3.newInputStream(filename);
         assertNotNull(res);
 
@@ -122,7 +123,7 @@ public class ExempleUnclosedTest {
 
         assertTrue(test2.isPresent());
         VFS4JOpen test3 = test2.get();
-        VFS4JPathName filename = new VFS4JPathName("rep01", "fichier01.txt");
+        VFS4JPathName filename = VFS4JPaths.get("rep01", "fichier01.txt");
         InputStream res = test3.newInputStream(filename);
         assertNotNull(res);
         res.close();
@@ -172,7 +173,7 @@ public class ExempleUnclosedTest {
 
         assertTrue(test2.isPresent());
         VFS4JOpen test3 = test2.get();
-        VFS4JPathName filename = new VFS4JPathName("rep01", "fichier01.txt");
+        VFS4JPathName filename = VFS4JPaths.get("rep01", "fichier01.txt");
         InputStream res = test3.newInputStream(filename);
         assertNotNull(res);
         InputStream res2 = test3.newInputStream(filename);

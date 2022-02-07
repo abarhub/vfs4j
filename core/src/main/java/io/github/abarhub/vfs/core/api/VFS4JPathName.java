@@ -15,7 +15,7 @@ public class VFS4JPathName {
     private final String name;
     private final String path;
 
-    public VFS4JPathName(String name, String path) {
+    protected VFS4JPathName(String name, String path) {
         VFS4JValidationUtils.checkNotEmpty(name, VFS4JErrorMessages.NAME_IS_EMPTY);
         VFS4JValidationUtils.checkParameter(isValideName(name), "Name is invalide");
         VFS4JValidationUtils.checkNotNull(path, VFS4JErrorMessages.PATH_IS_NULL);

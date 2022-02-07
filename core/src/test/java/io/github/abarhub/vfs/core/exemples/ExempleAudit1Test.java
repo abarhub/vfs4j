@@ -68,7 +68,7 @@ public class ExempleAudit1Test {
         audit.addListener((x, y, z, e, t) -> listeAudit.add(x + ";" + y + ";" + MessageFormatter.arrayFormat(z, t).getMessage()));
 
         // methodes testées
-        VFS4JFiles.createFile(new VFS4JPathName("rep01", "fichier01.txt"));
+        VFS4JFiles.createFile(VFS4JPaths.get("rep01", "fichier01.txt"));
 
         assertTrue(Files.exists(file1));
 
@@ -129,9 +129,9 @@ public class ExempleAudit1Test {
         audit.addListener((x, y, z, e, t) -> listeAudit.add(x + ";" + y + ";" + MessageFormatter.arrayFormat(z, t).getMessage()));
 
         // methodes testées
-        VFS4JFiles.createFile(new VFS4JPathName("rep01", "fichier01.txt"));
-        VFS4JFiles.createFile(new VFS4JPathName("rep01", "fichier02.jpg"));
-        VFS4JFiles.createFile(new VFS4JPathName("rep01", "fichier03.txt"));
+        VFS4JFiles.createFile(VFS4JPaths.get("rep01", "fichier01.txt"));
+        VFS4JFiles.createFile(VFS4JPaths.get("rep01", "fichier02.jpg"));
+        VFS4JFiles.createFile(VFS4JPaths.get("rep01", "fichier03.txt"));
 
         // vérifications
 
@@ -193,7 +193,7 @@ public class ExempleAudit1Test {
         audit.addListener((x, y, z, e, t) -> listeAudit.add(x + ";" + y + ";" + MessageFormatter.arrayFormat(z, t).getMessage()));
 
         // methodes testées
-        FileAlreadyExistsException res = assertThrows(FileAlreadyExistsException.class, () -> VFS4JFiles.createFile(new VFS4JPathName("rep03", "fichierErreur01.txt")));
+        FileAlreadyExistsException res = assertThrows(FileAlreadyExistsException.class, () -> VFS4JFiles.createFile(VFS4JPaths.get("rep03", "fichierErreur01.txt")));
 
         assertNotNull(res);
         assertTrue(Files.exists(file1));

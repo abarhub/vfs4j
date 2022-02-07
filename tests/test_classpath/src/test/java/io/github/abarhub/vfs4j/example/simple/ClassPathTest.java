@@ -1,15 +1,10 @@
 package io.github.abarhub.vfs4j.example.simple;
 
 import com.google.common.base.Verify;
+import io.github.abarhub.vfs.core.api.*;
 import io.github.abarhub.vfs.core.config.VFS4JConfig;
 import io.github.abarhub.vfs.core.config.VFS4JPathMode;
 import io.github.abarhub.vfs.core.config.VFS4JPathParameter;
-import io.github.abarhub.vfs.core.api.VFS4JPathName;
-import io.github.abarhub.vfs.core.api.VFS4JFiles;
-import io.github.abarhub.vfs.core.api.VFS4JDefaultFileManager;
-import io.github.abarhub.vfs.core.api.VFS4JParseConfigFile;
-import io.github.abarhub.vfs.core.api.VFS4JFileManager;
-import io.github.abarhub.vfs.core.api.VFS4JFileManagerBuilder;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -63,7 +58,7 @@ public class ClassPathTest {
 
         assertFalse(Files.exists(file3));
 
-        VFS4JPathName pathName = new VFS4JPathName("temp", "fichier03.txt");
+        VFS4JPathName pathName = VFS4JPaths.get("temp", "fichier03.txt");
         VFS4JFiles.createFile(pathName);
 
         assertTrue(Files.exists(file3));
@@ -113,7 +108,7 @@ public class ClassPathTest {
         assertFalse(Files.exists(file3));
 
         // ecriture puis lecture du fichier temp:fichier03.txt
-        VFS4JPathName pathName = new VFS4JPathName("temp", "fichier03.txt");
+        VFS4JPathName pathName = VFS4JPaths.get("temp", "fichier03.txt");
         VFS4JFiles.createFile(pathName);
 
         assertTrue(Files.exists(file3));
@@ -126,7 +121,7 @@ public class ClassPathTest {
         assertArrayEquals(buf, res);
 
         // lecture du fichier rep01:test/test1.txt
-        VFS4JPathName pathName2 = new VFS4JPathName("rep01", "test/test1.txt");
+        VFS4JPathName pathName2 = VFS4JPaths.get("rep01", "test/test1.txt");
 
         List<String> res2 = VFS4JFiles.readAllLines(pathName2, StandardCharsets.UTF_8);
 
@@ -135,7 +130,7 @@ public class ClassPathTest {
         assertEquals(ref2, res2);
 
         // lecture du fichier rep02:test1.txt
-        VFS4JPathName pathName3 = new VFS4JPathName("rep02", "test1.txt");
+        VFS4JPathName pathName3 = VFS4JPaths.get("rep02", "test1.txt");
 
         List<String> res3 = VFS4JFiles.readAllLines(pathName3, StandardCharsets.UTF_8);
 
@@ -144,7 +139,7 @@ public class ClassPathTest {
         assertEquals(ref3, res3);
 
         // copie de du fichier rep02:test1.txt vers temp:test1.txt
-        VFS4JPathName pathName4 = new VFS4JPathName("temp", "test1.txt");
+        VFS4JPathName pathName4 = VFS4JPaths.get("temp", "test1.txt");
         VFS4JFiles.copy(pathName3, pathName4);
 
         assertTrue(Files.exists(pathTemp.resolve("test1.txt")));
@@ -182,7 +177,7 @@ public class ClassPathTest {
 
         // lecture du fichier rep01:META-INF/MANIFEST.MF
         //VFS4JPathName pathName4 = new VFS4JPathName("rep01", "META-INF/MANIFEST.MF");
-        VFS4JPathName pathName4 = new VFS4JPathName("rep01", "META-INF/maven.com.google.guava.guava/pom.xml");
+        VFS4JPathName pathName4 = VFS4JPaths.get("rep01", "META-INF/maven.com.google.guava.guava/pom.xml");
 
         byte[] res4 = VFS4JFiles.readAllBytes(pathName4);
 
