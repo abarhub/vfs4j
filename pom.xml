@@ -43,7 +43,6 @@
         <slf4j.version>1.7.33</slf4j.version>
         <junit-jupiter.version>5.8.2</junit-jupiter.version>
         <mockito-core.version>3.3.3</mockito-core.version>
-        <vfs4j-core.version>${project.version}</vfs4j-core.version>
         <guava.version>31.0.1-jre</guava.version>
         <commons-io.version>2.11.0</commons-io.version>
     </properties>
@@ -97,11 +96,10 @@
                 <scope>test</scope>
             </dependency>
 
-
             <dependency>
                 <groupId>io.github.abarhub</groupId>
                 <artifactId>vfs4j-core</artifactId>
-                <version>${vfs4j-core.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
