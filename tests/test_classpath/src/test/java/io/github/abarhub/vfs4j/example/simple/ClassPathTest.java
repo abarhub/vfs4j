@@ -2,6 +2,8 @@ package io.github.abarhub.vfs4j.example.simple;
 
 import com.google.common.base.Verify;
 import io.github.abarhub.vfs.core.api.*;
+import io.github.abarhub.vfs.core.api.path.VFS4JPathName;
+import io.github.abarhub.vfs.core.api.path.VFS4JPaths;
 import io.github.abarhub.vfs.core.config.VFS4JConfig;
 import io.github.abarhub.vfs.core.config.VFS4JPathMode;
 import io.github.abarhub.vfs.core.config.VFS4JPathParameter;

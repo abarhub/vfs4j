@@ -2,8 +2,8 @@ package io.github.abarhub.vfs.core.exemples;
 
 import io.github.abarhub.vfs.core.api.VFS4JDefaultFileManager;
 import io.github.abarhub.vfs.core.api.VFS4JFiles;
-import io.github.abarhub.vfs.core.api.VFS4JPathName;
-import io.github.abarhub.vfs.core.api.VFS4JPaths;
+import io.github.abarhub.vfs.core.api.path.VFS4JPathName;
+import io.github.abarhub.vfs.core.api.path.VFS4JPaths;
 import io.github.abarhub.vfs.core.api.operation.VFS4JOpen;
 import io.github.abarhub.vfs.core.config.VFS4JConfig;
 import io.github.abarhub.vfs.core.plugin.unclosed.UnclosableRunnable;

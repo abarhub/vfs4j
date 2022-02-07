@@ -1,6 +1,6 @@
 package io.github.abarhub.vfs.core.plugin.audit.operation;
 
-import io.github.abarhub.vfs.core.api.VFS4JPathName;
+import io.github.abarhub.vfs.core.api.path.VFS4JPathName;
 import io.github.abarhub.vfs.core.plugin.audit.VFS4JAuditOperation;
 import io.github.abarhub.vfs.core.plugin.audit.VFS4JAuditPlugins;
 import io.github.abarhub.vfs.core.plugin.audit.VFS4JLogAudit;

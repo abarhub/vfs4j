@@ -1,6 +1,6 @@
 package io.github.abarhub.vfs.core.plugin.unclosed.open;
 
-import io.github.abarhub.vfs.core.api.VFS4JPathName;
+import io.github.abarhub.vfs.core.api.path.VFS4JPathName;
 import io.github.abarhub.vfs.core.plugin.unclosed.UnclosableRunnable;
 import io.github.abarhub.vfs.core.plugin.unclosed.VFS4JUnclosedOperation;
 

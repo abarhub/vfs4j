@@ -1,7 +1,6 @@
-package io.github.abarhub.vfs.core.api;
+package io.github.abarhub.vfs.core.api.path;
 
 import io.github.abarhub.vfs.core.util.VFS4JConstants;
-import io.github.abarhub.vfs.core.util.VFS4JErrorMessages;
 import io.github.abarhub.vfs.core.util.VFS4JValidationUtils;
 
 import java.nio.file.Path;
@@ -10,35 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class VFS4JPathName {
+public class VFS4JDefaultPathName extends VFS4JAbstractPathName {
 
-    private final String name;
-    private final String path;
-
-    protected VFS4JPathName(String name, String path) {
-        VFS4JValidationUtils.checkNotEmpty(name, VFS4JErrorMessages.NAME_IS_EMPTY);
-        VFS4JValidationUtils.checkParameter(isValideName(name), "Name is invalide");
-        VFS4JValidationUtils.checkNotNull(path, VFS4JErrorMessages.PATH_IS_NULL);
-        this.name = name;
-        this.path = path;
-    }
-
-    private boolean isValideName(String name) {
-        if (name == null || name.trim().isEmpty()) {
-            return false;
-        }
-        return name.matches("^[a-z][a-z0-9]*$");
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPath() {
-        return path;
+    protected VFS4JDefaultPathName(String name, String path) {
+        super(name, path);
     }
 
     /**
+     *
      * Return the parent of path. If there is no parent, path is empty ("").
      * For examples, parent of /aaa/bbb/ccc is /aaa/bbb/cc and parent of /aaa/bbb/ccc/ is /aaa/bbb/ccc
      * Special charactere ("." or "..") is not removed.
@@ -46,22 +24,23 @@ public class VFS4JPathName {
      * @return Parent
      */
     public VFS4JPathName getParent() {
-        if (path.isEmpty()) {
+        if (getPath().isEmpty()) {
             return this;
         } else {
-            int pos = path.lastIndexOf(VFS4JConstants.PATH_SEPARATOR);
-            int pos2 = path.lastIndexOf(VFS4JConstants.PATH_WINDOWS_SEPARATOR);
+            int pos = getPath().lastIndexOf(VFS4JConstants.PATH_SEPARATOR);
+            int pos2 = getPath().lastIndexOf(VFS4JConstants.PATH_WINDOWS_SEPARATOR);
             if (pos == -1 && pos2 == -1) {
-                return new VFS4JPathName(name, "");
+                return VFS4JPaths.get(getName(), "");
             } else if (pos != -1 && pos2 == -1) {
-                return new VFS4JPathName(name, path.substring(0, pos));
+                return VFS4JPaths.get(getName(), getPath().substring(0, pos));
             } else if (pos == -1 && pos2 != -1) {
-                return new VFS4JPathName(name, path.substring(0, pos2));
+                return VFS4JPaths.get(getName(), getPath().substring(0, pos2));
             } else {
-                return new VFS4JPathName(name, path.substring(0, Math.max(pos, pos2)));
+                return VFS4JPaths.get(getName(), getPath().substring(0, Math.max(pos, pos2)));
             }
         }
     }
+
 
     /**
      * Return a new VFS4JPathName with :
@@ -76,14 +55,14 @@ public class VFS4JPathName {
         if (path == null || path.isEmpty()) {
             return this;
         } else {
-            String pathComplet = this.path;
+            String pathComplet = getPath();
             if (endsWithSeparator(pathComplet) ||
                     startsWithSeparator(path)) {
                 pathComplet += path;
             } else {
                 pathComplet += VFS4JConstants.PATH_SEPARATOR + path;
             }
-            return new VFS4JPathName(name, pathComplet);
+            return VFS4JPaths.get(getName(), pathComplet);
         }
     }
 
@@ -93,7 +72,7 @@ public class VFS4JPathName {
      * @return Number of element in the path
      */
     public int getNameCount() {
-        String path = this.path;
+        String path = getPath();
         if (startsWithSeparator(path)) {
             path = path.substring(1);
         }
@@ -101,15 +80,9 @@ public class VFS4JPathName {
         return pathList.length;
     }
 
-    /**
-     * Return element number no. Ignore the first or the last "/".
-     *
-     * @param no The element to get
-     * @return The element
-     */
     public String getName(int no) {
         VFS4JValidationUtils.checkParameter(no >= 0 && no < getNameCount(), "No is invalid");
-        String path = this.path;
+        String path = getPath();
         if (startsWithSeparator(path)) {
             path = path.substring(1);
         }
@@ -123,10 +96,10 @@ public class VFS4JPathName {
      * @return a path normalized
      */
     public VFS4JPathName normalize() {
-        if (path == null || path.isEmpty()) {
+        if (getPath() == null || getPath().isEmpty()) {
             return this;
         } else {
-            String path = this.path;
+            String path = getPath();
             String begin = "";
             while (startsWithSeparator(path)) {
                 begin = begin + path.substring(0, 1);
@@ -153,7 +126,7 @@ public class VFS4JPathName {
                 }
             }
             String pathNormalized = begin + String.join(VFS4JConstants.PATH_SEPARATOR, pathList) + end;
-            return new VFS4JPathName(name, pathNormalized);
+            return VFS4JPaths.get(getName(), pathNormalized);
         }
     }
 
@@ -179,8 +152,8 @@ public class VFS4JPathName {
      */
     public String relativize(String other) {
         VFS4JValidationUtils.checkNotEmpty(other, "Path must not be empty");
-        VFS4JValidationUtils.checkParameter(other.startsWith(this.path), "Path parameter must start with path");
-        String pathResult = other.substring(this.path.length());
+        VFS4JValidationUtils.checkParameter(other.startsWith(getPath()), "Path parameter must start with path");
+        String pathResult = other.substring(getPath().length());
         while (startsWithSeparator(pathResult)) {
             pathResult = pathResult.substring(1);
         }
@@ -195,7 +168,7 @@ public class VFS4JPathName {
      */
     public boolean startsWith(String other) {
         VFS4JValidationUtils.checkNotNull(other, "Path must not be null");
-        return this.path.startsWith(other);
+        return getPath().startsWith(other);
     }
 
     /**
@@ -206,15 +179,15 @@ public class VFS4JPathName {
      */
     public boolean endsWith(String other) {
         VFS4JValidationUtils.checkNotNull(other, "Path must not be null");
-        return this.path.endsWith(other);
+        return getPath().endsWith(other);
     }
 
     @Override
     public String toString() {
         return new StringBuilder()
-                .append(name)
+                .append(getName())
                 .append(":")
-                .append(path)
+                .append(getPath())
                 .toString();
     }
 
@@ -223,16 +196,16 @@ public class VFS4JPathName {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         VFS4JPathName pathName = (VFS4JPathName) o;
-        if (!Objects.equals(name, pathName.name)) {
+        if (!Objects.equals(getName(), pathName.getName())) {
             return false;
         }
-        Path p = Paths.get(path);
-        Path p2 = Paths.get(pathName.path);
+        Path p = Paths.get(getPath());
+        Path p2 = Paths.get(pathName.getPath());
         return p.equals(p2);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, path);
+        return Objects.hash(getName(), getPath());
     }
 }

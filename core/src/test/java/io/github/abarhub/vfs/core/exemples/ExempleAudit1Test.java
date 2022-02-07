@@ -1,6 +1,7 @@
 package io.github.abarhub.vfs.core.exemples;
 
 import io.github.abarhub.vfs.core.api.*;
+import io.github.abarhub.vfs.core.api.path.VFS4JPaths;
 import io.github.abarhub.vfs.core.config.VFS4JConfig;
 import io.github.abarhub.vfs.core.plugin.audit.VFS4JAuditPlugins;
 import io.github.abarhub.vfs.core.plugin.common.VFS4JPlugins;

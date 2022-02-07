@@ -1,6 +1,6 @@
 package io.github.abarhub.vfs.core.api.operation;
 
-import io.github.abarhub.vfs.core.api.VFS4JPathName;
+import io.github.abarhub.vfs.core.api.path.VFS4JPathName;
 
 import java.io.IOException;
 import java.nio.charset.Charset;

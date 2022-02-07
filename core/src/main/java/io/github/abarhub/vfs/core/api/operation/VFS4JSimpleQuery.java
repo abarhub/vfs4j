@@ -2,7 +2,7 @@ package io.github.abarhub.vfs.core.api.operation;
 
 import io.github.abarhub.vfs.core.api.VFS4JAbstractOperation;
 import io.github.abarhub.vfs.core.api.VFS4JFileManager;
-import io.github.abarhub.vfs.core.api.VFS4JPathName;
+import io.github.abarhub.vfs.core.api.path.VFS4JPathName;
 import io.github.abarhub.vfs.core.util.VFS4JErrorMessages;
 import io.github.abarhub.vfs.core.util.VFS4JValidationUtils;
 

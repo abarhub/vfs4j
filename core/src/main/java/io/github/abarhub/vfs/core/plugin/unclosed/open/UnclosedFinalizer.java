@@ -1,6 +1,6 @@
 package io.github.abarhub.vfs.core.plugin.unclosed.open;
 
-import io.github.abarhub.vfs.core.api.VFS4JPathName;
+import io.github.abarhub.vfs.core.api.path.VFS4JPathName;
 import io.github.abarhub.vfs.core.plugin.audit.VFS4JAuditPluginsFactory;
 import io.github.abarhub.vfs.core.plugin.unclosed.UnclosedConfig;
 import io.github.abarhub.vfs.core.plugin.unclosed.VFS4JLogUnclosed;

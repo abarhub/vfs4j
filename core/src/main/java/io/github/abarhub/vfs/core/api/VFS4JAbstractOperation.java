@@ -1,5 +1,6 @@
 package io.github.abarhub.vfs.core.api;
 
+import io.github.abarhub.vfs.core.api.path.VFS4JPathName;
 import io.github.abarhub.vfs.core.config.VFS4JParameter;
 import io.github.abarhub.vfs.core.exception.VFS4JWriteException;
 

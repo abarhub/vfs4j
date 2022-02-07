@@ -1,5 +1,7 @@
-package io.github.abarhub.vfs.core.api;
+package io.github.abarhub.vfs.core.api.path;
 
+import io.github.abarhub.vfs.core.api.path.VFS4JPathName;
+import io.github.abarhub.vfs.core.api.path.VFS4JPaths;
 import io.github.abarhub.vfs.core.exception.VFS4JInvalideParameterException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

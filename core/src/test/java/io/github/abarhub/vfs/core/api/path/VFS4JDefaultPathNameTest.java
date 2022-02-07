@@ -1,4 +1,4 @@
-package io.github.abarhub.vfs.core.api;
+package io.github.abarhub.vfs.core.api.path;
 
 import io.github.abarhub.vfs.core.exception.VFS4JInvalideParameterException;
 import org.junit.jupiter.api.Test;
@@ -10,12 +10,12 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class VFS4JPathNameTest {
+class VFS4JDefaultPathNameTest {
 
     @Test
     void testConstructeurOK() {
         // methode testée
-        VFS4JPathName VFS4JPathName = new VFS4JPathName("aaa", "/test/test1");
+        VFS4JPathName VFS4JPathName = new VFS4JDefaultPathName("aaa", "/test/test1");
 
         // verifications
         assertEquals("aaa", VFS4JPathName.getName());
@@ -38,7 +38,7 @@ class VFS4JPathNameTest {
     @MethodSource("provideTestConstructeurParametersOK")
     void testConstructeurParametersOK(final String name, final String path) {
         // methode testée
-        VFS4JPathName VFS4JPathName = new VFS4JPathName(name, path);
+        VFS4JPathName VFS4JPathName = new VFS4JDefaultPathName(name, path);
 
         // verifications
         assertEquals(name, VFS4JPathName.getName());
@@ -63,7 +63,7 @@ class VFS4JPathNameTest {
     @MethodSource("provideTestConstructeurParametersKO")
     void testConstructeurParametersKO(final String name, final String path, String messageError) {
         // methode testée
-        VFS4JInvalideParameterException e = assertThrows(VFS4JInvalideParameterException.class, () -> new VFS4JPathName(name, path));
+        VFS4JInvalideParameterException e = assertThrows(VFS4JInvalideParameterException.class, () -> new VFS4JDefaultPathName(name, path));
 
         // vérifications
         assertEquals(messageError, e.getMessage());
@@ -86,7 +86,7 @@ class VFS4JPathNameTest {
     @MethodSource("provideTestGetParent")
     void testGetParent(final String name, final String path, String pathParent) {
 
-        VFS4JPathName VFS4JPathName = new VFS4JPathName(name, path);
+        VFS4JPathName VFS4JPathName = new VFS4JDefaultPathName(name, path);
 
         // methode testée
         VFS4JPathName res = VFS4JPathName.getParent();
@@ -122,7 +122,7 @@ class VFS4JPathNameTest {
     @MethodSource("provideTestResolve")
     void testResolve(final String name, final String path, final String pathToAppend, final String pathResult) {
 
-        VFS4JPathName VFS4JPathName = new VFS4JPathName(name, path);
+        VFS4JPathName VFS4JPathName = new VFS4JDefaultPathName(name, path);
 
         // methode testée
         VFS4JPathName res = VFS4JPathName.resolve(pathToAppend);
@@ -149,7 +149,7 @@ class VFS4JPathNameTest {
     @MethodSource("provideTestGetNameCount")
     void testGetNameCount(final String name, final String path, final int nb) {
 
-        VFS4JPathName VFS4JPathName = new VFS4JPathName(name, path);
+        VFS4JPathName VFS4JPathName = new VFS4JDefaultPathName(name, path);
 
         // methode testée
         int res = VFS4JPathName.getNameCount();
@@ -181,7 +181,7 @@ class VFS4JPathNameTest {
     @MethodSource("provideTestGetNameOK")
     void testGetNameOK(final String name, final String path, final int nb, final String pathResult) {
 
-        VFS4JPathName VFS4JPathName = new VFS4JPathName(name, path);
+        VFS4JPathName VFS4JPathName = new VFS4JDefaultPathName(name, path);
 
         // methode testée
         String res = VFS4JPathName.getName(nb);
@@ -202,7 +202,7 @@ class VFS4JPathNameTest {
     @MethodSource("provideTestGetNameKO")
     void testGetNameKO(final String name, final String path, final int nb) {
 
-        VFS4JPathName VFS4JPathName = new VFS4JPathName(name, path);
+        VFS4JPathName VFS4JPathName = new VFS4JDefaultPathName(name, path);
 
         // methode testée
         VFS4JInvalideParameterException res = assertThrows(VFS4JInvalideParameterException.class, () -> VFS4JPathName.getName(nb));
@@ -237,7 +237,7 @@ class VFS4JPathNameTest {
     @MethodSource("provideTestNormalize")
     void testNormalize(final String name, final String path, final String pathResult) {
 
-        VFS4JPathName VFS4JPathName = new VFS4JPathName(name, path);
+        VFS4JPathName VFS4JPathName = new VFS4JDefaultPathName(name, path);
 
         // methode testée
         VFS4JPathName res = VFS4JPathName.normalize();
@@ -262,7 +262,7 @@ class VFS4JPathNameTest {
     @MethodSource("provideTestRelativizeOK")
     void testRelativizeOK(final String name, final String path, final String pathRelativize, final String pathResult) {
 
-        VFS4JPathName VFS4JPathName = new VFS4JPathName(name, path);
+        VFS4JPathName VFS4JPathName = new VFS4JDefaultPathName(name, path);
 
         // methode testée
         String res = VFS4JPathName.relativize(pathRelativize);
@@ -284,7 +284,7 @@ class VFS4JPathNameTest {
     @MethodSource("provideTestRelativizeKO")
     void testRelativizeKO(final String name, final String path, final String pathRelativize, final String messageError) {
 
-        VFS4JPathName VFS4JPathName = new VFS4JPathName(name, path);
+        VFS4JPathName VFS4JPathName = new VFS4JDefaultPathName(name, path);
 
         // methode testée
         VFS4JInvalideParameterException res = assertThrows(VFS4JInvalideParameterException.class,
@@ -313,7 +313,7 @@ class VFS4JPathNameTest {
     @MethodSource("provideTestStartsWithOK")
     void testStartsWithOK(final String name, final String path, final String pathToTest, final boolean result) {
 
-        VFS4JPathName VFS4JPathName = new VFS4JPathName(name, path);
+        VFS4JPathName VFS4JPathName = new VFS4JDefaultPathName(name, path);
 
         // methode testée
         boolean res = VFS4JPathName.startsWith(pathToTest);
@@ -333,7 +333,7 @@ class VFS4JPathNameTest {
     @MethodSource("provideTestStartsWithKO")
     void testStartsWithKO(final String name, final String path, final String pathToTest, final String messageError) {
 
-        VFS4JPathName VFS4JPathName = new VFS4JPathName(name, path);
+        VFS4JPathName VFS4JPathName = new VFS4JDefaultPathName(name, path);
 
         // methode testée
         VFS4JInvalideParameterException res = assertThrows(VFS4JInvalideParameterException.class,
@@ -362,7 +362,7 @@ class VFS4JPathNameTest {
     @MethodSource("provideTestEndsWithOK")
     void testEndsWithOK(final String name, final String path, final String pathToTest, final boolean result) {
 
-        VFS4JPathName VFS4JPathName = new VFS4JPathName(name, path);
+        VFS4JPathName VFS4JPathName = new VFS4JDefaultPathName(name, path);
 
         // methode testée
         boolean res = VFS4JPathName.endsWith(pathToTest);
@@ -382,7 +382,7 @@ class VFS4JPathNameTest {
     @MethodSource("provideTestEndsWithKO")
     void testEndsWithKO(final String name, final String path, final String pathToTest, final String messageError) {
 
-        VFS4JPathName VFS4JPathName = new VFS4JPathName(name, path);
+        VFS4JPathName VFS4JPathName = new VFS4JDefaultPathName(name, path);
 
         // methode testée
         VFS4JInvalideParameterException res = assertThrows(VFS4JInvalideParameterException.class,

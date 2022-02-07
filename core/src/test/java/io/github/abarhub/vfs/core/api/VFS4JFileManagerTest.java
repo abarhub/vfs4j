@@ -1,5 +1,6 @@
 package io.github.abarhub.vfs.core.api;
 
+import io.github.abarhub.vfs.core.api.path.VFS4JPaths;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.slf4j.Logger;

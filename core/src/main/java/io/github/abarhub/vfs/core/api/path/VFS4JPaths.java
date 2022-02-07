@@ -1,4 +1,4 @@
-package io.github.abarhub.vfs.core.api;
+package io.github.abarhub.vfs.core.api.path;
 
 import io.github.abarhub.vfs.core.util.VFS4JValidationUtils;
 
@@ -16,13 +16,13 @@ public class VFS4JPaths {
         VFS4JValidationUtils.checkNotEmpty(name, "Name is empty");
         VFS4JPathName pathName;
         if (path == null || path.length == 0) {
-            pathName = new VFS4JPathName(name, "");
+            pathName = new VFS4JDefaultPathName(name, "");
         } else if (path.length == 1) {
-            pathName = new VFS4JPathName(name, path[0]);
+            pathName = new VFS4JDefaultPathName(name, path[0]);
         } else {
             List<String> list = Arrays.asList(path);
             String paths = String.join(PATH_SEPARATOR, list);
-            pathName = new VFS4JPathName(name, paths);
+            pathName = new VFS4JDefaultPathName(name, paths);
         }
         return pathName;
     }

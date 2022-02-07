@@ -1,7 +1,7 @@
 package io.github.abarhub.vfs.core.util;
 
 import io.github.abarhub.vfs.core.api.VFS4JFileManager;
-import io.github.abarhub.vfs.core.api.VFS4JPathName;
+import io.github.abarhub.vfs.core.api.path.VFS4JPathName;
 import io.github.abarhub.vfs.core.exception.VFS4JException;
 
 import java.nio.file.Path;

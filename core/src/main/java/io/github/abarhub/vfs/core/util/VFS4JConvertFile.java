@@ -1,7 +1,7 @@
 package io.github.abarhub.vfs.core.util;
 
-import io.github.abarhub.vfs.core.api.VFS4JPathName;
-import io.github.abarhub.vfs.core.api.VFS4JPaths;
+import io.github.abarhub.vfs.core.api.path.VFS4JPathName;
+import io.github.abarhub.vfs.core.api.path.VFS4JPaths;
 import io.github.abarhub.vfs.core.config.*;
 import io.github.abarhub.vfs.core.exception.VFS4JInvalideParameterException;
 import org.slf4j.Logger;

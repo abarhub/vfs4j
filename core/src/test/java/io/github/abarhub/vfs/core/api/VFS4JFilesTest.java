@@ -1,6 +1,8 @@
 package io.github.abarhub.vfs.core.api;
 
 import io.github.abarhub.vfs.core.api.operation.*;
+import io.github.abarhub.vfs.core.api.path.VFS4JPathName;
+import io.github.abarhub.vfs.core.api.path.VFS4JPaths;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -952,15 +954,15 @@ class VFS4JFilesTest {
     // methodes utilitaires
 
     private VFS4JPathName getPathName() {
-        return new VFS4JPathName("aaa", "/tmp");
+        return VFS4JPaths.get("aaa", "/tmp");
     }
 
     private VFS4JPathName getPathName2() {
-        return new VFS4JPathName("bbb", "/tmp2");
+        return VFS4JPaths.get("bbb", "/tmp2");
     }
 
     private VFS4JPathName getPathName3() {
-        return new VFS4JPathName("ccc", "/tmp3");
+        return VFS4JPaths.get("ccc", "/tmp3");
     }
 
     private byte[] getBytesArrays() {
@@ -975,6 +977,6 @@ class VFS4JFilesTest {
     }
 
     private Stream<VFS4JPathName> getStreamPathName() {
-        return Stream.of(new VFS4JPathName("aaa", "/tmp"), new VFS4JPathName("bbb", "/usr"));
+        return Stream.of(VFS4JPaths.get("aaa", "/tmp"), VFS4JPaths.get("bbb", "/usr"));
     }
 }

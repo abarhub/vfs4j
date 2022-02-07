@@ -1,5 +1,7 @@
 package io.github.abarhub.vfs.core.api;
 
+import io.github.abarhub.vfs.core.api.path.VFS4JPathName;
+
 import java.io.*;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.charset.Charset;
