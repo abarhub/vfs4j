@@ -72,7 +72,7 @@ public class VFS4JConfig {
                 VFS4JClasspathParameter param2 = new VFS4JClasspathParameter(classpath.getPath());
                 map.put(name, param2);
             } else if (param.getMode() == VFS4JPathMode.TEMPORARY) {
-                Path path = createTempraryDiractory(name);
+                Path path = createTemporaryDirectory(name);
                 VFS4JPathParameter param2 = new VFS4JPathParameter(path, param.isReadonly(), param.getMode());
                 map.put(name, param2);
             } else {
@@ -147,11 +147,11 @@ public class VFS4JConfig {
     public void addTemporaryPath(String name) throws VFS4JErrorTemporaryCreationException {
         VFS4JValidationUtils.checkNotEmpty(name, VFS4JErrorMessages.NAME_IS_EMPTY);
         Path path;
-        path = createTempraryDiractory(name);
+        path = createTemporaryDirectory(name);
         addNewPath(name, path, false, VFS4JPathMode.TEMPORARY);
     }
 
-    private Path createTempraryDiractory(String name) {
+    private Path createTemporaryDirectory(String name) {
         Path path;
         try {
             path = Files.createTempDirectory("vsf4j");
