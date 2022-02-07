@@ -15,14 +15,6 @@ public class VFS4JDefaultPathName extends VFS4JAbstractPathName {
         super(name, path);
     }
 
-    /**
-     *
-     * Return the parent of path. If there is no parent, path is empty ("").
-     * For examples, parent of /aaa/bbb/ccc is /aaa/bbb/cc and parent of /aaa/bbb/ccc/ is /aaa/bbb/ccc
-     * Special charactere ("." or "..") is not removed.
-     *
-     * @return Parent
-     */
     public VFS4JPathName getParent() {
         if (getPath().isEmpty()) {
             return this;
@@ -41,16 +33,6 @@ public class VFS4JDefaultPathName extends VFS4JAbstractPathName {
         }
     }
 
-
-    /**
-     * Return a new VFS4JPathName with :
-     * name = this.name
-     * path = this.path+"/"+path
-     * if path end with "/" ou "\\" or path start with "/" or "\\", "/" is not added
-     *
-     * @param path path to append
-     * @return a new VFS4JPathName
-     */
     public VFS4JPathName resolve(String path) {
         if (path == null || path.isEmpty()) {
             return this;
@@ -66,11 +48,6 @@ public class VFS4JDefaultPathName extends VFS4JAbstractPathName {
         }
     }
 
-    /**
-     * Return number of element in the path. Ignore the first or the last "/".
-     *
-     * @return Number of element in the path
-     */
     public int getNameCount() {
         String path = getPath();
         if (startsWithSeparator(path)) {
@@ -90,19 +67,14 @@ public class VFS4JDefaultPathName extends VFS4JAbstractPathName {
         return pathList[no];
     }
 
-    /**
-     * Return a normalised path. The normalized path remove "." and ".."
-     *
-     * @return a path normalized
-     */
     public VFS4JPathName normalize() {
         if (getPath() == null || getPath().isEmpty()) {
             return this;
         } else {
             String path = getPath();
-            String begin = "";
+            StringBuilder begin = new StringBuilder();
             while (startsWithSeparator(path)) {
-                begin = begin + path.substring(0, 1);
+                begin.append(path.charAt(0));
                 path = path.substring(1);
             }
             String end = "";
@@ -139,17 +111,13 @@ public class VFS4JDefaultPathName extends VFS4JAbstractPathName {
     }
 
     private String[] splitPath(String path) {
-        return path.split("[" + VFS4JConstants.PATH_SEPARATOR + "\\" + VFS4JConstants.PATH_WINDOWS_SEPARATOR + "]");
+        if (path == null) {
+            return new String[0];
+        } else {
+            return path.split("[" + VFS4JConstants.PATH_SEPARATOR + "\\" + VFS4JConstants.PATH_WINDOWS_SEPARATOR + "]");
+        }
     }
 
-    /**
-     * Return relative path.
-     * Example :
-     * new VFS4JPathName("name", "aaa/bbb").relativize("aaa/bbb/ccc").equals("ccc")
-     *
-     * @param other path to relativize. It must start by path
-     * @return The relative path
-     */
     public String relativize(String other) {
         VFS4JValidationUtils.checkNotEmpty(other, "Path must not be empty");
         VFS4JValidationUtils.checkParameter(other.startsWith(getPath()), "Path parameter must start with path");
@@ -160,23 +128,11 @@ public class VFS4JDefaultPathName extends VFS4JAbstractPathName {
         return pathResult;
     }
 
-    /**
-     * Return true if path starts with other
-     *
-     * @param other the path. Must not be null.
-     * @return true if path starts with other
-     */
     public boolean startsWith(String other) {
         VFS4JValidationUtils.checkNotNull(other, "Path must not be null");
         return getPath().startsWith(other);
     }
 
-    /**
-     * Return true if path end with other
-     *
-     * @param other the path. Must not be null.
-     * @return true if path ends with other
-     */
     public boolean endsWith(String other) {
         VFS4JValidationUtils.checkNotNull(other, "Path must not be null");
         return getPath().endsWith(other);

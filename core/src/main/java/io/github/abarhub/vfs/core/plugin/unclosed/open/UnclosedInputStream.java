@@ -36,12 +36,12 @@ public class UnclosedInputStream extends InputStream implements UnclosedObjectFi
     }
 
     @Override
-    public void mark(int readlimit) {
+    public synchronized void mark(int readlimit) {
         inputStream.mark(readlimit);
     }
 
     @Override
-    public void reset() throws IOException {
+    public synchronized void reset() throws IOException {
         inputStream.reset();
     }
 

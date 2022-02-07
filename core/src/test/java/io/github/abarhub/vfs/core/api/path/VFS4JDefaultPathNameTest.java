@@ -319,7 +319,6 @@ class VFS4JDefaultPathNameTest {
         boolean res = VFS4JPathName.startsWith(pathToTest);
 
         // vérifications
-        assertNotNull(res);
         assertEquals(result, res);
     }
 
@@ -368,7 +367,6 @@ class VFS4JDefaultPathNameTest {
         boolean res = VFS4JPathName.endsWith(pathToTest);
 
         // vérifications
-        assertNotNull(res);
         assertEquals(result, res);
     }
 
