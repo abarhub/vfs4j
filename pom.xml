@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.abarhub</groupId>
     <artifactId>vfs4j-parent</artifactId>
-    <version>0.7.0-SNAPSHOT</version>
+    <version>0.8.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <licenses>
@@ -28,7 +26,24 @@
         <connection>scm:git:https://github.com/abarhub/vfs4j.git</connection>
         <developerConnection>scm:git:https://github.com/abarhub/vfs4j.git</developerConnection>
         <url>git:https://github.com/abarhub/vfs4j.git</url>
-    </scm>
+      <tag>HEAD</tag>
+  </scm>
+
+    <distributionManagement>
+
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Repository</name>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Sonatype Repository</name>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+
+    </distributionManagement>
 
     <modules>
         <module>core</module>
@@ -43,7 +58,6 @@
         <slf4j.version>1.7.33</slf4j.version>
         <junit-jupiter.version>5.8.2</junit-jupiter.version>
         <mockito-core.version>3.3.3</mockito-core.version>
-        <vfs4j-core.version>${project.version}</vfs4j-core.version>
         <guava.version>31.0.1-jre</guava.version>
         <commons-io.version>2.11.0</commons-io.version>
     </properties>
@@ -97,11 +111,10 @@
                 <scope>test</scope>
             </dependency>
 
-
             <dependency>
                 <groupId>io.github.abarhub</groupId>
                 <artifactId>vfs4j-core</artifactId>
-                <version>${vfs4j-core.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
