@@ -19,3 +19,12 @@
 -la classe VFS4JPathName devient une interface. Pour construire un objet, il faut utiliser la méthode VFS4JPaths.get
 -correction du nom de la méthode VFS4JConfig.createTemporaryDirectory
 
+* version 0.7.1 : 09/02/2022
+-déploiement sur maven central de tous les composants
+-factorisation des versions
+
+* version 0.7.3 : 09/02/2022
+-ajout du nom, d'une description et de l'url dans le pom parent
+-ajout d'un script python pour faire le déploiement
+- blocage pour utiliser java 8 minimum au moment du build pour une release
+
