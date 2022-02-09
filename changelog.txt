@@ -26,5 +26,5 @@
 * version 0.7.3 : 09/02/2022
 -ajout du nom, d'une description et de l'url dans le pom parent
 -ajout d'un script python pour faire le déploiement
-- blocage pour utiliser java 8 minimum au moment du build pour une release
+-blocage pour utiliser java 8 minimum au moment du build pour une release
 
