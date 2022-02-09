@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.github.abarhub</groupId>
         <artifactId>vfs4j-parent</artifactId>
-        <version>0.7.1</version>
+        <version>0.7.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>vfs4j-core</artifactId>
