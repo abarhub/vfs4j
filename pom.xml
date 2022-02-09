@@ -6,6 +6,9 @@
     <artifactId>vfs4j-parent</artifactId>
     <version>0.7.2-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <name>VFS4J</name>
+    <description>"A Virtual File System in library"</description>
+    <url>https://github.com/abarhub/vfs4j</url>
 
     <licenses>
         <license>
