@@ -8,6 +8,9 @@
         <version>0.7.3-SNAPSHOT</version>
     </parent>
 
+    <name>vfs4j-core</name>
+    <description>Virtual File System with plugin</description>
+    <url>https://github.com/abarhub/vfs4j</url>
     <artifactId>vfs4j-core</artifactId>
 
     <dependencies>

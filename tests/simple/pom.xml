@@ -9,6 +9,8 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <name>vfs4j-tests-simple</name>
+    <url>https://github.com/abarhub/vfs4j</url>
     <artifactId>vfs4j-tests-simple</artifactId>
 
     <dependencies>

@@ -7,7 +7,7 @@
     <version>0.7.3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>vfs4j-parent</name>
-    <description>"A Virtual File System in library"</description>
+    <description>Virtual File System with plugin</description>
     <url>https://github.com/abarhub/vfs4j</url>
 
     <licenses>
@@ -22,6 +22,9 @@
             <id>alain.barret</id>
             <name>Alain Barret</name>
             <email>abarhub@gmail.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
         </developer>
     </developers>
 
