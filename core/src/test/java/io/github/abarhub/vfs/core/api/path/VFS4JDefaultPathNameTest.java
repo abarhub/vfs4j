@@ -212,6 +212,33 @@ class VFS4JDefaultPathNameTest {
         assertEquals("No is invalid", res.getMessage());
     }
 
+    private static Stream<Arguments> provideTestGetFilename() {
+        return Stream.of(
+                Arguments.of("path1", "/aaa/bbb/ccc", "ccc"),
+                Arguments.of("path1", "/aaa/bbb/ccc/",  ""),
+                Arguments.of("path1", "aaa/bbb/ccc",  "ccc"),
+                Arguments.of("path1", "aaa//bbb/ccc/", ""),
+                Arguments.of("path1", "aaa\\bbb\\ccc",  "ccc"),
+                Arguments.of("path1", "aaa/bbb\\ccc", "ccc"),
+                Arguments.of("path1", "aaa", "aaa"),
+                Arguments.of("path1", "", "")
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideTestGetFilename")
+    void testGetFilename(final String name, final String path, final String pathResult) {
+
+        VFS4JPathName VFS4JPathName = new VFS4JDefaultPathName(name, path);
+
+        // methode testée
+        String res = VFS4JPathName.getFilename();
+
+        // vérifications
+        assertNotNull(res);
+        assertEquals(pathResult, res);
+    }
+
     private static Stream<Arguments> provideTestNormalize() {
         return Stream.of(
                 Arguments.of("path1", "/aaa/bbb/ccc", "/aaa/bbb/ccc"),

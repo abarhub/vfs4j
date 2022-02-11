@@ -42,6 +42,14 @@ public interface VFS4JPathName {
     String getName(int no);
 
     /**
+     * Return le filename. If path is empty, return "".
+     * Filename is the last element of path.
+     *
+     * @return The filename or "" if empty
+     */
+    String getFilename();
+
+    /**
      * Return a normalised path. The normalized path remove "." and ".."
      *
      * @return a path normalized
