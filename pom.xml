@@ -4,7 +4,7 @@
 
     <groupId>io.github.abarhub</groupId>
     <artifactId>vfs4j-parent</artifactId>
-    <version>0.7.3</version>
+    <version>0.7.4-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>vfs4j-parent</name>
     <description>Virtual File System with plugin</description>
@@ -32,7 +32,7 @@
         <connection>scm:git:https://github.com/abarhub/vfs4j.git</connection>
         <developerConnection>scm:git:https://github.com/abarhub/vfs4j.git</developerConnection>
         <url>git:https://github.com/abarhub/vfs4j.git</url>
-      <tag>v0.7.3</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <distributionManagement>
