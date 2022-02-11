@@ -31,5 +31,5 @@
 * version 0.7.3 : 11/02/2022
 -ajout de l'url dans les pom
 -monté de version de slf4j
-
+-ajout de la méthode VFS4JPathName.getFilename
 

@@ -46,6 +46,7 @@ public interface VFS4JPathName {
      * Filename is the last element of path.
      *
      * @return The filename or "" if empty
+     * @since 0.7.3
      */
     String getFilename();
 
