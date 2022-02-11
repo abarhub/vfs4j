@@ -23,8 +23,13 @@
 -déploiement sur maven central de tous les composants
 -factorisation des versions
 
-* version 0.7.3 : 09/02/2022
+* version 0.7.2 : 09/02/2022
 -ajout du nom, d'une description et de l'url dans le pom parent
 -ajout d'un script python pour faire le déploiement
 -blocage pour utiliser java 8 minimum au moment du build pour une release
+
+* version 0.7.3 : 11/02/2022
+-ajout de l'url dans les pom
+-monté de version de slf4j
+
 
