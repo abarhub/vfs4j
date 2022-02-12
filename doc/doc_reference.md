@@ -127,11 +127,11 @@ vfs.plugins.plugins1.filterPath=*.txt
 
 La liste des paramètres est :
 
-| Nom du Parametre | Valeurs possibles          | Description                                                                       |
-|------------------|----------------------------|-----------------------------------------------------------------------------------|
-| operations       | COMMAND, ...               | La liste des opérations ou des groupes d'opérations. Le séparateur est la virgule |
-| filterPath       | \*.txt, /etc/\*\*/\*.ini   | Un glob. Le séparateur est la virgule. Par défaut, tout est logué                 |
-| loglevel         | INFO, ERROR, DEBUG, etc... | Le niveau de log. Par défaut, le niveau de log est info                           |
+| Nom du Parametre | Valeurs possibles          | Description                                                                                                                                     |
+|------------------|----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| operations       | COMMAND, ...               | La liste des opérations ou des groupes d'opérations. Le séparateur est la virgule. Si la valeur est vide, toutes les opérations sontr traitées. |
+| filterPath       | \*.txt, /etc/\*\*/\*.ini   | Un glob. Le séparateur est la virgule. Par défaut, tout est logué                                                                               |
+| loglevel         | INFO, ERROR, DEBUG, etc... | Le niveau de log. Par défaut, le niveau de log est info                                                                                         |
 
 Les logs sont associés à `io.github.abarhub.vfs.core.plugin.audit.VFS4JAuditPlugins`
 La liste des opération défini plus bas.
@@ -161,16 +161,16 @@ vfs.plugins.plugins1.logIfNotClosedAfterMs=2500
 
 La liste des paramètres est :
 
-| Nom du Parametre      | Valeurs possibles          | Description                                                                                                    |
-|-----------------------|----------------------------|----------------------------------------------------------------------------------------------------------------|
-| operations            | COMMAND, ...               | La liste des opérations ou des groupes d'opérations. Le séparateur est la virgule                              |
-| filterPath            | \*.txt, /etc/\*\*/\*.ini   | Un glob. Le séparateur est la virgule. Par défaut, tout est logué                                              |
-| loglevel              | INFO, ERROR, DEBUG, etc... | Le niveau de log. Par défaut, le niveau de log est info                                                        |
-| logopen               | true/false                 | Si à true, les ouvertures sont loguées                                                                         |
-| logclose              | true/false                 | Si à true, les fermetures sont loguées                                                                         |
-| exceptionlogopen      | true/false                 | Si à true, les ouvertures sont loguées avec une exception ce qui permet de savoir quel code a fait l'ouverture |
-| exceptionlogclose     | true/false                 | Si à true, les fermetures sont loguées avec une exception ce qui permet de savoir quel code a fait l'ouverture |
-| logIfNotClosedAfterMs | true/false                 | Si à true, les ouvertures qui ne sont pas fermé au bout de ce temps sont loguées                               |
+| Nom du Parametre      | Valeurs possibles          | Description                                                                                                                                     |
+|-----------------------|----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| operations            | COMMAND, ...               | La liste des opérations ou des groupes d'opérations. Le séparateur est la virgule. Si la valeur est vide, toutes les opérations sontr traitées. |
+| filterPath            | \*.txt, /etc/\*\*/\*.ini   | Un glob. Le séparateur est la virgule. Par défaut, tout est logué                                                                               |
+| loglevel              | INFO, ERROR, DEBUG, etc... | Le niveau de log. Par défaut, le niveau de log est info                                                                                         |
+| logopen               | true/false                 | Si à true, les ouvertures sont loguées                                                                                                          |
+| logclose              | true/false                 | Si à true, les fermetures sont loguées                                                                                                          |
+| exceptionlogopen      | true/false                 | Si à true, les ouvertures sont loguées avec une exception ce qui permet de savoir quel code a fait l'ouverture                                  |
+| exceptionlogclose     | true/false                 | Si à true, les fermetures sont loguées avec une exception ce qui permet de savoir quel code a fait l'ouverture                                  |
+| logIfNotClosedAfterMs | true/false                 | Si à true, les ouvertures qui ne sont pas fermé au bout de ce temps sont loguées                                                                |
 
 ##  Les opérations
 
