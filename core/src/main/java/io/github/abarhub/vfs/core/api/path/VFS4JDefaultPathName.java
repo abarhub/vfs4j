@@ -67,6 +67,14 @@ public class VFS4JDefaultPathName extends VFS4JAbstractPathName {
         return pathList[no];
     }
 
+    public String getFilename() {
+        if (getNameCount() < 1 || endsWithSeparator(getPath())) {
+            return "";
+        } else {
+            return getName(getNameCount() - 1);
+        }
+    }
+
     public VFS4JPathName normalize() {
         if (getPath() == null || getPath().isEmpty()) {
             return this;
