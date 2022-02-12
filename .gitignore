@@ -35,3 +35,4 @@ tests/simple/vfs4j-tests.iml
 /tests/test_classpath/test_classpath.iml
 core/vfs4j-core.iml
 target
+*.iml
