@@ -62,7 +62,7 @@ VFS4JFiles.copy(new VFS4JPathName("dir1","file01.txt"),new PathName("dir2","file
 
 Il y a d'autres exemples [ici](./doc/guide_utilisation.md).
 La documentation de référence est [ici](./doc/doc_reference.md).
-
+Il y a des exemples d'utilisation dans le projet [vfs4jexample](https://github.com/abarhub/vfs4jexample).
 
 ## Liens
 
