@@ -24,3 +24,13 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B clean package --file pom.xml
+    - name: Build with Maven with coverage
+      run: mvn -B clean jacoco:prepare-agent test jacoco:report --file pom.xml
+    - name: Upload CodeCov
+      uses: codecov/codecov-action@v2
+      with:
+        files: ./target/site/jacoco/jacoco.xml
+        flags: unittests # optional
+        #name: codecov-umbrella # optional
+        fail_ci_if_error: true # optional (default = false)
+        verbose: true # optional (default = false)
