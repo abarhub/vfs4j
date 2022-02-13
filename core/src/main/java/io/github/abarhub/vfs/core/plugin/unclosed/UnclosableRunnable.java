@@ -53,6 +53,10 @@ public class UnclosableRunnable implements Runnable {
         this.stop = true;
     }
 
+    public boolean isStop() {
+        return stop;
+    }
+
     public void add(UnclosedObjectFinalizer tmp) {
         listReference.add(tmp.getUnclosedFinalizer());
     }
