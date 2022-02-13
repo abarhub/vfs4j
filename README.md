@@ -4,6 +4,9 @@
 [![codecov](https://codecov.io/gh/abarhub/vfs4j/branch/master/graph/badge.svg)](https://codecov.io/gh/abarhub/vfs4j) 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.abarhub/vfs4j-core/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.github.abarhub/vfs4j-core) 
 [![javadoc](https://javadoc.io/badge2/io.github.abarhub/vfs4j-core/javadoc.svg)](https://javadoc.io/doc/io.github.abarhub/vfs4j-core)
+[![Java CI](https://github.com/abarhub/vfs4j/actions/workflows/maven.yaml/badge.svg?branch=master)](https://github.com/abarhub/vfs4j/actions/workflows/maven.yml)
+[![GitHub release](https://img.shields.io/github/abarhub/vfs4j/fastjson.svg)](https://github.com/abarhub/vfs4j/releases)
+[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 # VFS4J
 C'est une librairie pour virtualiser le systeme de fichier.
