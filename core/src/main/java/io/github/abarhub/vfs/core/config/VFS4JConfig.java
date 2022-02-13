@@ -97,7 +97,11 @@ public class VFS4JConfig {
                 }
             }
         }
-        LOGGER.info("config plugins: {}", map);
+        if (map.isEmpty()) {
+            LOGGER.info("config plugins: none");
+        } else {
+            LOGGER.info("config plugins: {}", map);
+        }
         return map;
     }
 
