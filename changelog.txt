@@ -33,7 +33,7 @@
 -monté de version de slf4j
 -ajout de la méthode VFS4JPathName.getFilename
 
-* version 0.7.4 :
+* version 0.7.4 : 13/03/2022
 -ajout de la méthode io.github.abarhub.vfs.core.api.VFS4JFileManager.matcher
 -ajout de la méthode io.github.abarhub.vfs.core.api.path.VFS4JPaths.parsePath
 -implémentation du paramètre logIfNotClosedAfterMs pour le plugin Unclosed

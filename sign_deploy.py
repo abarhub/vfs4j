@@ -10,7 +10,7 @@ def run_cmd(cmd):
 
 run_cmd('mvn --version')
 
-version='0.7.3'
+version='0.7.4'
 
 run_cmd(f'mvn gpg:sign-and-deploy-file -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -DpomFile=target/vfs4j-parent-{version}.pom -Dfile=target/vfs4j-parent-{version}.pom')
 
