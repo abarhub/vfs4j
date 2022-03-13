@@ -1,7 +1,5 @@
 package io.github.abarhub.vfs.core.api.path;
 
-import io.github.abarhub.vfs.core.api.path.VFS4JPathName;
-import io.github.abarhub.vfs.core.api.path.VFS4JPaths;
 import io.github.abarhub.vfs.core.exception.VFS4JInvalideParameterException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -81,5 +79,28 @@ class VFS4JPathsTest {
         assertNotNull(res);
         assertEquals("Name is empty", res.getMessage());
     }
+
+    private static Stream<Arguments> provideParsePathOK() {
+        return Stream.of(
+                Arguments.of("name", "abc", "name:abc"),
+                Arguments.of("name", "abc/def", "name:abc/def"),
+                Arguments.of("name2", "abc/def", "name2:abc/def"),
+                Arguments.of("name", "", "name:")
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideParsePathOK")
+    void parsePathOK(String nameRef, String pathRef, String path) {
+
+        // methode testée
+        VFS4JPathName res = VFS4JPaths.parsePath(path);
+
+        // vérifications
+        assertNotNull(res);
+        assertEquals(nameRef, res.getName());
+        assertEquals(pathRef, res.getPath());
+    }
+
 
 }

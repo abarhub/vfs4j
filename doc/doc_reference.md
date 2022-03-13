@@ -30,17 +30,18 @@ Les options :
 
 ## Manipulation des fichiers et répertoires
 
-Le chemin d'accès se fait avec la méthode `VFS4JPaths.get(String name, String... paths)` qui retourne l'interface `VFS4JPathName`. Le 1er paramètre est le nom du path. Les autres
-paramètres sont le chemin à partir de ce nom. Il est conseillé d'utiliser toujours le / pour que le chemin fonctionne
-sous Linux et Windows. On peut aussi utiliser la classe utilitaire `VFS4JPaths`. Sous windows, le séparateur chemin `/` 
-sera convertie par `\`.
+Le chemin d'accès se fait avec la méthode `VFS4JPaths.get(String name, String... paths)` qui retourne
+l'interface `VFS4JPathName`. Le 1er paramètre est le nom du path. Les autres paramètres sont le chemin à partir de ce
+nom. Il est conseillé d'utiliser toujours le / pour que le chemin fonctionne sous Linux et Windows. On peut aussi
+utiliser la classe utilitaire `VFS4JPaths`. Sous windows, le séparateur chemin `/` sera convertie par `\`.
 
 Exemples :
 
 ```java
 VFS4JPathName path=VFS4JPaths.get("app","messages.properties");
 VFS4JPathName path2=VFS4JPaths.get("app","directory","config/messages.properties");
-VFS4JPathName path3=VFS4JPaths.get("dir1","mydirectory","file01.txt");
+        VFS4JPathName path3=VFS4JPaths.get("dir1","mydirectory","file01.txt");
+        VFS4JPathName path4=VFS4JPaths.parsePath("dir1:mydirectory/file02.txt");
 ```
 
 Ensuite, une fois l'objet créé, il faut utiliser les méthodes de la classe `VFS4JFiles`. Les méthodes correspondent à

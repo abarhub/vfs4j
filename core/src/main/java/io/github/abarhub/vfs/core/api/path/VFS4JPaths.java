@@ -26,4 +26,17 @@ public class VFS4JPaths {
         }
         return pathName;
     }
+
+    public static VFS4JPathName parsePath(String path) {
+        if (path == null) {
+            throw new IllegalArgumentException("Path is empty");
+        }
+        int i = path.indexOf(':');
+        if (i < 0) {
+            throw new IllegalArgumentException("Path must contains ':' (path='" + path + "')");
+        }
+        String name = path.substring(0, i);
+        String path2 = path.substring(i + 1);
+        return VFS4JPaths.get(name, path2);
+    }
 }
