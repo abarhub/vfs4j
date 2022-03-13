@@ -17,6 +17,7 @@ public class VFS4JUnclosedPlugins implements VFS4JPlugins {
     private UnclosableRunnable unclosableRunnable;
     private UnclosedConfig unclosedConfig;
     private List<VFS4JLogUnclosed> listener = new ArrayList<>();
+    private VFS4JLogIfNotClosedAfterDelay logIfNotClosedAfterDelay;
 
     public void init(String name, Map<String, String> config, VFS4JConfig vfs4JConfig) {
         VFS4JValidationUtils.checkNotNull(name, "Name is null");
@@ -31,6 +32,12 @@ public class VFS4JUnclosedPlugins implements VFS4JPlugins {
         thread = new Thread(this.unclosableRunnable, getClass().getSimpleName() + "." + name);
         thread.setDaemon(true);
         thread.start();
+
+        if (unclosedConfig.getLogIfNotClosedAfterMs() > 0) {
+            logIfNotClosedAfterDelay = new VFS4JLogIfNotClosedAfterDelay(this,
+                    unclosedConfig.getLogIfNotClosedAfterMs());
+            logIfNotClosedAfterDelay.init();
+        }
     }
 
     private UnclosedConfig createConfig(Map<String, String> config) {
@@ -179,7 +186,8 @@ public class VFS4JUnclosedPlugins implements VFS4JPlugins {
 
     @Override
     public Optional<VFS4JOpen> getOpen(VFS4JOpen open) {
-        return Optional.of(new VFS4JUnclosedOpen(this, open, this.unclosableRunnable));
+        return Optional.of(new VFS4JUnclosedOpen(this, open, this.unclosableRunnable,
+                this.logIfNotClosedAfterDelay));
     }
 
     @Override

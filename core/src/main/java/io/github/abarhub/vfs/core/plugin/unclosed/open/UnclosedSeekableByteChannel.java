@@ -2,6 +2,7 @@ package io.github.abarhub.vfs.core.plugin.unclosed.open;
 
 import io.github.abarhub.vfs.core.api.path.VFS4JPathName;
 import io.github.abarhub.vfs.core.plugin.unclosed.UnclosableRunnable;
+import io.github.abarhub.vfs.core.plugin.unclosed.VFS4JLogIfNotClosedAfterDelay;
 import io.github.abarhub.vfs.core.plugin.unclosed.VFS4JUnclosedOperation;
 
 import java.io.IOException;
@@ -12,11 +13,19 @@ public class UnclosedSeekableByteChannel implements SeekableByteChannel, Unclose
 
     private final SeekableByteChannel seekableByteChannel;
     private final UnclosedFinalizer unclosedFinalizer;
+    private final VFS4JLogIfNotClosedAfterDelay logIfNotClosedAfterDelay;
 
-    public UnclosedSeekableByteChannel(SeekableByteChannel seekableByteChannel, UnclosableRunnable unclosableRunnable, VFS4JPathName pathName) {
+    public UnclosedSeekableByteChannel(SeekableByteChannel seekableByteChannel,
+                                       UnclosableRunnable unclosableRunnable,
+                                       VFS4JPathName pathName,
+                                       VFS4JLogIfNotClosedAfterDelay logIfNotClosedAfterDelay) {
         this.seekableByteChannel = seekableByteChannel;
         this.unclosedFinalizer = unclosableRunnable.newUnclosedFinalizer(this, pathName, VFS4JUnclosedOperation.NEW_BYTE_CHANNEL);
         unclosableRunnable.add(this);
+        this.logIfNotClosedAfterDelay = logIfNotClosedAfterDelay;
+        if (logIfNotClosedAfterDelay != null) {
+            logIfNotClosedAfterDelay.create(this, unclosedFinalizer.getNo());
+        }
     }
 
     @Override
@@ -58,6 +67,9 @@ public class UnclosedSeekableByteChannel implements SeekableByteChannel, Unclose
     public void close() throws IOException {
         unclosedFinalizer.closed();
         seekableByteChannel.close();
+        if (logIfNotClosedAfterDelay != null) {
+            logIfNotClosedAfterDelay.close(this);
+        }
     }
 
     public UnclosedFinalizer getUnclosedFinalizer() {

@@ -2,6 +2,7 @@ package io.github.abarhub.vfs.core.plugin.unclosed.open;
 
 import io.github.abarhub.vfs.core.api.path.VFS4JPathName;
 import io.github.abarhub.vfs.core.plugin.unclosed.UnclosableRunnable;
+import io.github.abarhub.vfs.core.plugin.unclosed.VFS4JLogIfNotClosedAfterDelay;
 import io.github.abarhub.vfs.core.plugin.unclosed.VFS4JUnclosedOperation;
 
 import java.io.IOException;
@@ -11,11 +12,18 @@ public class UnclosedWriter extends Writer implements UnclosedObjectFinalizer {
 
     private final Writer writer;
     private final UnclosedFinalizer unclosedFinalizer;
+    private final VFS4JLogIfNotClosedAfterDelay logIfNotClosedAfterDelay;
 
-    public UnclosedWriter(Writer writer, UnclosableRunnable unclosableRunnable, VFS4JPathName pathName) {
+    public UnclosedWriter(Writer writer, UnclosableRunnable unclosableRunnable,
+                          VFS4JPathName pathName,
+                          VFS4JLogIfNotClosedAfterDelay logIfNotClosedAfterDelay) {
         this.writer = writer;
         this.unclosedFinalizer = unclosableRunnable.newUnclosedFinalizer(this, pathName, VFS4JUnclosedOperation.NEW_WRITER);
         unclosableRunnable.add(this);
+        this.logIfNotClosedAfterDelay = logIfNotClosedAfterDelay;
+        if (logIfNotClosedAfterDelay != null) {
+            logIfNotClosedAfterDelay.create(this, unclosedFinalizer.getNo());
+        }
     }
 
     @Override
@@ -67,6 +75,9 @@ public class UnclosedWriter extends Writer implements UnclosedObjectFinalizer {
     public void close() throws IOException {
         unclosedFinalizer.closed();
         writer.close();
+        if (logIfNotClosedAfterDelay != null) {
+            logIfNotClosedAfterDelay.close(this);
+        }
     }
 
     public UnclosedFinalizer getUnclosedFinalizer() {

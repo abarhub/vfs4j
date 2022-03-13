@@ -2,6 +2,7 @@ package io.github.abarhub.vfs.core.plugin.unclosed.open;
 
 import io.github.abarhub.vfs.core.api.path.VFS4JPathName;
 import io.github.abarhub.vfs.core.plugin.unclosed.UnclosableRunnable;
+import io.github.abarhub.vfs.core.plugin.unclosed.VFS4JLogIfNotClosedAfterDelay;
 import io.github.abarhub.vfs.core.plugin.unclosed.VFS4JUnclosedOperation;
 
 import java.io.IOException;
@@ -12,11 +13,17 @@ public class UnclosedReader extends Reader implements UnclosedObjectFinalizer {
 
     private final Reader reader;
     private final UnclosedFinalizer unclosedFinalizer;
+    private final VFS4JLogIfNotClosedAfterDelay logIfNotClosedAfterDelay;
 
-    public UnclosedReader(Reader reader, UnclosableRunnable unclosableRunnable, VFS4JPathName pathName) {
+    public UnclosedReader(Reader reader, UnclosableRunnable unclosableRunnable,
+                          VFS4JPathName pathName, VFS4JLogIfNotClosedAfterDelay logIfNotClosedAfterDelay) {
         this.reader = reader;
         this.unclosedFinalizer = unclosableRunnable.newUnclosedFinalizer(this, pathName, VFS4JUnclosedOperation.NEW_READER);
         unclosableRunnable.add(this);
+        this.logIfNotClosedAfterDelay = logIfNotClosedAfterDelay;
+        if (logIfNotClosedAfterDelay != null) {
+            logIfNotClosedAfterDelay.create(this, unclosedFinalizer.getNo());
+        }
     }
 
     @Override
@@ -38,6 +45,9 @@ public class UnclosedReader extends Reader implements UnclosedObjectFinalizer {
     public void close() throws IOException {
         unclosedFinalizer.closed();
         reader.close();
+        if (logIfNotClosedAfterDelay != null) {
+            logIfNotClosedAfterDelay.close(this);
+        }
     }
 
     @Override

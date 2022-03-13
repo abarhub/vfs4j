@@ -39,7 +39,7 @@ Exemples :
 
 ```java
 VFS4JPathName path=VFS4JPaths.get("app","messages.properties");
-VFS4JPathName path2=VFS4JPaths.get("app","directory","config/messages.properties");
+        VFS4JPathName path2=VFS4JPaths.get("app","directory","config/messages.properties");
         VFS4JPathName path3=VFS4JPaths.get("dir1","mydirectory","file01.txt");
         VFS4JPathName path4=VFS4JPaths.parsePath("dir1:mydirectory/file02.txt");
 ```
