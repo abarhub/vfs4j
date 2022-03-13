@@ -1,6 +1,8 @@
 package io.github.abarhub.vfs.core.api;
 
 import io.github.abarhub.vfs.core.api.operation.*;
+import io.github.abarhub.vfs.core.api.path.VFS4JDefaultPathMatcher;
+import io.github.abarhub.vfs.core.api.path.VFS4JPathMatcher;
 import io.github.abarhub.vfs.core.api.path.VFS4JPathName;
 import io.github.abarhub.vfs.core.config.VFS4JConfig;
 import io.github.abarhub.vfs.core.config.VFS4JParameter;
@@ -116,5 +118,9 @@ public class VFS4JFileManager {
 
     public VFS4JAttribute getAttribute() {
         return attribute;
+    }
+
+    public VFS4JPathMatcher matcher(String pattern) {
+        return new VFS4JDefaultPathMatcher(pattern, this);
     }
 }

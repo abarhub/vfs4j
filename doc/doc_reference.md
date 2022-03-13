@@ -90,16 +90,22 @@ les gérer, mais il y a des cas particuliers qui peuvent ne pas marcher.
 La classe ```VFS4JFileManager``` gère la configuration. On peut y accéder avec la méthode ```VFS4JDefaultFileManager.get()```.
 Par défaut, elle récupère le fichier de configuration. Il est possible de réinitialiser la configuration de la façon suivante :
 ```java
-Properties properties = new Properties();
+Properties properties=new Properties();
 
-properties.setProperty("vfs.paths.dir.path", directorySource.toString());
-properties.setProperty("vfs.paths.dir.readonly", "false");
+        properties.setProperty("vfs.paths.dir.path",directorySource.toString());
+        properties.setProperty("vfs.paths.dir.readonly","false");
 
-VFS4JParseConfigFile parseConfigFile = new VFS4JParseConfigFile();
-VFS4JFileManagerBuilder fileManagerBuilder = parseConfigFile.parse(properties);
-VFS4JDefaultFileManager.get().setConfig(fileManagerBuilder.build());
-VFS4JFiles.reinit();
+        VFS4JParseConfigFile parseConfigFile=new VFS4JParseConfigFile();
+        VFS4JFileManagerBuilder fileManagerBuilder=parseConfigFile.parse(properties);
+        VFS4JDefaultFileManager.get().setConfig(fileManagerBuilder.build());
+        VFS4JFiles.reinit();
 ```
+
+Cette classe contient la methode `matcher(String pattern)` pour faire des recherches glob (`*.txt`) ou regex (`[a-c]+`).
+La syntaxe correspond à celle de ma
+méthode [FileSystem.getPathMatcher(String syntaxAndPattern)](https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-)
+de la librairie standard. Exemple d'utilisation :
+`fileManager.matcher("glob:**/*.txt").matches(VFS4JPaths.get("path1", "dir/file1.txt"))`
 
 ## Plugins
 

@@ -17,4 +17,7 @@ public class VFS4JErrorMessages {
 
     public static final String NAME_IS_EMPTY = "Name is empty";
 
+    public static final String PATTERN_IS_EMPTY = "Pattern is empty";
+
+    public static final String FILESYSTEM_IS_NULL = "Filesystem is null";
 }

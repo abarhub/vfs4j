@@ -163,4 +163,34 @@ class VFS4JFileManagerTest {
 
         LOGGER.info("Le repertoire {} n'existe pas", p);
     }
+
+    @Test
+    void matcher_test1(@TempDir Path tempDir) throws IOException {
+
+        LOGGER.info("matcher_test1");
+
+        assertTrue(Files.exists(tempDir));
+        Path temp = tempDir.resolve("temp");
+        assertFalse(Files.exists(temp));
+        Files.createDirectory(temp);
+        assertTrue(Files.exists(temp));
+        VFS4JFileManager fileManager = new VFS4JFileManager();
+        fileManager.getConfig().addPath("path1", temp);
+
+        final String pathRef = "myfile1.txt";
+        Path p = temp.resolve(pathRef);
+        Files.createDirectories(p);
+
+        assertTrue(Files.exists(p));
+
+        LOGGER.info("Le fichier {} existe", p);
+
+        // methode testée
+        boolean resultat = fileManager.matcher("glob:**/*.txt").matches(VFS4JPaths.get("path1", pathRef));
+
+        // vérifications
+        assertTrue(resultat);
+
+        LOGGER.info("Le fichier {} match", p);
+    }
 }

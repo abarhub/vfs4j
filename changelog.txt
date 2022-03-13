@@ -33,3 +33,5 @@
 -monté de version de slf4j
 -ajout de la méthode VFS4JPathName.getFilename
 
+* version 0.7.4 :
+-ajout de la méthode io.github.abarhub.vfs.core.api.VFS4JFileManager.matcher
