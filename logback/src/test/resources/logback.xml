@@ -1,23 +1,26 @@
 <configuration>
 
+    <property name="DIR_LOGS" value="log:logs"/>
+    <property name="FORMAT" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n"/>
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- encoders are assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
         <encoder>
-            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
+            <pattern>${FORMAT}</pattern>
         </encoder>
     </appender>
 
     <!-- <appender name="FILE" class="ch.qos.logback.core.FileAppender"> -->
     <appender name="FILE" class="io.github.abarhub.vfs.logback.VFS4JFileAppender">
-        <file>log:testFile.log</file>
+        <file>${DIR_LOGS}/testFile.log</file>
         <append>true</append>
         <!-- set immediateFlush to false for much higher logging throughput -->
         <immediateFlush>true</immediateFlush>
         <!-- encoders are assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
         <encoder>
-            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+            <pattern>${FORMAT}</pattern>
         </encoder>
     </appender>
 
@@ -30,14 +33,29 @@
         </rollingPolicy>
 
         <encoder>
-            <pattern>%relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+            <pattern>${FORMAT}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="TIME_BASED_FILE2" class="io.github.abarhub.vfs.logback.rolling.VFS4JRollingFileAppender">
+        <file>${DIR_LOGS}/timeBasedlogFileVfs.log</file>
+        <rollingPolicy class="io.github.abarhub.vfs.logback.rolling.VFS4JTimeBasedRollingPolicy">
+            <maxFileSize>10KB</maxFileSize>
+            <!-- daily rollover -->
+            <fileNamePattern>${DIR_LOGS}/timeBasedlogFileVfs.%d{yyyy-MM-dd-HH-mm}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${FORMAT}</pattern>
         </encoder>
     </appender>
 
     <root level="DEBUG">
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="FILE" />
-        <appender-ref ref="TIME_BASED_FILE" />
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="TIME_BASED_FILE"/>
+        <appender-ref ref="TIME_BASED_FILE2"/>
 
     </root>
 </configuration>

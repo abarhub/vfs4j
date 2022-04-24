@@ -1,22 +1,27 @@
 package io.github.abarhub.vfs.logback.rolling;
 
 import ch.qos.logback.core.CoreConstants;
-import ch.qos.logback.core.FileAppender;
-import ch.qos.logback.core.rolling.*;
+import ch.qos.logback.core.rolling.RollingPolicy;
+import ch.qos.logback.core.rolling.RollingPolicyBase;
+import ch.qos.logback.core.rolling.RolloverFailure;
+import ch.qos.logback.core.rolling.TriggeringPolicy;
 import ch.qos.logback.core.rolling.helper.CompressionMode;
 import ch.qos.logback.core.rolling.helper.FileNamePattern;
 import ch.qos.logback.core.util.ContextUtil;
+import io.github.abarhub.vfs.core.api.VFS4JDefaultFileManager;
+import io.github.abarhub.vfs.core.api.path.VFS4JPathName;
+import io.github.abarhub.vfs.core.api.path.VFS4JPaths;
 import io.github.abarhub.vfs.logback.VFS4JFileAppender;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Map;
 
 import static ch.qos.logback.core.CoreConstants.CODES_URL;
 import static ch.qos.logback.core.CoreConstants.MORE_INFO_PREFIX;
 
 public class VFS4JRollingFileAppender<E> extends VFS4JFileAppender<E> {
-    File currentlyActiveFile;
+    VFS4JPathName currentlyActiveFile;
     TriggeringPolicy<E> triggeringPolicy;
     RollingPolicy rollingPolicy;
 
@@ -72,7 +77,7 @@ public class VFS4JRollingFileAppender<E> extends VFS4JFileAppender<E> {
             }
         }
 
-        currentlyActiveFile = new File(getFile());
+        currentlyActiveFile = VFS4JPaths.parsePath(getFile());
         addInfo("Active log file name: " + getFile());
         super.start();
     }
@@ -80,7 +85,9 @@ public class VFS4JRollingFileAppender<E> extends VFS4JFileAppender<E> {
     private boolean checkForFileAndPatternCollisions() {
         if (triggeringPolicy instanceof RollingPolicyBase) {
             final RollingPolicyBase base = (RollingPolicyBase) triggeringPolicy;
-            final FileNamePattern fileNamePattern = base.fileNamePattern;
+            // TODO : a améliorer
+            //final FileNamePattern fileNamePattern = base.fileNamePattern;
+            final FileNamePattern fileNamePattern = new FileNamePattern(base.getFileNamePattern(), context);
             // no use checking if either fileName or fileNamePattern are null
             if (fileNamePattern != null && fileName != null) {
                 String regex = fileNamePattern.toRegex();
@@ -94,7 +101,9 @@ public class VFS4JRollingFileAppender<E> extends VFS4JFileAppender<E> {
         boolean collisionResult = false;
         if (triggeringPolicy instanceof RollingPolicyBase) {
             final RollingPolicyBase base = (RollingPolicyBase) triggeringPolicy;
-            final FileNamePattern fileNamePattern = base.fileNamePattern;
+            // TODO : a améliorer
+            //final FileNamePattern fileNamePattern = base.fileNamePattern;
+            final FileNamePattern fileNamePattern = new FileNamePattern(base.getFileNamePattern(), context);
             boolean collisionsDetected = innerCheckForFileNamePatternCollisionInPreviousRFA(fileNamePattern);
             if (collisionsDetected)
                 collisionResult = true;
@@ -174,7 +183,7 @@ public class VFS4JRollingFileAppender<E> extends VFS4JFileAppender<E> {
     private void attemptOpenFile() {
         try {
             // update the currentlyActiveFile LOGBACK-64
-            currentlyActiveFile = new File(rollingPolicy.getActiveFileName());
+            currentlyActiveFile = VFS4JPaths.parsePath(rollingPolicy.getActiveFileName());
 
             // This will also close the file. This is OK since multiple close operations are safe.
             this.openFile(rollingPolicy.getActiveFileName());
@@ -204,7 +213,10 @@ public class VFS4JRollingFileAppender<E> extends VFS4JFileAppender<E> {
         // We need to synchronize on triggeringPolicy so that only one rollover
         // occurs at a time
         synchronized (triggeringPolicy) {
-            if (triggeringPolicy.isTriggeringEvent(currentlyActiveFile, event)) {
+            // TODO : use VFS4JPathName
+            Path path = VFS4JDefaultFileManager.get().getRealFile(currentlyActiveFile);
+            //if (triggeringPolicy.isTriggeringEvent(currentlyActiveFile, event)) {
+            if (triggeringPolicy.isTriggeringEvent(path.toFile(), event)) {
                 rollover();
             }
         }
